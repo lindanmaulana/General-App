@@ -12,7 +12,6 @@ export default {
                 try {
                     const validatedFields = AuthLoginCredentialsSchema.safeParse({email: credentials.email, password: credentials.password})
 
-
                     if(!validatedFields.success) return null
 
                     const result = await supabase.from(TABLEUSERS).select("*").eq("email", validatedFields.data.email).single()
@@ -50,7 +49,7 @@ export default {
             session.user.name = token.name
             session.user.email = token.email
             session.user.role = token.role
-            session.user.image = token.picture
+            session.user.image = token.picture ?? ""
 
             return session
         }

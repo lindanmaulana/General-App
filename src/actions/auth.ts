@@ -3,7 +3,9 @@
 import { ActionResult } from "@/actions/index"
 import { signIn } from "@/auth"
 import { errorHandler } from "@/lib/helpers/errorHandler"
-import { AuthLoginCredentialsSchema } from "@/lib/validations/auth"
+import { AuthService } from "@/lib/services/auth.service"
+import { AuthLoginCredentialsSchema, AuthRegisterCredentialsSchema } from "@/lib/validations/auth"
+import { redirect } from "next/navigation"
 
 export const AuthLogin = async (prevState: unknown, formData: FormData): Promise<ActionResult> => {
     const validatedFields = AuthLoginCredentialsSchema.safeParse({
@@ -11,15 +13,7 @@ export const AuthLogin = async (prevState: unknown, formData: FormData): Promise
         password: formData.get("password")
     })
 
-    if(!validatedFields.success) {
-        const errorDesc = validatedFields.error.issues.map((issue) => issue.message)
-        return {
-            success: false,
-            errorTitle: "Failed validation",
-            errorDesc
-        }
-    }
-
+    if(!validatedFields.success) throw new Error("Error validation")
 
     try {
         await signIn("credentials", {
@@ -27,18 +21,43 @@ export const AuthLogin = async (prevState: unknown, formData: FormData): Promise
             password: validatedFields.data.password,
             redirect: false
         })
-
-        return {
-            success: true
-        }
     } catch (err) {
         const errorMessage = errorHandler(err)
         console.log({errorMessage})
 
         return {
-            success: false,
-            errorTitle: "Authentication Failed",
-            errorDesc: ["Invalid credentials"]
+            errorMessage
+        }
+    }
+
+    redirect("/dashboard")
+}
+
+export const AuthRegister = async (prevState: unknown, formData: FormData): Promise<ActionResult> => {
+    const validatedFields = AuthRegisterCredentialsSchema.safeParse({
+        name: formData.get("name"),
+        email: formData.get("email"),
+        password: formData.get("password")
+    })
+
+    if(!validatedFields.success) {
+        return {
+            errorMessage: "Error Validation"
+        }
+    }
+
+    try {
+        await AuthService.register(validatedFields.data)
+
+        return {
+            success: true,
+            successMessage: "Registrasi berhasil"
+        }
+    } catch (err) {
+        const errorMessage = errorHandler(err)
+
+        return {
+            errorMessage
         }
     }
 }

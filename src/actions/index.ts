@@ -1,5 +1,5 @@
 export interface ActionResult {
-    success: boolean
-    errorTitle?: string
-    errorDesc?: string[]
+    success?: boolean
+    errorMessage?: string
+    successMessage?: string
 }
