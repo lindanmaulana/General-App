@@ -13,7 +13,7 @@ export const REDIRECT_AUTH = "/auth/login"
  * These routes do not require authentication
  * @type {string[]}
  */
-export const ROUTESPUBLIC = ["/", "/auth/login", "/dashboard/login"]
+export const ROUTESPUBLIC = ["/", "/auth/login", "/dashboard/login", "/dashboard/register"]
 
 /**
  * The prefix of routes admin
