@@ -13,7 +13,7 @@ export const AuthContainer = ({children, title, description, type}: AuthContaine
     const isAuth = type === "LOGIN" ? "Tidak punya akun ?" : "Sudah punya akun ?"
 
     return (
-        <div className="w-full mt-10 space-y-6">
+        <div className="w-full mt-8 space-y-6">
             <div>
                 <h3 className="text-3xl font-semibold text-gnrDarkBlue">{title}</h3>
                 <p className="text-base font-normal text-gnrGray">{description}</p>

@@ -1,9 +1,9 @@
-import { NextAuthConfig } from "next-auth";
+import { AUTHSECRET, TABLEUSERS } from "@/lib/config";
+import supabase from "@/lib/supabase";
+import { AuthLoginCredentialsSchema } from "@/lib/validations/auth";
+import bcrypt from "bcrypt";
+import type { NextAuthConfig } from "next-auth";
 import Credentials from "next-auth/providers/credentials";
-import { AuthLoginCredentialsSchema } from "./lib/validations/auth";
-import supabase from "./lib/supabase";
-import { TABLEUSERS } from "./lib/config";
-import bcrypt from "bcrypt"
 
 export default {
     providers: [
@@ -53,5 +53,6 @@ export default {
 
             return session
         }
-    }
+    },
+    secret: AUTHSECRET
 } satisfies NextAuthConfig

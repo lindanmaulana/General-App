@@ -16,11 +16,13 @@ export const AuthLogin = async (prevState: unknown, formData: FormData): Promise
     if(!validatedFields.success) throw new Error("Error validation")
 
     try {
-        await signIn("credentials", {
+        const result = await signIn("credentials", {
             email: validatedFields.data.email,
             password: validatedFields.data.password,
             redirect: false
         })
+
+        return result
     } catch (err) {
         const errorMessage = errorHandler(err)
         console.log({errorMessage})
@@ -29,8 +31,6 @@ export const AuthLogin = async (prevState: unknown, formData: FormData): Promise
             errorMessage
         }
     }
-
-    redirect("/dashboard")
 }
 
 export const AuthRegister = async (prevState: unknown, formData: FormData): Promise<ActionResult> => {
