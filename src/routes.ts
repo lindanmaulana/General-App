@@ -5,13 +5,15 @@
 export const DEFAULT_LOGIN_REDIRECT = "/"
 export const DEFAULT_MEMBER_REDIRECT = "/"
 export const DEFAULT_ADMIN_REDIRECT = "/dashboard"
+export const REDIRECT_HOME = "/"
+export const REDIRECT_AUTH = "/auth/login"
 
 /**
  * An array of routes that are accesible to the public
  * These routes do not require authentication
  * @type {string[]}
  */
-export const ROUTESPUBLIC = ["/"]
+export const ROUTESPUBLIC = ["/", "/auth/login", "/dashboard/login"]
 
 /**
  * The prefix of routes admin
@@ -27,7 +29,7 @@ export const ROUTESPREFIXADMIN = "/dashboard"
  */
 export const ROUTESAUTHMEMBER = ["/auth/login", "/auth/register"]
 
-export const ROUTESAUTHADMIN = ["/auth/login", "/auth/register"]
+export const ROUTESAUTHADMIN = ["/dashboard/login", "/dashboard/register"]
 export const ROUTE_LOGIN_ADMIN = "/dashboard/login"
 /**
  * The prefix for API authentication routes
