@@ -13,6 +13,6 @@ export const ButtonFormSubmit = (props: ButtonFormSubmitProps) => {
     const {pending} = useFormStatus()
 
     return (
-        <Button type={type} className="bg-gnrPrimary w-full text-gnrDarkBlue hover:bg-gnrPrimary/70 cursor-pointer" disabled={pending}>{pending ? loading : title}</Button>
+        <Button type={type} className="bg-gnrPrimary w-full text-gnrWhite hover:bg-gnrPrimary/70 cursor-pointer" disabled={pending}>{pending ? loading : title}</Button>
     )
 }

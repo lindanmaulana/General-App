@@ -7,7 +7,7 @@ export default function Home() {
     <main>
       <section className="relative bg-cover bg-no-repeat -z-10" style={{backgroundImage: "url('/images/banner/mushola-alhidayah.jpg')"}}>
         <div className="absolute inset-0 flex items-center justify-center bg-black/30 -z-10"></div>
-        <div className="h-[480px] container max-w-5xl mx-auto px-4 md:px-0">
+        <div className="h-screen container max-w-5xl mx-auto px-4 md:px-0">
             <div className="h-full flex flex-col items-center justify-center gap-3">
               <strong className="bg-white/10 backdrop-blur-sm text-sm  p-2 rounded-full text-white">Website Resmi General</strong>
               <h2 className="text-center text-4xl font-bold text-white leading-12">Selamat Datang di <br /> Kampung Alhidayah(General) <br /> <span className="text-gnrPrimary">Desa Muncangela</span></h2>
@@ -21,6 +21,12 @@ export default function Home() {
                 </Button>
               </div>
             </div>
+        </div>
+      </section>
+
+      <section>
+        <div className="container max-w-5xl mx-auto px-4 md:px-0">
+
         </div>
       </section>
     </main>

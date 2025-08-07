@@ -11,13 +11,13 @@ export const NavbarList = ({style}: NavbarListProps) => {
         const pathname = usePathname()
     
         const isActive = (route: string) => {
-            if(route !== pathname) return ""
+            if(route !== pathname) return "text-white"
     
-            return "bg-gnrPrimary hover:bg-gnrPrimary/50"
+            return "bg-gnrPrimary hover:bg-gnrPrimary/50 text-gnrDarkBlue"
         }
     
     return (
-        <NavigationMenu className={`${style} space-x-3 *:px-4`}>
+        <NavigationMenu className={`${style} space-x-3 *:px-4 `}>
             <NavigationMenuLink asChild>
                 <Link href={"/"} className={`text-gnrDarkBlue ${isActive("/")}`}>Beranda</Link>
             </NavigationMenuLink>

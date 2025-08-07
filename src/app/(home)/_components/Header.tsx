@@ -1,0 +1,16 @@
+"use client"
+
+import { usePathname } from "next/navigation"
+import { Navbar } from "./Navbar"
+
+export const Header = () => {
+    const pathname = usePathname()
+
+    if(pathname.startsWith("/dashboard")) return null
+    
+    return (
+        <header className="fixed top-0 right-0 w-full py-4">
+            <Navbar />
+        </header>
+    )
+}
