@@ -22,7 +22,7 @@ export const AppSidebar = () => {
         },
         { 
             title: "Pemasukan", 
-            url: "/pemasukan", 
+            url: "/dashboard/incomes", 
             icon: TrendingUp,
         },
         { 

@@ -1,4 +1,9 @@
 import { DashboardContent } from "@/app/dashboard/_components/DashboardContent"
+import { Metadata } from "next"
+
+export const metadata: Metadata = {
+    title: "Dashboard | Beranda"
+}
 
 const PageDashboard = () => {
     return (

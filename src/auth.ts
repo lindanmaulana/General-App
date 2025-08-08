@@ -8,6 +8,10 @@ export const {auth, handlers, signIn, signOut} = NextAuth({
         url: SUPABASEURL,
         secret: SUPABASEKEY
     }),
-    session: {strategy: "jwt"},
+    session: {
+        strategy: "jwt",
+        maxAge: 60 * 60,
+        updateAge: 10 * 60
+    },
     ...authConfig
 })
