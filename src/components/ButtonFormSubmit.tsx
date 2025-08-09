@@ -7,12 +7,13 @@ interface ButtonFormSubmitProps {
     title?: string
     loading?: string
     type?: "button" | "reset" | "submit"
+    style?: string
 }
 export const ButtonFormSubmit = (props: ButtonFormSubmitProps) => {
-    const {type = "submit", title, loading = "Loading..."} = props
+    const {type = "submit", title, loading = "Loading...", style} = props
     const {pending} = useFormStatus()
 
     return (
-        <Button type={type} className="bg-gnrPrimary w-full text-gnrWhite hover:bg-gnrPrimary/70 cursor-pointer" disabled={pending}>{pending ? loading : title}</Button>
+        <Button type={type} className={`${style} bg-gnrPrimary w-full text-gnrWhite hover:bg-gnrPrimary/70 cursor-pointer`} disabled={pending}>{pending ? loading : title}</Button>
     )
 }

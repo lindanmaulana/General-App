@@ -1,6 +1,6 @@
 
 export interface ActionResult {
-    success?: boolean
-    errorMessage?: string
-    successMessage?: string
+    status: "idle" | "error" | "success"
+    error?: string
+    errors?: {field: string, message: string}[]
 }

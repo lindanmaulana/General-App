@@ -1,18 +1,15 @@
 "use client"
 
-import { ActionResult } from "@/actions"
 import { AuthLogin } from "@/actions/auth"
 import { ButtonFormSubmit } from "@/components/ButtonFormSubmit"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
+import { INITIAL_STATE_ACTION } from "@/lib/constant/initial-state"
 import { AuthLoginCredentialsSchema, TypeAuthLoginCredentialsSchema } from "@/lib/validations/auth"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useActionState } from "react"
 import { useForm } from "react-hook-form"
 
-const initialState: ActionResult = {
-    errorMessage: ""
-}
 
 export const FormLogin = () => {
     const form = useForm<TypeAuthLoginCredentialsSchema>({
@@ -23,13 +20,13 @@ export const FormLogin = () => {
         }
     })
 
-    const [state, formAction] = useActionState(AuthLogin, initialState)
+    const [state, formAction] = useActionState(AuthLogin, INITIAL_STATE_ACTION)
 
     return (
         <Form {...form}>
-            {state.errorMessage && 
+            {state.status === "error" && 
                 <div className="bg-red-200 rounded-md p-3">
-                    <p className="text-sm font-semibold text-red-500">{state.errorMessage}</p>
+                    <p className="text-sm font-semibold text-red-500">{state.error}</p>
                 </div>
             }
             <form action={formAction} className="space-y-8">

@@ -32,7 +32,7 @@ export const AppSidebar = () => {
         },
         { 
             title: "Kas & Bank", 
-            url: "/kas-bank", 
+            url: "/dashboard/fund-accounts", 
             icon: Wallet,
         },
         { 

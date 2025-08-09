@@ -1,20 +1,16 @@
 "use client"
 
-import { ActionResult } from "@/actions"
 import { AuthRegister } from "@/actions/auth"
 import { ButtonFormSubmit } from "@/components/ButtonFormSubmit"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
+import { INITIAL_STATE_ACTION } from "@/lib/constant/initial-state"
 import { AuthRegisterCredentialsSchema, TypeAuthRegisterCredentialsSchema } from "@/lib/validations/auth"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useRouter } from "next/navigation"
 import { useActionState, useEffect } from "react"
 import { useForm } from "react-hook-form"
 import { toast } from "sonner"
-
-const initialState: ActionResult = {
-    errorMessage: ""
-}
 
 export const FormRegister = () => {
     const form = useForm<TypeAuthRegisterCredentialsSchema>({
@@ -26,23 +22,23 @@ export const FormRegister = () => {
         }
     })
 
-    const [state, formAction] = useActionState(AuthRegister, initialState)
+    const [state, formAction] = useActionState(AuthRegister, INITIAL_STATE_ACTION)
     const router = useRouter()
 
     console.log({state})
 
     useEffect(() => {
-        if(state.success) {
-            toast(state.successMessage)
+        if(state.status === "success") {
+            toast("Registrasi akun berhasil")
             router.replace("/dashboard/login")
         }
     }, [state, router])
 
     return (
         <Form {...form}>
-            {state.errorMessage && 
+            {state.status === "error" && 
                 <div className="bg-red-200 rounded-md p-3">
-                    <p className="text-sm font-semibold text-red-500">{state.errorMessage}</p>
+                    <p className="text-sm font-semibold text-red-500">{state.error}</p>
                 </div>
             }
             <form action={formAction} className="space-y-8">

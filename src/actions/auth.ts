@@ -13,7 +13,12 @@ export const AuthLogin = async (prevState: unknown, formData: FormData): Promise
         password: formData.get("password")
     })
 
-    if(!validatedFields.success) throw new Error("Error validation")
+    if(!validatedFields.success) {
+        return {
+            status: "error",
+            error: "Invalid Credentials"
+        }
+    }
 
     try {
         await signIn("credentials", {
@@ -27,7 +32,8 @@ export const AuthLogin = async (prevState: unknown, formData: FormData): Promise
         console.log({errorMessage})
 
         return {
-            errorMessage
+            status: "error",
+            error: "Invalid Credentials"
         }
     }
 
@@ -43,7 +49,8 @@ export const AuthRegister = async (prevState: unknown, formData: FormData): Prom
 
     if(!validatedFields.success) {
         return {
-            errorMessage: "Error Validation"
+            status: "error",
+            error: "Failed Register"
         }
     }
 
@@ -51,14 +58,14 @@ export const AuthRegister = async (prevState: unknown, formData: FormData): Prom
         await AuthService.register(validatedFields.data)
 
         return {
-            success: true,
-            successMessage: "Registrasi berhasil"
+            status: "success",
         }
     } catch (err) {
         const errorMessage = errorHandler(err)
 
         return {
-            errorMessage
+            status: "error",
+            error: errorMessage
         }
     }
 }
