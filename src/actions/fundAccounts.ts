@@ -1,14 +1,13 @@
 "use server"
 
+import { errorHandler } from "@/lib/helpers/errorHandler"
+import { FundAccountsService } from "@/lib/services/fundAccounts.service"
 import { FundAccountsCreate } from "@/lib/validations/fund-accounts"
 import { ActionResult } from "."
-import { FundAccountsService } from "@/lib/services/fundAccounts.service"
-import { errorHandler } from "@/lib/helpers/errorHandler"
-import { redirect } from "next/navigation"
+import { FundAccounts } from "@/lib/models/fund-accounts"
+import { revalidatePath } from "next/cache"
 
-export const CreateFundAccounts = async (prevState: unknown, formData: FormData): Promise<ActionResult> => {
-    console.log({formData})
-    console.log("hit Action server")
+export const createFundAccounts = async (prevState: unknown, formData: FormData): Promise<ActionResult> => {
     const validatedFields = FundAccountsCreate.safeParse({
         name: formData.get("name"),
         type: formData.get("type"),
@@ -32,8 +31,13 @@ export const CreateFundAccounts = async (prevState: unknown, formData: FormData)
         if(!result.data) {
             return {
                 status: "error",
-                error: result.error?.message
+                error: result.error ?? ""
             }
+        }
+
+        revalidatePath("/dashboard/fund-accounts")
+        return {
+            status: "success"
         }
     } catch (err) {
         const errorMessage = errorHandler(err)
@@ -43,6 +47,16 @@ export const CreateFundAccounts = async (prevState: unknown, formData: FormData)
             error: errorMessage
         }
     }
+}
 
-    redirect("/dashboard/fund-accounts")
+export const GetAllFundAccounts = async (): Promise<FundAccounts[]> => {
+    try {
+        const result = await FundAccountsService.getAll()
+
+        return result.data ?? []
+    } catch (err) {
+        const errorMessage = errorHandler(err)
+        console.log({errorMessage})
+        return []
+    }
 }

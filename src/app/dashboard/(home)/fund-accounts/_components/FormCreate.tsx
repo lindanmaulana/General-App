@@ -1,6 +1,6 @@
 "use client";
 
-import { CreateFundAccounts } from "@/actions/fundAccounts";
+import { createFundAccounts } from "@/actions/fundAccounts";
 import { ButtonFormSubmit } from "@/components/ButtonFormSubmit";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogClose, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
@@ -11,11 +11,12 @@ import { INITIAL_STATE_ACTION } from "@/lib/constant/initial-state";
 import { FundAccountsCreate, TypeFieldFundAcounts, TypeFundAccountsCreate } from "@/lib/validations/fund-accounts";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Plus } from "lucide-react";
-import { useActionState, useEffect } from "react";
+import { useActionState, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 
 export const FormCreate = () => {
+    const [isOpen, setIsOpen] = useState<boolean>(false)
     const form = useForm<TypeFundAccountsCreate>({
         resolver: zodResolver(FundAccountsCreate),
         defaultValues: {
@@ -25,13 +26,13 @@ export const FormCreate = () => {
         }
     })
 
-    const [state, formAction] = useActionState(CreateFundAccounts, INITIAL_STATE_ACTION)
+    const [state, formAction] = useActionState(createFundAccounts, INITIAL_STATE_ACTION)
 
+    console.log({state})
     useEffect(() => {
         if(state.status === "error" && state.errors) {
             if(state.errors) {
                 state.errors.forEach((err) => {
-                    console.log({err})
                     form.setError(err.field as TypeFieldFundAcounts, {message: err.message})
                 })
             }
@@ -40,14 +41,19 @@ export const FormCreate = () => {
                 toast(state.error)
             }
         }
+
+        if(state.status === "success") {
+            form.reset()
+            setIsOpen(false)
+        }
     }, [state.errors, form, state.status, state.error])
 
   return (
-    <Dialog>
+    <Dialog open={isOpen} onOpenChange={setIsOpen}>
         <DialogTrigger asChild>
-                <Button className="bg-gnrPrimary cursor-pointer hover:bg-gnrPrimary/80">
-                <Plus />
-                <span>Tambah Akun</span>
+                <Button onClick={() => setIsOpen(true)} className="bg-gnrPrimary cursor-pointer hover:bg-gnrPrimary/80">
+                    <Plus />
+                    <span>Tambah Akun</span>
                 </Button>
             </DialogTrigger>
             <DialogContent>

@@ -3,12 +3,16 @@ import { Metadata } from "next"
 import { FormCreate } from "./_components/FormCreate"
 import { ShowPrice } from "./_components/ShowPrice"
 import { OverviewCard } from "./_components/OverviewCard"
+import { TableFundAccounts } from "./_components/TableFundAccounts"
+import { GetAllFundAccounts } from "@/actions/fundAccounts"
 
 export const metadata: Metadata = {
     title: "Dashboard | Fund-Accounts"
 }
 
-const PageFundAccounts = () => {
+const PageFundAccounts = async () => {
+    const data = await GetAllFundAccounts()
+
     return (
         <div className="space-y-5">
             <div className="flex items-center justify-between">
@@ -25,6 +29,8 @@ const PageFundAccounts = () => {
             </div>
             
             <OverviewCard />
+
+            <TableFundAccounts data={data} />
         </div>
     )
 }
