@@ -10,6 +10,7 @@ import { revalidatePath } from "next/cache"
 export const createFundAccounts = async (prevState: unknown, formData: FormData): Promise<ActionResult> => {
     const validatedFields = FundAccountsCreate.safeParse({
         name: formData.get("name"),
+        provider_name: formData.get("provider_name"),
         type: formData.get("type"),
         account_number: formData.get("account_number"),
         holder_name: formData.get("holder_name")

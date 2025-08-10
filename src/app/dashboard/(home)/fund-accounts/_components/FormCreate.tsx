@@ -21,6 +21,7 @@ export const FormCreate = () => {
         resolver: zodResolver(FundAccountsCreate),
         defaultValues: {
             name: "",
+            provider_name: "",
             account_number: "",
             holder_name: ""
         }
@@ -51,14 +52,14 @@ export const FormCreate = () => {
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
         <DialogTrigger asChild>
-                <Button onClick={() => setIsOpen(true)} className="bg-gnrPrimary cursor-pointer hover:bg-gnrPrimary/80">
-                    <Plus />
-                    <span>Tambah Akun</span>
-                </Button>
-            </DialogTrigger>
-            <DialogContent>
-                <Form {...form}>
-                    <form action={formAction}>
+            <Button onClick={() => setIsOpen(true)} className="bg-gnrPrimary cursor-pointer hover:bg-gnrPrimary/80">
+                <Plus />
+                <span>Tambah Akun</span>
+            </Button>
+        </DialogTrigger>
+        <DialogContent>
+            <Form {...form}>
+                <form action={formAction} className="space-y-4">
                     <DialogHeader>
                         <DialogTitle>Tambah Akun Baru</DialogTitle>
                         <DialogDescription>Tambahkan akun bank atau kas baru untuk dikelola</DialogDescription>
@@ -95,6 +96,19 @@ export const FormCreate = () => {
                                                     <SelectItem value="EWALLET">EWALLET</SelectItem>
                                                 </SelectContent>
                                             </Select>
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+                            <FormField 
+                                control={form.control}
+                                name="provider_name"
+                                render={({field}) => (
+                                    <FormItem>
+                                        <FormLabel>Nama Penyedia (opsional)</FormLabel>
+                                        <FormControl>
+                                            <Input {...field} type="text" placeholder="Contoh Mandiri / Dana" />
                                         </FormControl>
                                         <FormMessage />
                                     </FormItem>

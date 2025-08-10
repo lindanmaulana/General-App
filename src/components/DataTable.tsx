@@ -43,7 +43,7 @@ export function DataTable<TData, TValue>({
             <CardDescription>{description}</CardDescription>
         </CardHeader>
         <CardContent>
-            <div className="overflow-hidden rounded-md border">
+            <div className="overflow-hidden rounded-md">
                 <Table>
                     <TableHeader>
                     {table.getHeaderGroups().map((headerGroup) => (
@@ -71,7 +71,7 @@ export function DataTable<TData, TValue>({
                             data-state={row.getIsSelected() && "selected"}
                         >
                             {row.getVisibleCells().map((cell) => (
-                            <TableCell key={cell.id}>
+                            <TableCell key={cell.id} className="py-4">
                                 {flexRender(cell.column.columnDef.cell, cell.getContext())}
                             </TableCell>
                             ))}
