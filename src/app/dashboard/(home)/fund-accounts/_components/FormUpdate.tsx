@@ -1,6 +1,7 @@
 "use client";
 
-import { createFundAccounts } from "@/actions/fundAccounts";
+import { ActionResult } from "@/actions";
+import { updateFundAccounts } from "@/actions/fundAccounts";
 import { ButtonFormSubmit } from "@/components/ButtonFormSubmit";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogClose, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
@@ -8,27 +9,33 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { INITIAL_STATE_ACTION } from "@/lib/constant/initial-state";
+import { FundAccounts } from "@/lib/models/fund-accounts";
 import { FundAccountsCreate, TypeFieldFundAcounts, TypeFundAccountsCreate } from "@/lib/validations/fund-accounts";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Plus } from "lucide-react";
+import { Pencil } from "lucide-react";
 import { useActionState, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 
-export const FormCreate = () => {
+interface FormUpdateProps {
+    data: FundAccounts
+}
+
+export const FormUpdate = ({data}: FormUpdateProps) => {
     const [isOpen, setIsOpen] = useState<boolean>(false)
-    
+
+    const updateAction = (_state: ActionResult, formData: FormData) => updateFundAccounts(null, formData, data.id)
+    const [state, formAction] = useActionState(updateAction, INITIAL_STATE_ACTION)
+
     const form = useForm<TypeFundAccountsCreate>({
         resolver: zodResolver(FundAccountsCreate),
         defaultValues: {
-            name: "",
-            provider_name: "",
-            account_number: "",
-            holder_name: ""
+            name: data.name ?? "",
+            provider_name: data.provider_name ?? "",
+            account_number: data.account_number ?? "",
+            holder_name: data.holder_name ?? "",
         }
     })
-
-    const [state, formAction] = useActionState(createFundAccounts, INITIAL_STATE_ACTION)
 
     useEffect(() => {
         if(state.status === "error" && state.errors) {
@@ -52,17 +59,16 @@ export const FormCreate = () => {
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
         <DialogTrigger asChild>
-            <Button onClick={() => setIsOpen(true)} className="bg-gnrPrimary cursor-pointer hover:bg-gnrPrimary/80">
-                <Plus />
-                <span>Tambah Akun</span>
+            <Button onClick={() => setIsOpen(true)} variant={"ghost"} className="size-5">
+                <Pencil />
             </Button>
         </DialogTrigger>
         <DialogContent>
             <Form {...form}>
                 <form action={formAction} className="space-y-4">
                     <DialogHeader>
-                        <DialogTitle>Tambah Akun Baru</DialogTitle>
-                        <DialogDescription>Tambahkan akun bank atau kas baru untuk dikelola</DialogDescription>
+                        <DialogTitle>Ubah Akun</DialogTitle>
+                        <DialogDescription>Ubah akun bank atau kas baru untuk dikelola</DialogDescription>
                     </DialogHeader>
                     <div className="space-y-8">
                         <div className="space-y-4">
@@ -86,7 +92,7 @@ export const FormCreate = () => {
                                     <FormItem>
                                         <FormLabel>Jenis Akun</FormLabel>
                                         <FormControl>
-                                            <Select {...field}>
+                                            <Select {...field} defaultValue={data.type ?? ""}>
                                                 <SelectTrigger className="w-full">
                                                     <SelectValue placeholder="Jenis Akun" />
                                                 </SelectTrigger>

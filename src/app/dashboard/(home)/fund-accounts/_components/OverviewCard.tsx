@@ -1,10 +1,10 @@
-"use client";
-import { Card, CardContent } from "@/components/ui/card";
-import { useShow } from "@/lib/zustand/useShow";
-import { CreditCard, Wallet } from "lucide-react";
+'use client';
+import { Card, CardContent } from '@/components/ui/card';
+import { useShow } from '@/lib/zustand/useShow';
+import { CreditCard, Wallet } from 'lucide-react';
 
 export const OverviewCard = () => {
-    const isShow = useShow((state) => state.isShow)
+  const isShow = useShow((state) => state.isShow);
   return (
     <div className="grid grid-cols-3 gap-3">
       <Card className="w-full bg-gnrPrimary/10 border border-gnrGreen/30">
@@ -14,10 +14,8 @@ export const OverviewCard = () => {
             <Wallet className="size-4 text-gnrPrimary" />
           </div>
           <div className="t">
-            <strong className="text-2xl text-gnrPrimary">{isShow ? "Rp 19.000.000" : "........"}</strong>
-            <span className="block text-xs text-gnrGray">
-              Dari 5 akun yang aktif
-            </span>
+            <strong className="text-2xl text-gnrPrimary">{isShow ? 'Rp 19.000.000' : '........'}</strong>
+            <span className="block text-xs text-gnrGray">Dari 5 akun yang aktif</span>
           </div>
         </CardContent>
       </Card>
@@ -30,9 +28,7 @@ export const OverviewCard = () => {
           </div>
           <div className="t">
             <strong className="text-2xl text-gnrDark">3</strong>
-            <span className="block text-xs text-gnrGray">
-                akun bank aktif
-            </span>
+            <span className="block text-xs text-gnrGray">akun bank aktif</span>
           </div>
         </CardContent>
       </Card>
@@ -44,10 +40,8 @@ export const OverviewCard = () => {
             <Wallet className="size-4 text-gnrDark" />
           </div>
           <div className="t">
-            <strong className="text-2xl text-gnrDark">{isShow ? "Rp 19.000.000" : "........"}</strong>
-            <span className="block text-xs text-gnrGray">
-              Saldo kas tersedia
-            </span>
+            <strong className="text-2xl text-gnrDark">{isShow ? 'Rp 19.000.000' : '........'}</strong>
+            <span className="block text-xs text-gnrGray">Saldo kas tersedia</span>
           </div>
         </CardContent>
       </Card>

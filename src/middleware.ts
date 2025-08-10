@@ -5,6 +5,7 @@ import { APIPREFIX, REDIRECT_AUTH, REDIRECT_HOME, ROUTESPREFIXADMIN, ROUTESPUBLI
 
 export default async function middleware(req: NextRequest) {
   const {nextUrl} = req
+  
   const token = await getToken({req, secret: AUTHSECRET})
 
   const isLoggedIn = !!token
