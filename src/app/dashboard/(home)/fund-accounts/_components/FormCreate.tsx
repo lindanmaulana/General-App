@@ -31,7 +31,7 @@ export const FormCreate = () => {
     const [state, formAction] = useActionState(createFundAccounts, INITIAL_STATE_ACTION)
 
     useEffect(() => {
-        if(state.status === "error" && state.errors) {
+        if(state.status === "error") {
             if(state.errors) {
                 state.errors.forEach((err) => {
                     form.setError(err.field as TypeFieldFundAcounts, {message: err.message})
@@ -103,6 +103,19 @@ export const FormCreate = () => {
                             />
                             <FormField 
                                 control={form.control}
+                                name="holder_name"
+                                render={({field}) => (
+                                    <FormItem>
+                                        <FormLabel>Nama Pemilik Akun</FormLabel>
+                                        <FormControl>
+                                            <Input {...field} type="text" placeholder="Contoh Jhon doe" />
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+                            <FormField 
+                                control={form.control}
                                 name="provider_name"
                                 render={({field}) => (
                                     <FormItem>
@@ -119,22 +132,9 @@ export const FormCreate = () => {
                                 name="account_number"
                                 render={({field}) => (
                                     <FormItem>
-                                        <FormLabel>No Rekening (opsional)</FormLabel>
+                                        <FormLabel>No Rekening / Ewallet (opsional)</FormLabel>
                                         <FormControl>
                                             <Input {...field} type="number" placeholder="123456789" />
-                                        </FormControl>
-                                        <FormMessage />
-                                    </FormItem>
-                                )}
-                            />
-                            <FormField 
-                                control={form.control}
-                                name="holder_name"
-                                render={({field}) => (
-                                    <FormItem>
-                                        <FormLabel>Nama Pemilik Akun</FormLabel>
-                                        <FormControl>
-                                            <Input {...field} type="text" placeholder="Contoh Jhon doe" />
                                         </FormControl>
                                         <FormMessage />
                                     </FormItem>
@@ -145,7 +145,7 @@ export const FormCreate = () => {
                             <DialogClose asChild>
                                 <Button variant={"outline"}>Batal</Button>
                             </DialogClose>
-                            <ButtonFormSubmit type="submit" style="max-w-1/6" title="Simpan" />
+                            <ButtonFormSubmit type="submit" style="bg-gnrPrimary text-gnrWhite hover:bg-gnrPrimary/70" title="Simpan" />
                         </div>
                     </div>
                 </form>

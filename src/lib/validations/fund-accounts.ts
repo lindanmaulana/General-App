@@ -16,6 +16,7 @@ export const FundAccountsUpdate = z.object({
     provider_name: z.string().optional(),
     type: z.string().optional(),
     account_number: z.string().optional(),
+    is_active: z.string().max(1),
     holder_name: z.string().optional(),
 })
 export type TypeFundAccountsUpdate = z.infer<typeof FundAccountsUpdate>

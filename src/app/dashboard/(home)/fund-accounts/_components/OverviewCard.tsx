@@ -3,7 +3,11 @@ import { Card, CardContent } from '@/components/ui/card';
 import { useShow } from '@/lib/zustand/useShow';
 import { CreditCard, Wallet } from 'lucide-react';
 
-export const OverviewCard = () => {
+interface OverviewCardProps {
+  fundAccountsIsActive: number
+}
+
+export const OverviewCard = ({fundAccountsIsActive}: OverviewCardProps) => {
   const isShow = useShow((state) => state.isShow);
   return (
     <div className="grid grid-cols-3 gap-3">
@@ -27,7 +31,7 @@ export const OverviewCard = () => {
             <CreditCard className="size-4 text-gnrDark" />
           </div>
           <div className="t">
-            <strong className="text-2xl text-gnrDark">3</strong>
+            <strong className="text-2xl text-gnrDark">{fundAccountsIsActive}</strong>
             <span className="block text-xs text-gnrGray">akun bank aktif</span>
           </div>
         </CardContent>

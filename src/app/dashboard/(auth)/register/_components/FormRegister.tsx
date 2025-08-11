@@ -84,7 +84,7 @@ export const FormRegister = () => {
                     />
                 </div>
 
-                <ButtonFormSubmit type="submit" title="Sign up" />
+                <ButtonFormSubmit type="submit" title="Sign up" style="bg-gnrPrimary w-full text-gnrWhite hover:bg-gnrPrimary/70" />
             </form>
         </Form>
     )

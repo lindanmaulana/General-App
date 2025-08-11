@@ -5,6 +5,7 @@ export interface FundAccounts {
     type: string
     account_number: string
     holder_name: string
+    is_active: boolean
     created_at: Date
     updated_at: Date
 }
@@ -23,4 +24,5 @@ export interface FundAccountsUpdateRequest {
     type?: string
     account_number?: string
     holder_name?: string
+    is_active?: string
 }

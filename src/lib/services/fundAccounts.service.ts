@@ -18,12 +18,31 @@ export class FundAccountsService {
         return result
     }
 
+    static async getAllIsActive() {
+        const result = await (await supabase.from(this.table).select("*", {"count": "exact", head: true}).eq("is_active", true)).count
+
+        if(!result) throw new Error("Gagal mengambil jumlah akun aktif!")
+
+        return result
+    }
+
     static async update(req: FundAccountsUpdateRequest, id: string) {
         const checkFundAccount = await this.checkingFundAccount(id)
-        const result = await supabase.from(this.table).update(req).eq("id", checkFundAccount.data.id).select()
+
+        const result = await supabase.from(this.table).update({...req, is_active: req.is_active === "1"}).eq("id", checkFundAccount.data.id).select()
 
         if(!result.data) throw new Error(result.error.message)
         
+        return result
+    }
+
+    static async delete(id: string) {
+        const checkFundAccount = await this.checkingFundAccount(id)
+
+        const result = await supabase.from(this.table).delete().eq("id", checkFundAccount.data.id).select()
+
+        if(!result.data) throw new Error("Delete akun gagal!")
+
         return result
     }
 

@@ -8,6 +8,7 @@ import { ColumnDef } from '@tanstack/react-table';
 import { Banknote, CreditCard, Landmark, Wallet } from 'lucide-react';
 import { useMemo } from 'react';
 import { FormUpdate } from './FormUpdate';
+import { FormDelete } from './FormDelete';
 
 export const useColumnsFundAccounts = () => {
   const isShow = useShow((state) => state.isShow);
@@ -60,7 +61,7 @@ export const useColumnsFundAccounts = () => {
                   ? 'bg-gnrOrange/10 text-gnrOrange'
                   : fundAccounts.type === 'BANK'
                   ? 'bg-gnrPrimary/10 text-gnrPrimary'
-                  : fundAccounts.type === 'WALLET'
+                  : fundAccounts.type === 'EWALLET'
                   ? 'bg-gnrGreen/10 text-gnrGreen'
                   : 'bg-gnrPrimary/10 text-gnrPrimary'
               )}
@@ -81,7 +82,7 @@ export const useColumnsFundAccounts = () => {
       },
       {
         accessorKey: 'account_number',
-        header: 'Nomor Rekening',
+        header: 'Nomor Rekening / Ewallet',
         cell: ({ row }) => {
           const fundAccount = row.original;
 
@@ -89,13 +90,23 @@ export const useColumnsFundAccounts = () => {
         },
       },
       {
+        accessorKey: "is_active",
+        header: "Status",
+        cell: ({row}) => {
+          const fundAccount = row.original
+
+          return <Badge className={cn(fundAccount.is_active ? "bg-gnrPrimary" : "bg-gnrRed")}>{fundAccount.is_active ? "Aktif" : "Non Aktif"}</Badge>
+        }
+      },
+      {
         header: 'Aksi',
         cell: ({ row }) => {
           const fundAccount = row.original;
 
           return (
-            <div>
+            <div className='flex items-center gap-1'>
               <FormUpdate key={fundAccount.id} data={fundAccount} />
+              <FormDelete data={fundAccount} />
             </div>
           );
         },

@@ -10,7 +10,7 @@ import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { INITIAL_STATE_ACTION } from "@/lib/constant/initial-state";
 import { FundAccounts } from "@/lib/models/fund-accounts";
-import { FundAccountsCreate, TypeFieldFundAcounts, TypeFundAccountsCreate } from "@/lib/validations/fund-accounts";
+import { FundAccountsUpdate, TypeFieldFundAcounts, TypeFundAccountsUpdate } from "@/lib/validations/fund-accounts";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Pencil } from "lucide-react";
 import { useActionState, useEffect, useState } from "react";
@@ -27,8 +27,8 @@ export const FormUpdate = ({data}: FormUpdateProps) => {
     const updateAction = (_state: ActionResult, formData: FormData) => updateFundAccounts(null, formData, data.id)
     const [state, formAction] = useActionState(updateAction, INITIAL_STATE_ACTION)
 
-    const form = useForm<TypeFundAccountsCreate>({
-        resolver: zodResolver(FundAccountsCreate),
+    const form = useForm<TypeFundAccountsUpdate>({
+        resolver: zodResolver(FundAccountsUpdate),
         defaultValues: {
             name: data.name ?? "",
             provider_name: data.provider_name ?? "",
@@ -36,9 +36,9 @@ export const FormUpdate = ({data}: FormUpdateProps) => {
             holder_name: data.holder_name ?? "",
         }
     })
-
+    
     useEffect(() => {
-        if(state.status === "error" && state.errors) {
+        if(state.status === "error") {
             if(state.errors) {
                 state.errors.forEach((err) => {
                     form.setError(err.field as TypeFieldFundAcounts, {message: err.message})
@@ -59,7 +59,7 @@ export const FormUpdate = ({data}: FormUpdateProps) => {
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
         <DialogTrigger asChild>
-            <Button onClick={() => setIsOpen(true)} variant={"ghost"} className="size-5">
+            <Button onClick={() => setIsOpen(true)} variant={"ghost"} className="size-5 cursor-pointer">
                 <Pencil />
             </Button>
         </DialogTrigger>
@@ -109,6 +109,39 @@ export const FormUpdate = ({data}: FormUpdateProps) => {
                             />
                             <FormField 
                                 control={form.control}
+                                name="holder_name"
+                                render={({field}) => (
+                                    <FormItem>
+                                        <FormLabel>Nama Pemilik Akun</FormLabel>
+                                        <FormControl>
+                                            <Input {...field} type="text" placeholder="Contoh Jhon doe" />
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+                            <FormField
+                                control={form.control}
+                                name="is_active"
+                                render={({field}) => (
+                                    <FormItem>
+                                        <FormLabel>Status Akun</FormLabel>
+                                        <FormControl>
+                                            <Select {...field} defaultValue={data.is_active ? "1" : "0"}>
+                                                <SelectTrigger className="w-full">
+                                                    <SelectValue placeholder="Jenis Akun" />
+                                                </SelectTrigger>
+                                                <SelectContent>
+                                                    <SelectItem value="1">AKTIF</SelectItem>
+                                                    <SelectItem value="0">NON AKTIF</SelectItem>
+                                                </SelectContent>
+                                            </Select>
+                                        </FormControl>
+                                    </FormItem>
+                                )}
+                            />
+                            <FormField 
+                                control={form.control}
                                 name="provider_name"
                                 render={({field}) => (
                                     <FormItem>
@@ -133,25 +166,12 @@ export const FormUpdate = ({data}: FormUpdateProps) => {
                                     </FormItem>
                                 )}
                             />
-                            <FormField 
-                                control={form.control}
-                                name="holder_name"
-                                render={({field}) => (
-                                    <FormItem>
-                                        <FormLabel>Nama Pemilik Akun</FormLabel>
-                                        <FormControl>
-                                            <Input {...field} type="text" placeholder="Contoh Jhon doe" />
-                                        </FormControl>
-                                        <FormMessage />
-                                    </FormItem>
-                                )}
-                            />
                         </div>
                         <div className="flex items-center justify-end gap-2">
                             <DialogClose asChild>
                                 <Button variant={"outline"}>Batal</Button>
                             </DialogClose>
-                            <ButtonFormSubmit type="submit" style="max-w-1/6" title="Simpan" />
+                            <ButtonFormSubmit type="submit" style="bg-gnrPrimary text-gnrWhite hover:bg-gnrPrimary/70" title="Simpan" />
                         </div>
                     </div>
                 </form>
