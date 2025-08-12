@@ -6,7 +6,22 @@ import { APIPREFIX, REDIRECT_AUTH, REDIRECT_HOME, ROUTESPREFIXADMIN, ROUTESPUBLI
 export default async function middleware(req: NextRequest) {
   const {nextUrl} = req
   
-  const token = await getToken({req, secret: AUTHSECRET})
+  let token = null
+
+  if(process.env.NODE_ENV === "production") {
+    token = await getToken({
+      req,
+      secret: AUTHSECRET,
+      cookieName: "__Secure-authjs.session-token"
+    })
+  }
+
+  if(!token) {
+    token = await getToken({
+      req,
+      secret: AUTHSECRET
+    })
+  }
 
   const isLoggedIn = !!token
 
