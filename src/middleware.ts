@@ -14,7 +14,7 @@ export default async function middleware(req: NextRequest) {
   const isAdminRoute = req.nextUrl.pathname.startsWith(ROUTESPREFIXADMIN);
   const isPublicRoute = ROUTESPUBLIC.includes(nextUrl.pathname)
 
-  if(isApiRoute) return;
+  if(isApiRoute) return NextResponse.next();
 
   if(isLoggedIn) {
     if(token) {
