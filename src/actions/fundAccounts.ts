@@ -1,7 +1,6 @@
 "use server"
 
 import { errorHandler } from "@/lib/helpers/errorHandler"
-import { FundAccounts } from "@/lib/models/fund-accounts"
 import { FundAccountsService } from "@/lib/services/fundAccounts.service"
 import { FundAccountsCreate, FundAccountsUpdate } from "@/lib/validations/fund-accounts"
 import { revalidatePath } from "next/cache"
@@ -50,18 +49,6 @@ export const createFundAccounts = async (prevState: unknown, formData: FormData)
     }
 }
 
-export const GetAllFundAccounts = async (): Promise<FundAccounts[]> => {
-    try {
-        const result = await FundAccountsService.getAll()
-
-        return result.data ?? []
-    } catch (err) {
-        const errorMessage = errorHandler(err)
-        console.log({errorMessage})
-        return []
-    }
-}
-
 export const getAllIsActiveFundAccounts = async (): Promise<number> => {
     try {
         const result = await FundAccountsService.getAllIsActive()
@@ -70,7 +57,7 @@ export const getAllIsActiveFundAccounts = async (): Promise<number> => {
     } catch (err) {
         const errorMessage = errorHandler(err)
         console.log({errorMessage})
-        
+
         return 0
     }
 }
