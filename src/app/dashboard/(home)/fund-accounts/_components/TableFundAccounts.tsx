@@ -10,7 +10,8 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { Search } from 'lucide-react';
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useColumnsFundAccounts } from "./useColumnsFundAccounts";
-import { useMemo } from "react";
+import { ChangeEvent, useMemo } from "react";
+import {useDebouncedCallback} from "use-debounce"
 
 export const TableFundAccounts = () => {
     const currentParams = useSearchParams()
@@ -24,6 +25,23 @@ export const TableFundAccounts = () => {
     }, [currentParams])
 
     const queryFundAccounts = useQuery(queryOption)
+
+    const handleDebounceSearch = useDebouncedCallback((params: string) => {
+        const url = new URLSearchParams(currentParams.toString())
+
+        switch(params) {
+            case "":
+                url.delete("keyword")
+            break
+            default:
+                url.set("keyword", params)
+                url.set("page", '1')
+            break
+        }
+
+        queryClient.prefetchQuery(queryGetAllFundAccountsOptions(url.toString()))
+        router.replace(`${pathname}?${url.toString()}`)
+    }, 1000)
 
     if(queryFundAccounts.isLoading) return <p>Loading Please wait...</p>
 
@@ -39,6 +57,37 @@ export const TableFundAccounts = () => {
         router.replace(`${pathname}?${url.toString()}`)
     }
 
+    const handleFilter = (filter: "type" | "status", params: string) => {
+        const url = new URLSearchParams(currentParams.toString())
+
+        if(filter === "type") {
+            if(params !== "default") {
+                url.set("type", params)
+                url.set("page", "1")
+            } else {
+                url.delete("type")
+            }
+        }
+
+        if(filter === "status") {
+             if(params !== "default") {
+                url.set("status", params)
+                url.set("page", "1")
+            } else {
+                url.delete("status")
+            }
+        }
+
+        queryClient.prefetchQuery(queryGetAllFundAccountsOptions(url.toString()))
+        router.replace(`${pathname}?${url.toString()}`)
+    }
+
+    const handleSearch = (e: ChangeEvent<HTMLInputElement>) => {
+        const value = e.target.value
+
+        handleDebounceSearch(value)
+    }
+
     return (
         <Card>
             <CardHeader>
@@ -50,9 +99,9 @@ export const TableFundAccounts = () => {
                     <div className='flex items-center gap-2'>
                         <Label className='relative'>
                             <Search className='absolute left-2 size-4 text-gnrGray' />
-                            <Input id='filter-search' placeholder='Cari akun...' type='text' className='pl-8 font-normal' />
+                            <Input id='filter-search' onChange={handleSearch} defaultValue={currentParams.get("keyword") ? currentParams.get("keyword")?.toString() : ""} placeholder='Cari akun...' type='text' className='pl-8 font-normal' />
                         </Label>
-                        <Select>
+                        <Select onValueChange={(value) => handleFilter("type", value)} defaultValue={currentParams.get("type") ? currentParams.get("type")?.toString() : "default"}>
                             <SelectTrigger>
                                 <SelectValue placeholder="Semua Jenis" />
                             </SelectTrigger>
@@ -65,15 +114,16 @@ export const TableFundAccounts = () => {
                                 </SelectGroup>
                             </SelectContent>
                         </Select>
-                        <Select>
+
+                        <Select onValueChange={(value) => handleFilter("status", value)} defaultValue={currentParams.get("status") ? currentParams.get("status")?.toString() : "default"}>
                             <SelectTrigger>
                                 <SelectValue placeholder="Semua Status" />
                             </SelectTrigger>
                             <SelectContent>
                                 <SelectGroup>
                                     <SelectItem value='default'>Semua Status</SelectItem>
-                                    <SelectItem value='Aktif'>Aktif</SelectItem>
-                                    <SelectItem value='NonAktif'>NonAktif</SelectItem>
+                                    <SelectItem value='aktif'>Aktif</SelectItem>
+                                    <SelectItem value='nonaktif'>NonAktif</SelectItem>
                                 </SelectGroup>
                             </SelectContent>
                         </Select>

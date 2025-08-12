@@ -31,6 +31,8 @@ export class FundAccountsService {
             const limitParams = url.searchParams.get("limit")
             const pageParams = url.searchParams.get("page")
             const keywordParams = url.searchParams.get("keyword")
+            const typeParams = url.searchParams.get("type")
+            const statusParams = url.searchParams.get("status")
 
             if(limitParams) {
                 const parseLimit = Number(limitParams)
@@ -53,6 +55,13 @@ export class FundAccountsService {
             }
 
             if(keywordParams) query.ilike("name", `%${keywordParams}%`)
+
+            if(typeParams) query.eq("type", typeParams.toUpperCase())
+
+            if(statusParams) {
+                if(statusParams.toLowerCase() === "aktif") query.eq("is_active", true)
+                    else if(statusParams.toLowerCase() === "nonaktif") query.eq("is_active", false)
+            }
 
             const start = (page - 1) * limit
             const end = start + limit - 1
