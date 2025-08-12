@@ -26,6 +26,10 @@ export default async function Home() {
               </div>
             </div>
         </div>
+       <div className="text-white">
+         {session?.user.name}
+        {session?.user.role}
+       </div>
       </section>
 
       <section>
