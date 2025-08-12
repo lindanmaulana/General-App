@@ -4,11 +4,9 @@ import { NextRequest, NextResponse } from "next/server";
 
 export const GET = async (req: NextRequest) => {
     try {
-        const result = await FundAccountsService.getAllNew(req)
+        const result = await FundAccountsService.getAll(req)
 
-        return NextResponse.json({
-            result
-        })
+        return NextResponse.json(result)
     } catch (err) {
         const errorMessage = errorHandler(err)
 

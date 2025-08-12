@@ -14,13 +14,7 @@ export class FundAccountsService {
         return result
     }
 
-    static async getAll() {
-        const result = await supabase.from(this.table).select("*")
-
-        return result
-    }
-
-    static async getAllNew(req: NextRequest) {
+    static async getAll(req: NextRequest) {
         const query = supabase.from(this.table).select("*", {count: "exact"}).limit(5)
 
         let limit: number = DEFAULT_LIMIT

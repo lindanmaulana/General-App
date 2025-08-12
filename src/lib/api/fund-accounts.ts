@@ -7,9 +7,9 @@ interface FundAccountsParams {
 
 export const ApiFundAccountsGetAll = async ({params}: FundAccountsParams) => {
     try {
-        const result = await api.get(params)
+        const response = await api.get(`/fund-accounts?${params}`)
 
-        return result
+        return response.data
     } catch (err) {
         const errorMessage = errorHandler(err)
 

@@ -1,17 +1,16 @@
 
+import { getAllIsActiveFundAccounts } from "@/actions/fundAccounts"
 import { Metadata } from "next"
 import { FormCreate } from "./_components/FormCreate"
-import { ShowPrice } from "./_components/ShowPrice"
 import { OverviewCard } from "./_components/OverviewCard"
+import { ShowPrice } from "./_components/ShowPrice"
 import { TableFundAccounts } from "./_components/TableFundAccounts"
-import { GetAllFundAccounts, getAllIsActiveFundAccounts } from "@/actions/fundAccounts"
 
 export const metadata: Metadata = {
     title: "Dashboard | Fund-Accounts"
 }
 
 const PageFundAccounts = async () => {
-    const data = await GetAllFundAccounts()
     const fundAccountsIsActive = await getAllIsActiveFundAccounts()
 
     return (
@@ -30,7 +29,7 @@ const PageFundAccounts = async () => {
             
             <OverviewCard fundAccountsIsActive={fundAccountsIsActive}  />
 
-            <TableFundAccounts data={data} />
+            <TableFundAccounts/>
         </div>
     )
 }

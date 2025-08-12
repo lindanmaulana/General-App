@@ -32,7 +32,7 @@ export const AppSidebar = () => {
         },
         { 
             title: "Kas & Bank", 
-            url: "/dashboard/fund-accounts", 
+            url: "/dashboard/fund-accounts?page=1&limit=5", 
             icon: Wallet,
         },
         { 
@@ -41,10 +41,22 @@ export const AppSidebar = () => {
             icon: CreditCard,
         },
     ]
-
+    
     const getActiveRoute = (route: string) => {
-        return route === pathname ? "bg-gnrPrimary text-white" : ""
+        const cleanPathname = pathname.split('?')[0]
+        const cleanRoute = route.split('?')[0];
+        
+        const exactMatchRoutes = ["/dashboard"];
+        
+        if (exactMatchRoutes.includes(cleanRoute)) {
+            return cleanPathname === cleanRoute ? "bg-gnrPrimary text-white" : "";
+        }
+        
+        return cleanPathname === cleanRoute || cleanPathname.startsWith(cleanRoute + "/") 
+            ? "bg-gnrPrimary text-white" 
+            : "";
     }
+    
     return (
         <Sidebar>
             <SidebarHeader className="flex flex-row items-center gap-2 p-4 border-b">
