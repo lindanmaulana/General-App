@@ -12,6 +12,8 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useColumnsFundAccounts } from "./useColumnsFundAccounts";
 import { ChangeEvent, useMemo } from "react";
 import {useDebouncedCallback} from "use-debounce"
+import { SkeletonFundAccounts } from "./SkeletonFundAccounts";
+import { ErrorFundAccounts } from "./ErrorFundAccounts";
 
 export const TableFundAccounts = () => {
     const currentParams = useSearchParams()
@@ -43,7 +45,9 @@ export const TableFundAccounts = () => {
         router.replace(`${pathname}?${url.toString()}`)
     }, 1000)
 
-    if(queryFundAccounts.isLoading) return <p>Loading Please wait...</p>
+    if(queryFundAccounts.isLoading) return <SkeletonFundAccounts />
+
+    if(queryFundAccounts.isError) return <ErrorFundAccounts />
 
     const data = queryFundAccounts.data
     const pagination = queryFundAccounts.data.pagination
@@ -86,6 +90,16 @@ export const TableFundAccounts = () => {
         const value = e.target.value
 
         handleDebounceSearch(value)
+    }
+
+    const handleLimit = (limit: string) => {
+        const url = new URLSearchParams(currentParams.toString())
+
+        url.set("limit", limit)
+        url.set("page", "1")
+
+        queryClient.prefetchQuery(queryGetAllFundAccountsOptions(url.toString()))
+        router.replace(`${pathname}?${url.toString()}`)
     }
 
     return (
@@ -137,7 +151,7 @@ export const TableFundAccounts = () => {
                 <div className='w-full flex items-center justify-between'>
                     <Label className='w-full text-gnrGray font-normal'>
                         <span>Menampilkan 1 - {pagination.limit} dari {data.count}</span>
-                        <Select defaultValue={pagination.limit < 5 ? "5" : pagination.limit.toString()}>
+                        <Select onValueChange={(value) => handleLimit(value)} defaultValue={pagination.limit < 5 ? "5" : pagination.limit.toString()}>
                             <SelectTrigger>
                                 <SelectValue placeholder="5" />
                             </SelectTrigger>

@@ -5,6 +5,7 @@ import { FundAccountsService } from "@/lib/services/fundAccounts.service"
 import { FundAccountsCreate, FundAccountsUpdate } from "@/lib/validations/fund-accounts"
 import { revalidatePath } from "next/cache"
 import { ActionResult } from "."
+import { DEFAULT_QUERY_PARAMS, DEFAULT_ROUTE } from "@/lib/constant/default-route"
 
 export const createFundAccounts = async (prevState: unknown, formData: FormData): Promise<ActionResult> => {
     const validatedFields = FundAccountsCreate.safeParse({
@@ -35,7 +36,7 @@ export const createFundAccounts = async (prevState: unknown, formData: FormData)
             }
         }
 
-        revalidatePath("/dashboard/fund-accounts")
+        revalidatePath(`${DEFAULT_ROUTE.fund_accounts}?${DEFAULT_QUERY_PARAMS}`)
         return {
             status: "success"
         }
@@ -93,7 +94,7 @@ export const updateFundAccounts = async (prevState: unknown, formData: FormData,
             }
         }
 
-        revalidatePath("/dashboard/fund-accounts")
+        revalidatePath(`${DEFAULT_ROUTE.fund_accounts}?${DEFAULT_QUERY_PARAMS}`)
         return {
             status: "success"
         }
