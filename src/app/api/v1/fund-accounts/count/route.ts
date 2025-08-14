@@ -4,7 +4,7 @@ import { NextRequest, NextResponse } from 'next/server';
 
 export const GET = async (req: NextRequest) => {
   try {
-    const result = await fundAccountsService.getAll(req);
+    const result = await fundAccountsService.getAllIsActive();
 
     return NextResponse.json(result);
   } catch (err) {

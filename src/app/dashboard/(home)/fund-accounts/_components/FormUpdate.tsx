@@ -1,19 +1,19 @@
 "use client";
 
-import { ActionResult } from "@/actions";
 import { updateFundAccounts } from "@/actions/fundAccounts";
-import { ButtonFormSubmit } from "@/components/ButtonFormSubmit";
+import { ButtonSubmit } from "@/components/ButtonSubmit";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogClose, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { INITIAL_STATE_ACTION } from "@/lib/constant/initial-state";
+import { errorHandler } from "@/lib/helpers/errorHandler";
 import { FundAccounts } from "@/lib/models/fund-accounts";
-import { FundAccountsUpdate, TypeFieldFundAcounts, TypeFundAccountsUpdate } from "@/lib/validations/fund-accounts";
+import { FundAccountsUpdateSchema, TypeFundAccountsUpdateSchema } from "@/lib/validations/fund-accounts";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Pencil } from "lucide-react";
-import { useActionState, useEffect, useState } from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 
@@ -23,38 +23,39 @@ interface FormUpdateProps {
 
 export const FormUpdate = ({data}: FormUpdateProps) => {
     const [isOpen, setIsOpen] = useState<boolean>(false)
+    const queryClient = useQueryClient()
 
-    const updateAction = (_state: ActionResult, formData: FormData) => updateFundAccounts(null, formData, data.id)
-    const [state, formAction] = useActionState(updateAction, INITIAL_STATE_ACTION)
-
-    const form = useForm<TypeFundAccountsUpdate>({
-        resolver: zodResolver(FundAccountsUpdate),
+    const form = useForm<TypeFundAccountsUpdateSchema>({
+        resolver: zodResolver(FundAccountsUpdateSchema),
         defaultValues: {
             name: data.name ?? "",
+            type: data.type ?? "",
             provider_name: data.provider_name ?? "",
             account_number: data.account_number ?? "",
             holder_name: data.holder_name ?? "",
+            is_active: data.is_active ? "1" : "0"
         }
     })
-    
-    useEffect(() => {
-        if(state.status === "error") {
-            if(state.errors) {
-                state.errors.forEach((err) => {
-                    form.setError(err.field as TypeFieldFundAcounts, {message: err.message})
-                })
-            }
 
-            if(state.error) {
-                toast(state.error)
-            }
-        }
+    const mutationUpdate = useMutation({
+        mutationKey: ['updateFundAccounts'],
+        mutationFn: async (req: TypeFundAccountsUpdateSchema) => updateFundAccounts(req, data.id)
+    })
 
-        if(state.status === "success") {
-            form.reset()
-            setIsOpen(false)
-        }
-    }, [state.errors, form, state.status, state.error])
+    const handleForm = form.handleSubmit((value: TypeFundAccountsUpdateSchema) => {
+        mutationUpdate.mutate(value, {
+            onSuccess: () => {
+                setIsOpen(false)
+                toast.success("Akun berhasil di perbarui")
+                queryClient.invalidateQueries({queryKey: ['getAllFundAccounts']})
+            },
+
+            onError: (err) => {
+                const errorMessage = errorHandler(err)
+                toast.error(errorMessage)
+            }
+        })
+    })
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
@@ -65,7 +66,7 @@ export const FormUpdate = ({data}: FormUpdateProps) => {
         </DialogTrigger>
         <DialogContent>
             <Form {...form}>
-                <form action={formAction} className="space-y-4">
+                <form onSubmit={handleForm} className="space-y-4">
                     <DialogHeader>
                         <DialogTitle>Ubah Akun</DialogTitle>
                         <DialogDescription>Ubah akun bank atau kas baru untuk dikelola</DialogDescription>
@@ -92,7 +93,7 @@ export const FormUpdate = ({data}: FormUpdateProps) => {
                                     <FormItem>
                                         <FormLabel>Jenis Akun</FormLabel>
                                         <FormControl>
-                                            <Select {...field} defaultValue={data.type ?? ""}>
+                                            <Select value={field.value} onValueChange={field.onChange}>
                                                 <SelectTrigger className="w-full">
                                                     <SelectValue placeholder="Jenis Akun" />
                                                 </SelectTrigger>
@@ -127,7 +128,7 @@ export const FormUpdate = ({data}: FormUpdateProps) => {
                                     <FormItem>
                                         <FormLabel>Status Akun</FormLabel>
                                         <FormControl>
-                                            <Select {...field} defaultValue={data.is_active ? "1" : "0"}>
+                                            <Select value={field.value} onValueChange={field.onChange}>
                                                 <SelectTrigger className="w-full">
                                                     <SelectValue placeholder="Jenis Akun" />
                                                 </SelectTrigger>
@@ -137,6 +138,7 @@ export const FormUpdate = ({data}: FormUpdateProps) => {
                                                 </SelectContent>
                                             </Select>
                                         </FormControl>
+                                        <FormMessage />
                                     </FormItem>
                                 )}
                             />
@@ -171,7 +173,7 @@ export const FormUpdate = ({data}: FormUpdateProps) => {
                             <DialogClose asChild>
                                 <Button variant={"outline"}>Batal</Button>
                             </DialogClose>
-                            <ButtonFormSubmit type="submit" style="bg-gnrPrimary text-gnrWhite hover:bg-gnrPrimary/70" title="Simpan" />
+                            <ButtonSubmit type="submit" style="bg-gnrPrimary text-gnrWhite hover:bg-gnrPrimary/70" title="Simpan" isLoading={mutationUpdate.isPending} />
                         </div>
                     </div>
                 </form>

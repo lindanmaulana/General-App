@@ -9,11 +9,11 @@ import { queryGetAllFundAccountsOptions } from "@/lib/queries/fund-accounts";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { Search } from 'lucide-react';
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { useColumnsFundAccounts } from "./useColumnsFundAccounts";
 import { ChangeEvent, useMemo } from "react";
-import {useDebouncedCallback} from "use-debounce"
-import { SkeletonFundAccounts } from "./SkeletonFundAccounts";
+import { useDebouncedCallback } from "use-debounce";
 import { ErrorFundAccounts } from "./ErrorFundAccounts";
+import { SkeletonTableFundAccounts } from "./SkeletonTableFundAccounts";
+import { useColumnsFundAccounts } from "./useColumnsFundAccounts";
 
 export const TableFundAccounts = () => {
     const currentParams = useSearchParams()
@@ -45,7 +45,7 @@ export const TableFundAccounts = () => {
         router.replace(`${pathname}?${url.toString()}`)
     }, 1000)
 
-    if(queryFundAccounts.isLoading) return <SkeletonFundAccounts />
+    if(queryFundAccounts.isLoading) return <SkeletonTableFundAccounts />
 
     if(queryFundAccounts.isError) return <ErrorFundAccounts />
 

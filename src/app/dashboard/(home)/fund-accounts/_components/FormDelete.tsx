@@ -4,10 +4,11 @@ import { deleteFundAccounts } from '@/actions/fundAccounts';
 import { ButtonFormSubmit } from '@/components/ButtonFormSubmit';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
-import { INITIAL_STATE_ACTION } from '@/lib/constant/initial-state';
+import { errorHandler } from '@/lib/helpers/errorHandler';
 import { FundAccounts } from '@/lib/models/fund-accounts';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { Trash } from 'lucide-react';
-import { useActionState, useEffect, useState } from 'react';
+import { useState } from 'react';
 import { toast } from 'sonner';
 
 interface FormDeleteProps {
@@ -16,22 +17,27 @@ interface FormDeleteProps {
 
 export const FormDelete = ({data}: FormDeleteProps) => {
     const [isOpen, setIsOpen] = useState<boolean>(false)
-    const deleteAction = deleteFundAccounts.bind(null, data.id)
+    const queryClient = useQueryClient()
 
-    const [state, formAction] = useActionState(deleteAction, INITIAL_STATE_ACTION)
+    const mutationDelete = useMutation({
+        mutationKey: ['deleteFundAccounts'],
+        mutationFn: (id: string) => deleteFundAccounts(id)
+    })
 
-    useEffect(() => {
-        if(state.status === "error") {
-            if(state.error) {
-                toast(state.error)
+    const handleForm = () => {
+        mutationDelete.mutate(data.id, {
+            onSuccess: () => {
+                toast.success("Akun berhasil di hapus")
+                queryClient.invalidateQueries({queryKey: ['getAllFundAccounts']})
+            },
+
+            onError: (err) => {
+                const errorMessage = errorHandler(err)
+                toast.error(errorMessage)
             }
-        }
-
-        if(state.status === "success") {
-            toast(state.message ?? "Berhasil di hapus")
-            setIsOpen(false)
-        }
-    }, [state.error, state.message, state.status])
+        })
+    }
+    
   return (
        <Dialog open={isOpen} onOpenChange={setIsOpen}>
         <DialogTrigger asChild>
@@ -40,7 +46,7 @@ export const FormDelete = ({data}: FormDeleteProps) => {
             </Button>
         </DialogTrigger>
         <DialogContent>
-                <form action={formAction} className="space-y-4">
+                <form onSubmit={handleForm} className="space-y-4">
                     <DialogHeader>
                         <DialogTitle>Hapus Akun</DialogTitle>
                         <DialogDescription>Apakah Anda yakin ingin menghapus akun <span className='font-bold text-gnrDark'>{data.name}</span>? Tindakan ini tidak dapat dibatalkan dan semua data terkait akan hilang.</DialogDescription>

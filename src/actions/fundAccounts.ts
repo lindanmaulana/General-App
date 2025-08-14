@@ -1,136 +1,70 @@
-"use server"
+'use server';
 
-import { errorHandler } from "@/lib/helpers/errorHandler"
-import { FundAccountsService } from "@/lib/services/fundAccounts.service"
-import { FundAccountsCreate, FundAccountsUpdate } from "@/lib/validations/fund-accounts"
-import { revalidatePath } from "next/cache"
-import { ActionResult } from "."
-import { DEFAULT_QUERY_PARAMS, DEFAULT_ROUTE } from "@/lib/constant/default-route"
+import { errorHandler } from '@/lib/helpers/errorHandler';
+import { FundAccounts } from '@/lib/models/fund-accounts';
+import { fundAccountsService } from '@/lib/services/fund-accounts.service';
+import { FundAccountsCreateSchema, FundAccountsUpdateSchema, TypeFundAccountsCreateSchema, TypeFundAccountsUpdateSchema } from '@/lib/validations/fund-accounts';
 
-export const createFundAccounts = async (prevState: unknown, formData: FormData): Promise<ActionResult> => {
-    const validatedFields = FundAccountsCreate.safeParse({
-        name: formData.get("name"),
-        provider_name: formData.get("provider_name"),
-        type: formData.get("type"),
-        account_number: formData.get("account_number"),
-        holder_name: formData.get("holder_name")
-    })
+export const createFundAccounts = async (req: TypeFundAccountsCreateSchema): Promise<FundAccounts> => {
+  const validatedFields = FundAccountsCreateSchema.safeParse(req);
 
-    if(!validatedFields.success) {
-        const errorDesc = validatedFields.error.issues.map((issue) => ({field: issue.path.join("."), message: issue.message}))
+  if (!validatedFields.success) throw new Error('Validation Invalid');
 
-        return {
-            status: "error",
-            error: "Validated error",
-            errors: errorDesc
-        }
-    }
+  const is_active = validatedFields.data.is_active === '1' ? true : false;
 
+  try {
+    const result = await fundAccountsService.create({ ...validatedFields.data, is_active });
+
+    return result.data;
+  } catch (err) {
+    const errorMessage = errorHandler(err);
+
+    throw new Error(errorMessage);
+  }
+};
+
+export const updateFundAccounts = async (req: TypeFundAccountsUpdateSchema, id: string): Promise<FundAccounts> => {
+  const validatedFields = FundAccountsUpdateSchema.safeParse(req);
+
+  if (validatedFields.error) throw new Error('Validation invalid');
+
+  const is_active = validatedFields.data.is_active === '1' ? true : false;
+
+  try {
+    const result = await fundAccountsService.update({ ...validatedFields.data, is_active }, id);
+
+    return result.data;
+  } catch (err) {
+    const errorMessage = errorHandler(err);
+
+    throw new Error(errorMessage);
+  }
+};
+
+export const deleteFundAccounts = async (id: string): Promise<FundAccounts> => {
     try {
-        const result = await FundAccountsService.create(validatedFields.data)
-        
-        if(!result.data) {
-            return {
-                status: "error",
-                error: result.error ?? ""
-            }
-        }
+        const result = await fundAccountsService.delete(id)
 
-        revalidatePath(`${DEFAULT_ROUTE.fund_accounts}?${DEFAULT_QUERY_PARAMS}`)
-        return {
-            status: "success"
-        }
+        return result.data
     } catch (err) {
         const errorMessage = errorHandler(err)
-        
-        return {
-            status: "error",
-            error: errorMessage
-        }
+        throw new Error(errorMessage)
     }
 }
 
-export const getAllIsActiveFundAccounts = async (): Promise<number> => {
-    try {
-        const result = await FundAccountsService.getAllIsActive()
 
-        return result
-    } catch (err) {
-        const errorMessage = errorHandler(err)
-        console.log({errorMessage})
+//   id varchar [primary key]
+//   code varchar [unique]
+//   name varchar
+//   description text
+//   date date
+//   status status_event [default: "SCHEDULED"]
+//   budget decimal [default: 0]
+//   is_public boolean [default: false]
+//   created_at timestamp
+//   updated_at timestamp
 
-        return 0
-    }
-}
-
-const updateSchema = FundAccountsUpdate.partial()
-export const updateFundAccounts = async (prevState: unknown, formData: FormData, id: string): Promise<ActionResult> => {
-    const validatedFields = updateSchema.safeParse({
-        name: formData.get("name"),
-        provider_name: formData.get("provider_name"),
-        type: formData.get("type"),
-        account_number: formData.get("account_number"),
-        holder_name: formData.get("holder_name"),
-        is_active: formData.get("is_active")
-    })
-
-    if(!validatedFields.success) {
-        const errorDesc = validatedFields.error.issues.map((issue) => ({field: issue.path.join("."), message: issue.message}))
-
-        return {
-            status: "error",
-            error: "Error validation!",
-            errors: errorDesc
-        }
-    }
-
-    try {
-        const result = await FundAccountsService.update(validatedFields.data, id)
-
-        if(!result.data) {
-            return {
-                status: "error",
-                error: result.error ?? ""
-            }
-        }
-
-        revalidatePath(`${DEFAULT_ROUTE.fund_accounts}?${DEFAULT_QUERY_PARAMS}`)
-        return {
-            status: "success"
-        }
-    } catch (err) {
-        const errorMessage = errorHandler(err)
-
-        return {
-            status: "error",
-            error: errorMessage
-        }
-    }
-}
-
-export const deleteFundAccounts = async (id: string): Promise<ActionResult> => {
-    try {
-        const result = await FundAccountsService.delete(id)
-
-        if(!result.data) {
-            return {
-                status: "error",
-                error: result.error ?? ""
-            }
-        }
-
-        revalidatePath("/dashboard/fund-accounts")
-
-        return {
-            status: "success",
-            message: "Akun berhasil di hapus"
-        }
-    } catch (err) {
-        const errorMessage = errorHandler(err)
-
-        return {
-            status: "error",
-            error: errorMessage
-        }
-    }
-}
+//   SCHEDULED
+//   RUNNING
+//   COMPLETED
+//   CANCELLED

@@ -1,5 +1,4 @@
 
-import { getAllIsActiveFundAccounts } from "@/actions/fundAccounts"
 import { Metadata } from "next"
 import { FormCreate } from "./_components/FormCreate"
 import { OverviewCard } from "./_components/OverviewCard"
@@ -11,7 +10,6 @@ export const metadata: Metadata = {
 }
 
 const PageFundAccounts = async () => {
-    const fundAccountsIsActive = await getAllIsActiveFundAccounts()
 
     return (
         <div className="space-y-5">
@@ -27,7 +25,7 @@ const PageFundAccounts = async () => {
                 </div>
             </div>
             
-            <OverviewCard fundAccountsIsActive={fundAccountsIsActive}  />
+            <OverviewCard />
 
             <TableFundAccounts/>
         </div>

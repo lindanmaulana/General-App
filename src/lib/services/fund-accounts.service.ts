@@ -1,21 +1,41 @@
 import { NextRequest } from "next/server";
-import { FundAccountsCreateRequest, FundAccountsUpdateRequest } from "../models/fund-accounts";
-import supabase from "../supabase";
 import { DEFAULT_LIMIT, DEFAULT_PAGE, MAXIMUM_LIMIT } from "../constant/pagination";
+import { fundAccountsCreateRequest, fundAccountsUpdateRequest } from "../models/fund-accounts";
+import supabase from "../supabase";
 
-export class FundAccountsService {
+export class fundAccountsService {
     static table = "fund_accounts"
 
-    static async create(req: FundAccountsCreateRequest) {
+    static async create(req: fundAccountsCreateRequest) {
         const result = await supabase.from(this.table).insert(req).select()
 
         if(!result.data) throw new Error("Tambah akun gagal!")
 
-        return result
+        return result.data[0]
+    }
+
+    static async update(req: fundAccountsUpdateRequest, id: string) {
+        const checkFundAccount = await this.checkingFundAccount(id)
+
+        const result = await supabase.from(this.table).update(req).eq("id", checkFundAccount.data.id).select()
+
+        if(!result.data) throw new Error(result.error.message)
+        
+        return result.data[0]
+    }
+
+    static async delete(id: string) {
+        const checkFundAccount = await this.checkingFundAccount(id)
+
+        const result = await supabase.from(this.table).delete().eq("id", checkFundAccount.data.id).select()
+
+        if(!result.data) throw new Error("Delete akun gagal!")
+
+        return result.data[0]
     }
 
     static async getAll(req: NextRequest) {
-        const query = supabase.from(this.table).select("*", {count: "exact"}).limit(5)
+        const query = supabase.from(this.table).select("*", {count: "exact"}).order("created_at", {ascending: false}).limit(5)
 
         let limit: number = DEFAULT_LIMIT
         let page: number = DEFAULT_PAGE
@@ -100,26 +120,6 @@ export class FundAccountsService {
         const result = (await supabase.from(this.table).select("*", {"count": "exact", head: true}).eq("is_active", true)).count
 
         if(!result) throw new Error("Gagal mengambil jumlah akun aktif!")
-
-        return result
-    }
-
-    static async update(req: FundAccountsUpdateRequest, id: string) {
-        const checkFundAccount = await this.checkingFundAccount(id)
-
-        const result = await supabase.from(this.table).update({...req, is_active: req.is_active === "1"}).eq("id", checkFundAccount.data.id).select()
-
-        if(!result.data) throw new Error(result.error.message)
-        
-        return result
-    }
-
-    static async delete(id: string) {
-        const checkFundAccount = await this.checkingFundAccount(id)
-
-        const result = await supabase.from(this.table).delete().eq("id", checkFundAccount.data.id).select()
-
-        if(!result.data) throw new Error("Delete akun gagal!")
 
         return result
     }

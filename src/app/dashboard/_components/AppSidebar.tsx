@@ -1,7 +1,8 @@
 "use client"
 
 import { Sidebar, SidebarContent, SidebarFooter, SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from "@/components/ui/sidebar"
-import { CreditCard, LayoutDashboard, LogOutIcon, TrendingDown, TrendingUp, Wallet, type LucideIcon } from "lucide-react"
+import { DEFAULT_QUERY_PARAMS, DEFAULT_ROUTE } from "@/lib/constant/default-route"
+import { Calendar, CreditCard, LayoutDashboard, LogOutIcon, TrendingDown, TrendingUp, Wallet, type LucideIcon } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
@@ -32,8 +33,13 @@ export const AppSidebar = () => {
         },
         { 
             title: "Kas & Bank", 
-            url: "/dashboard/fund-accounts?page=1&limit=5", 
+            url: `${DEFAULT_ROUTE.fund_accounts}?${DEFAULT_QUERY_PARAMS}`,
             icon: Wallet,
+        },
+        { 
+            title: "Events", 
+            url: `${DEFAULT_ROUTE.events}?${DEFAULT_QUERY_PARAMS}`, 
+            icon: Calendar,
         },
         { 
             title: "Kartu Kredit", 

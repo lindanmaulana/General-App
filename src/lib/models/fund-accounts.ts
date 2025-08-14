@@ -10,21 +10,22 @@ export interface FundAccounts {
   updated_at: Date;
 }
 
-export interface FundAccountsCreateRequest {
+export interface fundAccountsCreateRequest {
   name: string;
   provider_name?: string;
   type: string;
   account_number?: string;
   holder_name: string;
+  is_active: boolean;
 }
 
-export interface FundAccountsUpdateRequest {
-  name?: string;
+export interface fundAccountsUpdateRequest {
+  name: string;
   provider_name?: string;
-  type?: string;
+  type: string;
   account_number?: string;
-  holder_name?: string;
-  is_active?: string;
+  holder_name: string;
+  is_active: boolean;
 }
 
 export interface FundAccountsGetAllResponse {

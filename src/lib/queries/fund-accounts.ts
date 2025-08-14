@@ -1,5 +1,5 @@
 import { queryOptions } from "@tanstack/react-query"
-import { ApiFundAccountsGetAll } from "../api/fund-accounts"
+import { ApiFundAccountsGetAll, ApiFundAccountsGetAllIsActive } from "../api/fund-accounts"
 
 export const queryGetAllFundAccountsOptions = (params: string) => {
     return queryOptions({
@@ -7,5 +7,14 @@ export const queryGetAllFundAccountsOptions = (params: string) => {
         queryFn: async () =>  ApiFundAccountsGetAll({params}),
         staleTime: 5 * 1000,
         gcTime: 5 * 60 * 1000
+    })
+}
+
+export const queryGetAllFundAccountsIsActiveOptions = () => {
+    return queryOptions({
+        queryKey: ['getAllFundAccountsIsActive'],
+        queryFn: async () => ApiFundAccountsGetAllIsActive(),
+        staleTime: 5 * 1000,
+        gcTime: 5 * 60 & 1000
     })
 }

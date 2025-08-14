@@ -1,53 +1,57 @@
 "use client";
 
 import { createFundAccounts } from "@/actions/fundAccounts";
-import { ButtonFormSubmit } from "@/components/ButtonFormSubmit";
+import { ButtonSubmit } from "@/components/ButtonSubmit";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogClose, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { INITIAL_STATE_ACTION } from "@/lib/constant/initial-state";
-import { FundAccountsCreate, TypeFieldFundAcounts, TypeFundAccountsCreate } from "@/lib/validations/fund-accounts";
+import { errorHandler } from "@/lib/helpers/errorHandler";
+import { FundAccountsCreateSchema, TypeFundAccountsCreateSchema } from "@/lib/validations/fund-accounts";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Plus } from "lucide-react";
-import { useActionState, useEffect, useState } from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 
 export const FormCreate = () => {
     const [isOpen, setIsOpen] = useState<boolean>(false)
+    const queryClient = useQueryClient()
     
-    const form = useForm<TypeFundAccountsCreate>({
-        resolver: zodResolver(FundAccountsCreate),
+    const form = useForm<TypeFundAccountsCreateSchema>({
+        resolver: zodResolver(FundAccountsCreateSchema),
         defaultValues: {
             name: "",
+            type: "",
             provider_name: "",
             account_number: "",
-            holder_name: ""
+            holder_name: "",
+            is_active: "0"
         }
     })
 
-    const [state, formAction] = useActionState(createFundAccounts, INITIAL_STATE_ACTION)
+    const mutationCreate = useMutation({
+        mutationKey: ['createFundAccounts'],
+        mutationFn: (req: TypeFundAccountsCreateSchema) => createFundAccounts(req)
+    })
 
-    useEffect(() => {
-        if(state.status === "error") {
-            if(state.errors) {
-                state.errors.forEach((err) => {
-                    form.setError(err.field as TypeFieldFundAcounts, {message: err.message})
-                })
+    const handleForm = form.handleSubmit((value: TypeFundAccountsCreateSchema) => {
+        mutationCreate.mutate(value, {
+            onSuccess: () => {
+                setIsOpen(false)
+                toast.success("Akun berhasil di buat")
+                form.reset()
+                queryClient.invalidateQueries({queryKey: ['getAllFundAccounts']})
+            },
+
+            onError: (err) => {
+                const errorMessage = errorHandler(err)
+                toast.error(errorMessage)
             }
-
-            if(state.error) {
-                toast(state.error)
-            }
-        }
-
-        if(state.status === "success") {
-            form.reset()
-            setIsOpen(false)
-        }
-    }, [state.errors, form, state.status, state.error])
+        })
+    })
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
@@ -59,7 +63,7 @@ export const FormCreate = () => {
         </DialogTrigger>
         <DialogContent>
             <Form {...form}>
-                <form action={formAction} className="space-y-4">
+                <form onSubmit={handleForm} className="space-y-4">
                     <DialogHeader>
                         <DialogTitle>Tambah Akun Baru</DialogTitle>
                         <DialogDescription>Tambahkan akun bank atau kas baru untuk dikelola</DialogDescription>
@@ -86,7 +90,7 @@ export const FormCreate = () => {
                                     <FormItem>
                                         <FormLabel>Jenis Akun</FormLabel>
                                         <FormControl>
-                                            <Select {...field}>
+                                            <Select value={field.value} onValueChange={field.onChange}>
                                                 <SelectTrigger className="w-full">
                                                     <SelectValue placeholder="Jenis Akun" />
                                                 </SelectTrigger>
@@ -109,6 +113,27 @@ export const FormCreate = () => {
                                         <FormLabel>Nama Pemilik Akun</FormLabel>
                                         <FormControl>
                                             <Input {...field} type="text" placeholder="Contoh Jhon doe" />
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+                            <FormField
+                                control={form.control}
+                                name="is_active"
+                                render={({field}) => (
+                                    <FormItem>
+                                        <FormLabel>Status Akun</FormLabel>
+                                        <FormControl>
+                                            <Select value={field.value} onValueChange={field.onChange}>
+                                                <SelectTrigger className="w-full">
+                                                    <SelectValue placeholder="Status Akun" />
+                                                </SelectTrigger>
+                                                <SelectContent>
+                                                    <SelectItem value="1">AKTIF</SelectItem>
+                                                    <SelectItem value="0">NON AKTIF</SelectItem>
+                                                </SelectContent>
+                                            </Select>
                                         </FormControl>
                                         <FormMessage />
                                     </FormItem>
@@ -145,7 +170,7 @@ export const FormCreate = () => {
                             <DialogClose asChild>
                                 <Button variant={"outline"}>Batal</Button>
                             </DialogClose>
-                            <ButtonFormSubmit type="submit" style="bg-gnrPrimary text-gnrWhite hover:bg-gnrPrimary/70" title="Simpan" />
+                            <ButtonSubmit type="submit" style="bg-gnrPrimary text-gnrWhite hover:bg-gnrPrimary/70" title="Simpan" isLoading={mutationCreate.isPending} />
                         </div>
                     </div>
                 </form>
