@@ -1,6 +1,8 @@
 'use client';
 import { Card, CardContent } from '@/components/ui/card';
+import { queryGetCountEventsOptions, queryGetCountIsPublicEventsOptions, queryGetTotalBudgetEventsOptions } from '@/lib/queries/events';
 import { useShow } from '@/lib/zustand/useShow';
+import { useQuery } from '@tanstack/react-query';
 import { Calendar, DollarSign } from 'lucide-react';
 
 interface OverviewCardProps {
@@ -8,7 +10,16 @@ interface OverviewCardProps {
 }
 
 export const OverviewCard = () => {
+  const queryEventsCount = useQuery(queryGetCountEventsOptions())
+  const queryEventsIsPublicCount = useQuery(queryGetCountIsPublicEventsOptions())
+  const queryEventsTotalBudget = useQuery(queryGetTotalBudgetEventsOptions())
+
   const isShow = useShow((state) => state.isShow);
+  
+  if(queryEventsIsPublicCount.isLoading || queryEventsCount.isLoading || queryEventsTotalBudget.isLoading) return <p>Loading....</p>
+  if(queryEventsIsPublicCount.isError || queryEventsCount.isError || queryEventsTotalBudget.isError) return <p>Error... {queryEventsTotalBudget.error?.message}</p>
+
+
   return (
     <div className="grid grid-cols-3 gap-3">
       <Card className="w-full">
@@ -18,8 +29,8 @@ export const OverviewCard = () => {
             <Calendar className="size-4 text-gnrDark" />
           </div>
           <div className="t">
-            <strong className="text-2xl text-gnrDark">2</strong>
-            <span className="block text-xs text-gnrGray">1 event aktif</span>
+            <strong className="text-2xl text-gnrDark">{queryEventsCount.data}</strong>
+            <span className="block text-xs text-gnrGray">Total event aktif</span>
           </div>
         </CardContent>
       </Card>
@@ -44,7 +55,7 @@ export const OverviewCard = () => {
             <Calendar className="size-4 text-gnrDark" />
           </div>
           <div className="t">
-            <strong className="text-2xl text-gnrDark">1</strong>
+            <strong className="text-2xl text-gnrDark">{queryEventsIsPublicCount.data}</strong>
             <span className="block text-xs text-gnrGray">Dari 2 total event</span>
           </div>
         </CardContent>

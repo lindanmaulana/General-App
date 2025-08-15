@@ -3,10 +3,10 @@
 import { errorHandler } from '@/lib/helpers/errorHandler';
 import { FundAccounts } from '@/lib/models/fund-accounts';
 import { fundAccountsService } from '@/lib/services/fund-accounts.service';
-import { FundAccountsCreateSchema, FundAccountsUpdateSchema, TypeFundAccountsCreateSchema, TypeFundAccountsUpdateSchema } from '@/lib/validations/fund-accounts';
+import { fundAccountsCreateSchema, fundAccountsUpdateSchema, TypeFundAccountsCreateSchema, TypeFundAccountsUpdateSchema } from '@/lib/validations/fund-accounts';
 
 export const createFundAccounts = async (req: TypeFundAccountsCreateSchema): Promise<FundAccounts> => {
-  const validatedFields = FundAccountsCreateSchema.safeParse(req);
+  const validatedFields = fundAccountsCreateSchema.safeParse(req);
 
   if (!validatedFields.success) throw new Error('Validation Invalid');
 
@@ -15,7 +15,7 @@ export const createFundAccounts = async (req: TypeFundAccountsCreateSchema): Pro
   try {
     const result = await fundAccountsService.create({ ...validatedFields.data, is_active });
 
-    return result.data;
+    return result;
   } catch (err) {
     const errorMessage = errorHandler(err);
 
@@ -24,7 +24,7 @@ export const createFundAccounts = async (req: TypeFundAccountsCreateSchema): Pro
 };
 
 export const updateFundAccounts = async (req: TypeFundAccountsUpdateSchema, id: string): Promise<FundAccounts> => {
-  const validatedFields = FundAccountsUpdateSchema.safeParse(req);
+  const validatedFields = fundAccountsUpdateSchema.safeParse(req);
 
   if (validatedFields.error) throw new Error('Validation invalid');
 

@@ -9,7 +9,7 @@ import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { errorHandler } from "@/lib/helpers/errorHandler";
 import { FundAccounts } from "@/lib/models/fund-accounts";
-import { FundAccountsUpdateSchema, TypeFundAccountsUpdateSchema } from "@/lib/validations/fund-accounts";
+import { fundAccountsUpdateSchema, TypeFundAccountsUpdateSchema } from "@/lib/validations/fund-accounts";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Pencil } from "lucide-react";
@@ -26,7 +26,7 @@ export const FormUpdate = ({data}: FormUpdateProps) => {
     const queryClient = useQueryClient()
 
     const form = useForm<TypeFundAccountsUpdateSchema>({
-        resolver: zodResolver(FundAccountsUpdateSchema),
+        resolver: zodResolver(fundAccountsUpdateSchema),
         defaultValues: {
             name: data.name ?? "",
             type: data.type ?? "",

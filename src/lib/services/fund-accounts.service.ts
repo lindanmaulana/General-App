@@ -2,6 +2,8 @@ import { NextRequest } from "next/server";
 import { DEFAULT_LIMIT, DEFAULT_PAGE, MAXIMUM_LIMIT } from "../constant/pagination";
 import { fundAccountsCreateRequest, fundAccountsUpdateRequest } from "../models/fund-accounts";
 import supabase from "../supabase";
+import { errorApiCustom } from "../helpers/errorApiCustom";
+import { RESPONSE_MESSAGE } from "../constant/response-message";
 
 export class fundAccountsService {
     static table = "fund_accounts"
@@ -9,7 +11,7 @@ export class fundAccountsService {
     static async create(req: fundAccountsCreateRequest) {
         const result = await supabase.from(this.table).insert(req).select()
 
-        if(!result.data) throw new Error("Tambah akun gagal!")
+        if(result.error) throw new errorApiCustom(`${RESPONSE_MESSAGE.error.create} akun`, result.status)
 
         return result.data[0]
     }
@@ -19,7 +21,7 @@ export class fundAccountsService {
 
         const result = await supabase.from(this.table).update(req).eq("id", checkFundAccount.data.id).select()
 
-        if(!result.data) throw new Error(result.error.message)
+        if(result.error) throw new errorApiCustom(`${RESPONSE_MESSAGE.error.update} akun`, result.status)
         
         return result.data[0]
     }
@@ -29,7 +31,7 @@ export class fundAccountsService {
 
         const result = await supabase.from(this.table).delete().eq("id", checkFundAccount.data.id).select()
 
-        if(!result.data) throw new Error("Delete akun gagal!")
+        if(result.error) throw new errorApiCustom(`${RESPONSE_MESSAGE.error.delete} akun`, result.status)
 
         return result.data[0]
     }
@@ -117,17 +119,17 @@ export class fundAccountsService {
     }
 
     static async getAllIsActive() {
-        const result = (await supabase.from(this.table).select("*", {"count": "exact", head: true}).eq("is_active", true)).count
+        const result = (await supabase.from(this.table).select("*", {"count": "exact", head: true}).eq("is_active", true))
 
-        if(!result) throw new Error("Gagal mengambil jumlah akun aktif!")
+        if(result.error) throw new errorApiCustom(`${RESPONSE_MESSAGE.error.read} akun aktif`, result.status)
 
-        return result
+        return result.count
     }
 
     static async checkingFundAccount(id: string) {
         const result = await supabase.from(this.table).select("*").eq("id", id).select().single()
 
-        if(!result.data) throw new Error("FundAccount not found!")
+        if(result.error) throw new errorApiCustom(`${RESPONSE_MESSAGE.error.read} akun`, result.status)
 
         return result
     }

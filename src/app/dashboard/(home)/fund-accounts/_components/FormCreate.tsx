@@ -8,7 +8,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { errorHandler } from "@/lib/helpers/errorHandler";
-import { FundAccountsCreateSchema, TypeFundAccountsCreateSchema } from "@/lib/validations/fund-accounts";
+import { fundAccountsCreateSchema, TypeFundAccountsCreateSchema } from "@/lib/validations/fund-accounts";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Plus } from "lucide-react";
@@ -21,7 +21,7 @@ export const FormCreate = () => {
     const queryClient = useQueryClient()
     
     const form = useForm<TypeFundAccountsCreateSchema>({
-        resolver: zodResolver(FundAccountsCreateSchema),
+        resolver: zodResolver(fundAccountsCreateSchema),
         defaultValues: {
             name: "",
             type: "",

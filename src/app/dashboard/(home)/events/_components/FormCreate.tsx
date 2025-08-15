@@ -9,17 +9,18 @@ import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Switch } from "@/components/ui/switch"
 import { Textarea } from "@/components/ui/textarea"
-import { INITIAL_STATE_ACTION } from "@/lib/constant/initial-state"
-import { eventsCreateSchema, TypeEventsCreateSchema, TypeFieldEvents } from "@/lib/validations/events"
+import { errorHandler } from "@/lib/helpers/errorHandler"
+import { eventsCreateSchema, TypeEventsCreateSchema } from "@/lib/validations/events"
 import { zodResolver } from "@hookform/resolvers/zod"
+import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { Plus } from "lucide-react"
-import { useActionState, useEffect, useState } from "react"
+import { useState } from "react"
 import { useForm } from "react-hook-form"
 import { toast } from "sonner"
 
 export const FormCreate = () => {
     const [isOpen, setIsOpen] = useState<boolean>(false)
-    const [state, formAction] = useActionState(createEvents, INITIAL_STATE_ACTION)
+    const queryClient = useQueryClient()
 
     const form = useForm<TypeEventsCreateSchema>({
         resolver: zodResolver(eventsCreateSchema),
@@ -34,24 +35,26 @@ export const FormCreate = () => {
         }
     })
 
-    useEffect(() => {
-        if(state.status === "error") {
-            if(state.errors) {
-                state.errors.forEach((err) => {
-                    form.setError(err.field as TypeFieldEvents, {message: err.message})
-                })
+    const mutationCreate = useMutation({
+        mutationKey: ['createEvents'],
+        mutationFn: (req: TypeEventsCreateSchema) => createEvents(req)
+    })
 
-                if(state.error) {
-                    toast(state.error)
-                }
+    const handleForm = form.handleSubmit((value: TypeEventsCreateSchema) => {
+        mutationCreate.mutate(value, {
+            onSuccess: () => {
+                setIsOpen(false)
+                toast.success("Event berhasil di buat")
+                // queryClient.invalidateQueries({queryKey: ['']})
+                form.reset()
+            },
+
+            onError: (err) => {
+                const errorMessage = errorHandler(err)
+                toast.error(errorMessage)
             }
-        }
-
-        if(state.status === "success") {
-            setIsOpen(false)
-        }
-
-    }, [form, state.status, state.error, state.errors])
+        })
+    })
 
 
     return (
@@ -64,7 +67,7 @@ export const FormCreate = () => {
             </DialogTrigger>
             <DialogContent>
                 <Form {...form}>
-                    <form action={formAction} className="space-y-4">
+                    <form onSubmit={handleForm} className="space-y-4">
                     <DialogHeader>
                         <DialogTitle>Tambah Event Baru</DialogTitle>
                         <DialogDescription>Buat event baru dengan mengisi form di bawah ini.</DialogDescription>

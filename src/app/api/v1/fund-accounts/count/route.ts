@@ -1,4 +1,4 @@
-import { errorHandler } from '@/lib/helpers/errorHandler';
+import { errorApiCatch } from '@/lib/helpers/errorApiCatch';
 import { fundAccountsService } from '@/lib/services/fund-accounts.service';
 import { NextRequest, NextResponse } from 'next/server';
 
@@ -8,13 +8,8 @@ export const GET = async (req: NextRequest) => {
 
     return NextResponse.json(result);
   } catch (err) {
-    const errorMessage = errorHandler(err);
+    const error = errorApiCatch(err)
 
-    return NextResponse.json(
-      {
-        error: errorMessage,
-      },
-      { status: 404 }
-    );
+    return NextResponse.json({error: error.message}, {status: error.statusCode})
   }
 };

@@ -1,5 +1,6 @@
 import { AxiosError } from "axios"
 import { AuthError } from "next-auth"
+import { ZodError } from "zod"
 
 export const errorHandler = (err: unknown): string => {
     let errorMessage = "An unexpected error occurred!."
@@ -9,7 +10,7 @@ export const errorHandler = (err: unknown): string => {
     }
 
     if(err instanceof AxiosError) {
-        errorMessage = err.response?.data.message || "API error occurred!."
+        errorMessage = err.response?.data.error || "API error occurred!."
     }
 
     if(err instanceof AuthError) {
@@ -20,6 +21,10 @@ export const errorHandler = (err: unknown): string => {
             default: 
                 errorMessage = "Authentication failed, Please try again."
         }
+    }
+
+    if(err instanceof ZodError) {
+        errorMessage = err.message
     }
 
     return errorMessage
