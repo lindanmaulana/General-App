@@ -1,0 +1,28 @@
+-- SQL Editor di Supabase
+CREATE OR REPLACE FUNCTION get_total_cash()
+RETURNS decimal AS $$
+BEGIN
+  RETURN (
+    SELECT COALESCE(SUM(i.amount), 0) FROM incomes i
+    JOIN fund_accounts fa ON i.fund_account_id = fa.id
+    WHERE fa.type = 'CASH'
+  ) - (
+    SELECT COALESCE(SUM(e.amount), 0) FROM expenses e
+    JOIN fund_accounts fa ON e.fund_account_id = fa.id
+    WHERE fa.type = 'CASH'
+  );
+END;
+$$ LANGUAGE plpgsql;
+
+
+-- SQL Editor di Supabase
+CREATE OR REPLACE FUNCTION get_total_balance()
+RETURNS decimal AS $$
+BEGIN
+  RETURN (
+    SELECT COALESCE(SUM(amount), 0) FROM incomes
+  ) - (
+    SELECT COALESCE(SUM(amount), 0) FROM expenses
+  );
+END;
+$$ LANGUAGE plpgsql;

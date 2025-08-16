@@ -1,18 +1,28 @@
 'use client';
 import { Card, CardContent } from '@/components/ui/card';
-import { queryGetAllFundAccountsIsActiveOptions } from '@/lib/queries/fund-accounts';
+import { queryGetCountActiveFundAccountsOptions, queryGetCountActiveNonCashFundAccountsOptions, queryGetTotalBalanceFundAccountsOptions, queryGetTotalCashFundAccountsOptions } from '@/lib/queries/fund-accounts';
 import { useShow } from '@/lib/zustand/useShow';
 import { useQuery } from '@tanstack/react-query';
 import { CreditCard, Wallet } from 'lucide-react';
+import { TypeActive, TypeActiveNonCash, TypeTotalBalance, TypeTotalCash } from '../types';
 import { SkeletonOverviewCard } from './SkeletonOverviewCard';
+import { ErrorOverview } from './ErrorOverview';
 
 export const OverviewCard = () => {
-  const queryFundAccountsIsActive = useQuery(queryGetAllFundAccountsIsActiveOptions())
   const isShow = useShow((state) => state.isShow);
 
-  if(queryFundAccountsIsActive.isLoading) return <SkeletonOverviewCard />
+  const queryCountActive: TypeActive = useQuery(queryGetCountActiveFundAccountsOptions())
+  const queryTotalBalance: TypeTotalBalance = useQuery(queryGetTotalBalanceFundAccountsOptions())
+  const queryTotalCash: TypeTotalCash = useQuery(queryGetTotalCashFundAccountsOptions())
+  const queryCountActiveNonCash: TypeActiveNonCash = useQuery(queryGetCountActiveNonCashFundAccountsOptions())
 
-  if(queryFundAccountsIsActive.isError) return <p>Error...</p>
+  if(queryCountActive.isLoading || queryTotalBalance.isLoading || queryTotalCash.isLoading || queryCountActiveNonCash.isLoading) return <SkeletonOverviewCard />
+
+  if(queryCountActive.isError || queryTotalBalance.isError || queryTotalCash.isError || queryCountActiveNonCash.isError) return <ErrorOverview />
+
+  const totalBalance: number = queryTotalBalance.data ?? 0
+  const totalCash: number = queryTotalCash.data ?? 0
+  const countActiveNonCash: number = queryCountActiveNonCash.data ?? 0
 
   return (
     <div className="grid grid-cols-3 gap-3">
@@ -23,8 +33,8 @@ export const OverviewCard = () => {
             <Wallet className="size-4 text-gnrPrimary" />
           </div>
           <div className="t">
-            <strong className="text-2xl text-gnrPrimary">{isShow ? 'Rp 19.000.000' : '........'}</strong>
-            <span className="block text-xs text-gnrGray">Dari 5 akun yang aktif</span>
+            <strong className="text-2xl text-gnrPrimary">{isShow ? totalBalance : '........'}</strong>
+            <span className="block text-xs text-gnrGray">Dari {countActiveNonCash} akun yang aktif (non cash)</span>
           </div>
         </CardContent>
       </Card>
@@ -32,12 +42,12 @@ export const OverviewCard = () => {
       <Card className="w-full">
         <CardContent className="space-y-2">
           <div className="flex items-center justify-between">
-            <h4 className="text-gnrDark font-semibold">Akun Bank</h4>
+            <h4 className="text-gnrDark font-semibold">Akun</h4>
             <CreditCard className="size-4 text-gnrDark" />
           </div>
           <div className="t">
-            <strong className="text-2xl text-gnrDark">{queryFundAccountsIsActive.data}</strong>
-            <span className="block text-xs text-gnrGray">akun bank aktif</span>
+            <strong className="text-2xl text-gnrDark">{queryCountActive.data}</strong>
+            <span className="block text-xs text-gnrGray">akun aktif</span>
           </div>
         </CardContent>
       </Card>
@@ -49,7 +59,7 @@ export const OverviewCard = () => {
             <Wallet className="size-4 text-gnrDark" />
           </div>
           <div className="t">
-            <strong className="text-2xl text-gnrDark">{isShow ? 'Rp 19.000.000' : '........'}</strong>
+            <strong className="text-2xl text-gnrDark">{isShow ? totalCash : '........'}</strong>
             <span className="block text-xs text-gnrGray">Saldo kas tersedia</span>
           </div>
         </CardContent>

@@ -118,10 +118,34 @@ export class fundAccountsService {
         return response
     }
 
-    static async getAllIsActive() {
+    static async getActiveCount() {
         const result = (await supabase.from(this.table).select("*", {"count": "exact", head: true}).eq("is_active", true))
 
         if(result.error) throw new errorApiCustom(`${RESPONSE_MESSAGE.error.read} akun aktif`, result.status)
+
+        return result.count
+    }
+
+    static async getTotalBalance() {
+        const result = await supabase.rpc("get_total_balance").single()
+
+        if(result.error) throw new errorApiCustom(`${RESPONSE_MESSAGE.error.read} total balance`, result.status)
+
+        return result.data
+    }
+
+    static async getTotalCash() {
+        const result = await supabase.rpc('get_total_cash').single()
+
+        if(result.error) throw new errorApiCustom(`${RESPONSE_MESSAGE.error.read} total cash`, result.status)
+
+        return result.data
+    }
+
+    static async getActiveNonCashCount() {
+        const result = await supabase.from(this.table).select("*", {count: "exact"}).neq("type", "CASH").eq("is_active", true)
+
+        if(result.error) throw new errorApiCustom(`${RESPONSE_MESSAGE.error.read} akun non cash aktif`, result.status)
 
         return result.count
     }

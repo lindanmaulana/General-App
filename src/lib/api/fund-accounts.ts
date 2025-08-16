@@ -5,7 +5,7 @@ interface FundAccountsParams {
     params: string
 }
 
-export const ApiFundAccountsGetAll = async ({params}: FundAccountsParams) => {
+export const apiFundAccountsGetAll = async ({params}: FundAccountsParams) => {
     try {
         const response = await api.get(`/fund-accounts?${params}`)
 
@@ -19,9 +19,51 @@ export const ApiFundAccountsGetAll = async ({params}: FundAccountsParams) => {
     }
 }
 
-export const ApiFundAccountsGetAllIsActive = async () => {
+export const apiFundAccountsGetCountActive = async () => {
     try {
-        const response = await api.get(`/fund-accounts/count`)
+        const response = await api.get(`/fund-accounts/active/count`)
+
+        if(response.data.error) throw new Error(response.data.error)
+
+        return response.data
+    } catch (err) {
+        const errorMessage = errorHandler(err)
+
+        throw new Error(errorMessage)
+    }
+}
+
+export const apiFundAccountsGetTotalBalance = async () => {
+    try {
+        const response = await api.get('/fund-accounts/total-balance')
+
+        if(response.data.error) throw new Error(response.data.error)
+
+        return response.data
+    } catch (err) {
+        const errorMessage = errorHandler(err)
+
+        throw new Error(errorMessage)
+    }
+}
+
+export const apiFundAccountsGetTotalCash = async () => {
+    try {
+        const response = await api.get('/fund-accounts/total-cash')
+
+        if(response.data.error) throw new Error(response.data.error)
+
+        return response.data
+    } catch (err) {
+        const errorMessage = errorHandler(err)
+
+        throw new Error(errorMessage)
+    }
+}
+
+export const apiFundAccountsGetCountActiveNonCash = async () => {
+    try {
+        const response = await api.get('/fund-accounts/active/non-cash/count')
 
         if(response.data.error) throw new Error(response.data.error)
 

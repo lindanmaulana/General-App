@@ -11,7 +11,7 @@ import { Search } from 'lucide-react';
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { ChangeEvent, useMemo } from "react";
 import { useDebouncedCallback } from "use-debounce";
-import { ErrorFundAccounts } from "./ErrorFundAccounts";
+import { ErrorTable } from "./ErrorTable";
 import { SkeletonTableFundAccounts } from "./SkeletonTableFundAccounts";
 import { useColumnsFundAccounts } from "./useColumnsFundAccounts";
 
@@ -47,7 +47,7 @@ export const TableFundAccounts = () => {
 
     if(queryFundAccounts.isLoading) return <SkeletonTableFundAccounts />
 
-    if(queryFundAccounts.isError) return <ErrorFundAccounts />
+    if(queryFundAccounts.isError) return <ErrorTable />
 
     const data = queryFundAccounts.data
     const pagination = queryFundAccounts.data.pagination

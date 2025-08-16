@@ -26,7 +26,6 @@ const PageFundAccounts = async () => {
             </div>
             
             <OverviewCard />
-
             <TableFundAccounts/>
         </div>
     )

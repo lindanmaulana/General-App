@@ -1,7 +1,7 @@
 import { Card, CardContent } from '@/components/ui/card';
 import Link from 'next/link';
 
-export const ErrorFundAccounts = () => {
+export const ErrorTable = () => {
   return (
     <Card className="h-full">
       <CardContent>
