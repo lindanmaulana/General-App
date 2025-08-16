@@ -25,7 +25,7 @@ export const OverviewCard = () => {
   const countActiveNonCash: number = queryCountActiveNonCash.data ?? 0
 
   return (
-    <div className="grid grid-cols-3 gap-3">
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
       <Card className="w-full bg-gnrPrimary/10">
         <CardContent className="space-y-2">
           <div className="flex items-center justify-between">

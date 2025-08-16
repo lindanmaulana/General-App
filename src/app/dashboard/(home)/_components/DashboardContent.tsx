@@ -6,7 +6,7 @@ import { DollarSign, TrendingDown, TrendingUp, Wallet } from "lucide-react"
 export const DashboardContent = () => {
     return (
         <>
-        <div className="grid grid-cols-4 gap-3">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-3">
             <Card>
                 <CardContent className="space-y-2">
                     <h3 className="text-sm text-gnrGray font-medium">Total Saldo</h3>

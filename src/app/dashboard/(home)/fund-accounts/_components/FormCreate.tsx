@@ -56,7 +56,7 @@ export const FormCreate = () => {
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
         <DialogTrigger asChild>
-            <Button onClick={() => setIsOpen(true)} className="bg-gnrPrimary cursor-pointer hover:bg-gnrPrimary/80">
+            <Button onClick={() => setIsOpen(true)} className="w-full md:w-fit bg-gnrPrimary cursor-pointer hover:bg-gnrPrimary/80">
                 <Plus />
                 <span>Tambah Akun</span>
             </Button>

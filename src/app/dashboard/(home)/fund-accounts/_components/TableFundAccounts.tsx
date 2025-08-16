@@ -105,18 +105,18 @@ export const TableFundAccounts = () => {
     return (
         <Card>
             <CardHeader>
-                <div className='flex items-center justify-between'>
+                <div className='flex flex-col md:flex-row items-center justify-between gap-3'>
                     <div>
                         <CardTitle>Daftar Akun</CardTitle>
                         <CardDescription>Semua akun keuangan yang dikelola dalam sistem</CardDescription>
                     </div>
-                    <div className='flex items-center gap-2'>
-                        <Label className='relative'>
+                    <div className='w-full md:w-fit flex flex-col md:flex-row items-center gap-3'>
+                        <Label className='relative w-full'>
                             <Search className='absolute left-2 size-4 text-gnrGray' />
                             <Input id='filter-search' onChange={handleSearch} defaultValue={currentParams.get("keyword") ? currentParams.get("keyword")?.toString() : ""} placeholder='Cari akun...' type='text' className='pl-8 font-normal' />
                         </Label>
                         <Select onValueChange={(value) => handleFilter("type", value)} defaultValue={currentParams.get("type") ? currentParams.get("type")?.toString() : "default"}>
-                            <SelectTrigger>
+                            <SelectTrigger className="w-full">
                                 <SelectValue placeholder="Semua Jenis" />
                             </SelectTrigger>
                             <SelectContent>
@@ -130,7 +130,7 @@ export const TableFundAccounts = () => {
                         </Select>
 
                         <Select onValueChange={(value) => handleFilter("status", value)} defaultValue={currentParams.get("status") ? currentParams.get("status")?.toString() : "default"}>
-                            <SelectTrigger>
+                            <SelectTrigger className="w-full">
                                 <SelectValue placeholder="Semua Status" />
                             </SelectTrigger>
                             <SelectContent>
@@ -150,7 +150,7 @@ export const TableFundAccounts = () => {
             <CardFooter>
                 <div className='w-full flex items-center justify-between'>
                     <Label className='w-full text-gnrGray font-normal'>
-                        <span>Menampilkan 1 - {pagination.limit} dari {data.count}</span>
+                        <span className="hidden md:block">Menampilkan 1 - {pagination.limit} dari {data.count}</span>
                         <Select onValueChange={(value) => handleLimit(value)} defaultValue={pagination.limit < 5 ? "5" : pagination.limit.toString()}>
                             <SelectTrigger>
                                 <SelectValue placeholder="5" />
@@ -164,7 +164,7 @@ export const TableFundAccounts = () => {
                                 </SelectGroup>
                             </SelectContent>
                         </Select>
-                        <span>per halaman</span>
+                        <span className="hidden md:block">per halaman</span>
                     </Label>
 
                     <Pagination className='w-full text-gnrGray font-normal '>
