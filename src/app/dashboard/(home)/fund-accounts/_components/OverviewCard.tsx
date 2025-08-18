@@ -1,28 +1,33 @@
 'use client';
 import { Card, CardContent } from '@/components/ui/card';
-import { queryGetCountActiveFundAccountsOptions, queryGetCountActiveNonCashFundAccountsOptions, queryGetTotalBalanceFundAccountsOptions, queryGetTotalCashFundAccountsOptions } from '@/lib/queries/fund-accounts';
+import {
+  queryGetCountActiveFundAccountsOptions,
+  queryGetCountActiveNonCashFundAccountsOptions,
+  queryGetTotalBalanceFundAccountsOptions,
+  queryGetTotalCashFundAccountsOptions,
+} from '@/lib/queries/fund-accounts';
 import { useShow } from '@/lib/zustand/useShow';
 import { useQuery } from '@tanstack/react-query';
 import { CreditCard, Wallet } from 'lucide-react';
 import { TypeActive, TypeActiveNonCash, TypeTotalBalance, TypeTotalCash } from '../types';
-import { SkeletonOverviewCard } from './SkeletonOverviewCard';
 import { ErrorOverview } from './ErrorOverview';
+import { SkeletonOverviewCard } from '@/app/dashboard/(home)/_components/SkeletonOverviewCard';
 
 export const OverviewCard = () => {
   const isShow = useShow((state) => state.isShow);
 
-  const queryCountActive: TypeActive = useQuery(queryGetCountActiveFundAccountsOptions())
-  const queryTotalBalance: TypeTotalBalance = useQuery(queryGetTotalBalanceFundAccountsOptions())
-  const queryTotalCash: TypeTotalCash = useQuery(queryGetTotalCashFundAccountsOptions())
-  const queryCountActiveNonCash: TypeActiveNonCash = useQuery(queryGetCountActiveNonCashFundAccountsOptions())
+  const queryCountActive: TypeActive = useQuery(queryGetCountActiveFundAccountsOptions());
+  const queryTotalBalance: TypeTotalBalance = useQuery(queryGetTotalBalanceFundAccountsOptions());
+  const queryTotalCash: TypeTotalCash = useQuery(queryGetTotalCashFundAccountsOptions());
+  const queryCountActiveNonCash: TypeActiveNonCash = useQuery(queryGetCountActiveNonCashFundAccountsOptions());
 
-  if(queryCountActive.isLoading || queryTotalBalance.isLoading || queryTotalCash.isLoading || queryCountActiveNonCash.isLoading) return <SkeletonOverviewCard />
+  if (queryCountActive.isLoading || queryTotalBalance.isLoading || queryTotalCash.isLoading || queryCountActiveNonCash.isLoading) return <SkeletonOverviewCard />;
 
-  if(queryCountActive.isError || queryTotalBalance.isError || queryTotalCash.isError || queryCountActiveNonCash.isError) return <ErrorOverview />
+  if (queryCountActive.isError || queryTotalBalance.isError || queryTotalCash.isError || queryCountActiveNonCash.isError) return <ErrorOverview />;
 
-  const totalBalance: number = queryTotalBalance.data ?? 0
-  const totalCash: number = queryTotalCash.data ?? 0
-  const countActiveNonCash: number = queryCountActiveNonCash.data ?? 0
+  const totalBalance: number = queryTotalBalance.data ?? 0;
+  const totalCash: number = queryTotalCash.data ?? 0;
+  const countActiveNonCash: number = queryCountActiveNonCash.data ?? 0;
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-3 gap-3">

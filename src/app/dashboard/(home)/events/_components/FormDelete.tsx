@@ -1,18 +1,18 @@
 "use client"
 
-import { deleteFundAccounts } from '@/actions/fundAccounts';
+import { deleteEvents } from '@/actions/events';
 import { ButtonFormSubmit } from '@/components/ButtonFormSubmit';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { errorHandler } from '@/lib/helpers/errorHandler';
-import { fundAccounts } from '@/lib/models/fund-accounts';
+import { events } from '@/lib/models/events';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { Trash } from 'lucide-react';
 import { useState } from 'react';
 import { toast } from 'sonner';
 
 interface FormDeleteProps {
-    data: fundAccounts
+    data: events
 }
 
 export const FormDelete = ({data}: FormDeleteProps) => {
@@ -20,15 +20,15 @@ export const FormDelete = ({data}: FormDeleteProps) => {
     const queryClient = useQueryClient()
 
     const mutationDelete = useMutation({
-        mutationKey: ['deleteFundAccounts'],
-        mutationFn: (id: string) => deleteFundAccounts(id)
+        mutationKey: ['deleteEvents'],
+        mutationFn: (id: string) => deleteEvents(id)
     })
 
     const handleForm = () => {
         mutationDelete.mutate(data.id, {
             onSuccess: () => {
-                toast.success("Akun berhasil di hapus")
-                queryClient.invalidateQueries({queryKey: ['getAllFundAccounts']})
+                toast.success("Event berhasil di hapus")
+                queryClient.invalidateQueries({queryKey: ['getAllEvents']})
             },
 
             onError: (err) => {
@@ -48,8 +48,8 @@ export const FormDelete = ({data}: FormDeleteProps) => {
         <DialogContent>
                 <form onSubmit={handleForm} className="space-y-4">
                     <DialogHeader>
-                        <DialogTitle>Hapus Akun</DialogTitle>
-                        <DialogDescription>Apakah Anda yakin ingin menghapus akun <span className='font-bold text-gnrDark'>{data.name}</span>? Tindakan ini tidak dapat dibatalkan dan semua data terkait akan hilang.</DialogDescription>
+                        <DialogTitle>Hapus Event</DialogTitle>
+                        <DialogDescription>Apakah Anda yakin ingin menghapus event <span className='font-bold text-gnrDark'>{data.name}</span>? Tindakan ini tidak dapat dibatalkan dan semua data terkait akan hilang.</DialogDescription>
                     </DialogHeader>
                     <DialogFooter>
                         <DialogClose asChild>

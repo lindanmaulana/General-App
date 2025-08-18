@@ -1,7 +1,7 @@
 import { Card, CardContent } from "@/components/ui/card"
 import { Skeleton } from "@/components/ui/skeleton"
 
-export const SkeletonTableFundAccounts = () => {
+export const SkeletonTable = () => {
     return (
          <Card className="w-full p-0">
             <CardContent className="p-0">

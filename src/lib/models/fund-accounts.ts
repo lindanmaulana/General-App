@@ -1,4 +1,4 @@
-export interface FundAccounts {
+export interface fundAccounts {
   id: string;
   name: string;
   provider_name: string;
@@ -28,9 +28,9 @@ export interface fundAccountsUpdateRequest {
   is_active: boolean;
 }
 
-export interface FundAccountsGetAllResponse {
+export interface fundAccountsGetAllResponse {
   error: string | null;
-  data: FundAccounts[];
+  data: fundAccounts[];
   count: number;
   status: number;
   statusText: string;

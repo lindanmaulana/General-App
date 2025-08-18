@@ -10,5 +10,6 @@ export const RESPONSE_MESSAGE = {
     read: "Tidak dapat memuat data",
     update: "Tidak dapat memperbarui data",
     delete: "Tidak dapat menghapus data",
+    duplicate: "ini sudah terdaftar",
   }
 }

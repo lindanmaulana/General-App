@@ -1,27 +1,32 @@
 'use client';
+import { SkeletonOverviewCard } from '@/app/dashboard/(home)/_components/SkeletonOverviewCard';
 import { Card, CardContent } from '@/components/ui/card';
+import { handleParsePrice } from '@/lib/helpers/parsing';
 import { queryGetCountEventsOptions, queryGetCountIsPublicEventsOptions, queryGetTotalBudgetEventsOptions } from '@/lib/queries/events';
 import { useShow } from '@/lib/zustand/useShow';
 import { useQuery } from '@tanstack/react-query';
 import { Calendar, DollarSign } from 'lucide-react';
 
 interface OverviewCardProps {
-  fundAccountsIsActive: number
+  fundAccountsIsActive: number;
 }
 
 export const OverviewCard = () => {
-  const queryEventsCount = useQuery(queryGetCountEventsOptions())
-  const queryEventsIsPublicCount = useQuery(queryGetCountIsPublicEventsOptions())
-  const queryEventsTotalBudget = useQuery(queryGetTotalBudgetEventsOptions())
+  const queryCount = useQuery(queryGetCountEventsOptions());
+  const queryPublicCount = useQuery(queryGetCountIsPublicEventsOptions());
+  const queryTotalBudget = useQuery(queryGetTotalBudgetEventsOptions());
 
   const isShow = useShow((state) => state.isShow);
-  
-  if(queryEventsIsPublicCount.isLoading || queryEventsCount.isLoading || queryEventsTotalBudget.isLoading) return <p>Loading....</p>
-  if(queryEventsIsPublicCount.isError || queryEventsCount.isError || queryEventsTotalBudget.isError) return <p>Error... {queryEventsTotalBudget.error?.message}</p>
 
+  if (queryPublicCount.isLoading || queryCount.isLoading || queryTotalBudget.isLoading) return <SkeletonOverviewCard />;
+  if (queryPublicCount.isError || queryCount.isError || queryTotalBudget.isError) return <p>Error... {queryTotalBudget.error?.message}</p>;
+
+  const totalBudget = handleParsePrice(queryTotalBudget.data) ?? 0;
+  const totalEvent = queryCount.data ?? 0;
+  const totalEventPublic = queryPublicCount.data ?? 0;
 
   return (
-    <div className="grid grid-cols-3 gap-3">
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
       <Card className="w-full">
         <CardContent className="space-y-2">
           <div className="flex items-center justify-between">
@@ -29,7 +34,7 @@ export const OverviewCard = () => {
             <Calendar className="size-4 text-gnrDark" />
           </div>
           <div className="t">
-            <strong className="text-2xl text-gnrDark">{queryEventsCount.data}</strong>
+            <strong className="text-2xl text-gnrDark">{totalEvent}</strong>
             <span className="block text-xs text-gnrGray">Total event aktif</span>
           </div>
         </CardContent>
@@ -42,7 +47,7 @@ export const OverviewCard = () => {
             <DollarSign className="size-4 text-gnrDark" />
           </div>
           <div className="t">
-            <strong className="text-2xl text-gnrDark">{isShow ? "64.000.000" : "........"}</strong>
+            <strong className="text-2xl text-gnrDark">{isShow ? totalBudget : '........'}</strong>
             <span className="block text-xs text-gnrGray">Semua Event</span>
           </div>
         </CardContent>
@@ -55,8 +60,8 @@ export const OverviewCard = () => {
             <Calendar className="size-4 text-gnrDark" />
           </div>
           <div className="t">
-            <strong className="text-2xl text-gnrDark">{queryEventsIsPublicCount.data}</strong>
-            <span className="block text-xs text-gnrGray">Dari 2 total event</span>
+            <strong className="text-2xl text-gnrDark">{totalEventPublic}</strong>
+            <span className="block text-xs text-gnrGray">Dari {totalEvent} total event</span>
           </div>
         </CardContent>
       </Card>

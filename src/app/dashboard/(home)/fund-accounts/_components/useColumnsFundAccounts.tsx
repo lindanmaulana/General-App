@@ -1,19 +1,19 @@
 'use client';
 
 import { Badge } from '@/components/ui/badge';
-import type { FundAccounts } from '@/lib/models/fund-accounts';
+import type { fundAccounts } from '@/lib/models/fund-accounts';
 import { cn } from '@/lib/utils';
 import { useShow } from '@/lib/zustand/useShow';
 import { ColumnDef } from '@tanstack/react-table';
 import { Banknote, CreditCard, Landmark, Wallet } from 'lucide-react';
 import { useMemo } from 'react';
-import { FormUpdate } from './FormUpdate';
 import { FormDelete } from './FormDelete';
+import { FormUpdate } from './FormUpdate';
 
 export const useColumnsFundAccounts = () => {
   const isShow = useShow((state) => state.isShow);
   const columns = useMemo(() => {
-    const column: ColumnDef<FundAccounts>[] = [
+    const column: ColumnDef<fundAccounts>[] = [
       {
         accessorKey: 'name',
         header: 'Akun',

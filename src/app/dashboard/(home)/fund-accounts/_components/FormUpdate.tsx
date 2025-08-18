@@ -8,7 +8,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { errorHandler } from "@/lib/helpers/errorHandler";
-import { FundAccounts } from "@/lib/models/fund-accounts";
+import { fundAccounts } from "@/lib/models/fund-accounts";
 import { fundAccountsUpdateSchema, TypeFundAccountsUpdateSchema } from "@/lib/validations/fund-accounts";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
@@ -18,7 +18,7 @@ import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 
 interface FormUpdateProps {
-    data: FundAccounts
+    data: fundAccounts
 }
 
 export const FormUpdate = ({data}: FormUpdateProps) => {

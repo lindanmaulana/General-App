@@ -4,7 +4,7 @@ import { NextRequest, NextResponse } from "next/server";
 
 export const GET = async (req: NextRequest) => {
     try {
-        const result = await eventsService.getPublicCount()
+        const result = await eventsService.getAll(req)
 
         return NextResponse.json(result)
     } catch (err) {

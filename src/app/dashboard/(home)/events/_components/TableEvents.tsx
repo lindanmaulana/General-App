@@ -5,28 +5,28 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Pagination, PaginationContent, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from '@/components/ui/pagination';
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { queryGetAllFundAccountsOptions } from "@/lib/queries/fund-accounts";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { Search } from 'lucide-react';
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation"
+import { useColumnsEvents } from "./useColumnsEvents"
+import { useQuery, useQueryClient } from "@tanstack/react-query"
 import { ChangeEvent, useMemo } from "react";
+import { queryGetAllEventsOptions } from "@/lib/queries/events";
 import { useDebouncedCallback } from "use-debounce";
-import { ErrorTable } from "./ErrorTable";
-import { useColumnsFundAccounts } from "./useColumnsFundAccounts";
 import { SkeletonTable } from "../../_components/SkeletonTable";
+import { ErrorTable } from "../../fund-accounts/_components/ErrorTable";
+import { Search } from "lucide-react";
 
-export const TableFundAccounts = () => {
+export const TableEvents = () => {
     const currentParams = useSearchParams()
-    const columns = useColumnsFundAccounts()
+    const columns = useColumnsEvents()
     const router = useRouter()
     const pathname = usePathname()
     const queryClient = useQueryClient()
-    
+
     const queryOption = useMemo(() => {
-        return queryGetAllFundAccountsOptions(currentParams.toString())
+        return queryGetAllEventsOptions(currentParams.toString())
     }, [currentParams])
 
-    const queryFundAccounts = useQuery(queryOption)
+    const queryEvents = useQuery(queryOption)
 
     const handleDebounceSearch = useDebouncedCallback((params: string) => {
         const url = new URLSearchParams(currentParams.toString())
@@ -41,40 +41,33 @@ export const TableFundAccounts = () => {
             break
         }
 
-        queryClient.prefetchQuery(queryGetAllFundAccountsOptions(url.toString()))
+        queryClient.prefetchQuery(queryGetAllEventsOptions(url.toString()))
         router.replace(`${pathname}?${url.toString()}`)
     }, 1000)
 
-    if(queryFundAccounts.isLoading) return <SkeletonTable />
-
-    if(queryFundAccounts.isError) return <ErrorTable />
-
-    const data = queryFundAccounts.data
-    const pagination = queryFundAccounts.data.pagination
-
-    const handlePagination = (page: string) => {
+        const handlePagination = (page: string) => {
         const url = new URLSearchParams(currentParams.toString())
 
         url.set("page", page)
 
-        queryClient.prefetchQuery(queryGetAllFundAccountsOptions(url.toString()))
+        queryClient.prefetchQuery(queryGetAllEventsOptions(url.toString()))
         router.replace(`${pathname}?${url.toString()}`)
     }
 
-    const handleFilter = (filter: "type" | "status", params: string) => {
+    const handleFilter = (filter: "access" | "status", params: string) => {
         const url = new URLSearchParams(currentParams.toString())
 
-        if(filter === "type") {
+        if(filter === "access") {
             if(params !== "default") {
-                url.set("type", params)
+                url.set("access", params)
                 url.set("page", "1")
             } else {
-                url.delete("type")
+                url.delete("access")
             }
         }
 
         if(filter === "status") {
-             if(params !== "default") {
+            if(params !== "default") {
                 url.set("status", params)
                 url.set("page", "1")
             } else {
@@ -82,7 +75,7 @@ export const TableFundAccounts = () => {
             }
         }
 
-        queryClient.prefetchQuery(queryGetAllFundAccountsOptions(url.toString()))
+        queryClient.prefetchQuery(queryGetAllEventsOptions(url.toString()))
         router.replace(`${pathname}?${url.toString()}`)
     }
 
@@ -98,12 +91,20 @@ export const TableFundAccounts = () => {
         url.set("limit", limit)
         url.set("page", "1")
 
-        queryClient.prefetchQuery(queryGetAllFundAccountsOptions(url.toString()))
+        queryClient.prefetchQuery(queryGetAllEventsOptions(url.toString()))
         router.replace(`${pathname}?${url.toString()}`)
     }
 
+
+    if(queryEvents.isLoading) return <SkeletonTable />
+
+    if(queryEvents.isError) return <ErrorTable />
+
+    const data = queryEvents.data
+    const pagination = queryEvents.data.pagination
+
     return (
-        <Card>
+            <Card>
             <CardHeader>
                 <div className='flex flex-col md:flex-row items-center justify-between gap-3'>
                     <div>
@@ -113,22 +114,8 @@ export const TableFundAccounts = () => {
                     <div className='w-full md:w-fit flex flex-col md:flex-row items-center gap-3'>
                         <Label className='relative w-full'>
                             <Search className='absolute left-2 size-4 text-gnrGray' />
-                            <Input id='filter-search' onChange={handleSearch} defaultValue={currentParams.get("keyword") ? currentParams.get("keyword")?.toString() : ""} placeholder='Cari akun...' type='text' className='pl-8 font-normal' />
+                            <Input id='filter-search' onChange={handleSearch} defaultValue={currentParams.get("keyword") ? currentParams.get("keyword")?.toString() : ""} placeholder='Cari event...' type='text' className='pl-8 font-normal' />
                         </Label>
-                        <Select onValueChange={(value) => handleFilter("type", value)} defaultValue={currentParams.get("type") ? currentParams.get("type")?.toString() : "default"}>
-                            <SelectTrigger className="w-full">
-                                <SelectValue placeholder="Semua Jenis" />
-                            </SelectTrigger>
-                            <SelectContent>
-                                <SelectGroup>
-                                    <SelectItem value='default'>Semua Jenis</SelectItem>
-                                    <SelectItem value='Bank'>Bank</SelectItem>
-                                    <SelectItem value='Cash'>Cash</SelectItem>
-                                    <SelectItem value='Ewallet'>Ewallet</SelectItem>
-                                </SelectGroup>
-                            </SelectContent>
-                        </Select>
-
                         <Select onValueChange={(value) => handleFilter("status", value)} defaultValue={currentParams.get("status") ? currentParams.get("status")?.toString() : "default"}>
                             <SelectTrigger className="w-full">
                                 <SelectValue placeholder="Semua Status" />
@@ -136,8 +123,23 @@ export const TableFundAccounts = () => {
                             <SelectContent>
                                 <SelectGroup>
                                     <SelectItem value='default'>Semua Status</SelectItem>
-                                    <SelectItem value='aktif'>Aktif</SelectItem>
-                                    <SelectItem value='nonaktif'>NonAktif</SelectItem>
+                                    <SelectItem value='SCHEDULED'>Scheduled</SelectItem>
+                                    <SelectItem value='RUNNING'>Running</SelectItem>
+                                    <SelectItem value='COMPLETED'>Completed</SelectItem>
+                                    <SelectItem value='CANCELLED'>Cancelled</SelectItem>
+                                </SelectGroup>
+                            </SelectContent>
+                        </Select>
+
+                        <Select onValueChange={(value) => handleFilter("access", value)} defaultValue={currentParams.get("access") ? currentParams.get("access")?.toString() : "default"}>
+                            <SelectTrigger className="w-full">
+                                <SelectValue placeholder="Semua Akses" />
+                            </SelectTrigger>
+                            <SelectContent>
+                                <SelectGroup>
+                                    <SelectItem value='default'>Semua Akses</SelectItem>
+                                    <SelectItem value='public'>Public</SelectItem>
+                                    <SelectItem value='private'>Private</SelectItem>
                                 </SelectGroup>
                             </SelectContent>
                         </Select>
@@ -145,7 +147,7 @@ export const TableFundAccounts = () => {
                 </div>
             </CardHeader>
             <CardContent>
-                <DataTable title="Daftar Akun" description="Semua akun keuangan yang dikelola dalam sistem" columns={columns} data={queryFundAccounts.data.data} />
+                <DataTable title="Daftar Akun" description="Semua akun keuangan yang dikelola dalam sistem" columns={columns} data={data.data} />
             </CardContent>
             <CardFooter>
                 <div className='w-full flex items-center justify-between'>

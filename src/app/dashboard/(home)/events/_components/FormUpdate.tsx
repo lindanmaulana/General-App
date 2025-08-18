@@ -1,53 +1,60 @@
-"use client"
+"use client";
 
-import { createEvents } from "@/actions/events"
-import { ButtonFormSubmit } from "@/components/ButtonFormSubmit"
-import { Button } from "@/components/ui/button"
-import { Dialog, DialogClose, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
-import { Input } from "@/components/ui/input"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Switch } from "@/components/ui/switch"
-import { Textarea } from "@/components/ui/textarea"
-import { STATUS_EVENT } from "@/lib/constant/status-events"
-import { errorHandler } from "@/lib/helpers/errorHandler"
-import { eventsSchema, TypeEventsSchema } from "@/lib/validations/events"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { useMutation, useQueryClient } from "@tanstack/react-query"
-import { Plus } from "lucide-react"
-import { useState } from "react"
-import { useForm } from "react-hook-form"
-import { toast } from "sonner"
+import { updateEvents } from "@/actions/events";
+import { ButtonFormSubmit } from "@/components/ButtonFormSubmit";
+import { Button } from "@/components/ui/button";
+import { Dialog, DialogClose, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Switch } from "@/components/ui/switch";
+import { Textarea } from "@/components/ui/textarea";
+import { STATUS_EVENT } from "@/lib/constant/status-events";
+import { errorHandler } from "@/lib/helpers/errorHandler";
+import { handleParseDate } from "@/lib/helpers/parsing";
+import { events } from "@/lib/models/events";
+import { eventsSchema, TypeEventsSchema } from "@/lib/validations/events";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { Pencil } from "lucide-react";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 
-export const FormCreate = () => {
+interface FormUpdateProps {
+    data: events
+}
+
+export const FormUpdate = ({data}: FormUpdateProps) => {
     const [isOpen, setIsOpen] = useState<boolean>(false)
     const queryClient = useQueryClient()
+
+    const eventDate = handleParseDate(data.date, "YYYY-MM-DD")
 
     const form = useForm<TypeEventsSchema>({
         resolver: zodResolver(eventsSchema),
         defaultValues: {
-            code: "",
-            name: "",
-            description: "",
-            date: "",
-            budget: "0",
-            status: "SCHEDULED" as STATUS_EVENT,
-            is_public: false
+            code: data.code,
+            name: data.name,
+            description: data.description,
+            status: data.status as STATUS_EVENT,
+            date: eventDate,
+            budget: data.budget.toString(),
+            is_public: data.is_public
         }
     })
 
-    const mutationCreate = useMutation({
-        mutationKey: ['createEvents'],
-        mutationFn: (req: TypeEventsSchema) => createEvents(req)
+    const mutationUpdate = useMutation({
+        mutationKey: ['updateEvents'],
+        mutationFn: async (req: TypeEventsSchema) => updateEvents(req, data.id)
     })
 
     const handleForm = form.handleSubmit((value: TypeEventsSchema) => {
-        mutationCreate.mutate(value, {
+        mutationUpdate.mutate(value, {
             onSuccess: () => {
                 setIsOpen(false)
-                toast.success("Event berhasil di buat")
-                queryClient.invalidateQueries({queryKey: ['createEvents']})
-                form.reset()
+                toast.success("Event berhasil di perbarui")
+                queryClient.invalidateQueries({queryKey: ['getAllEvents']})
             },
 
             onError: (err) => {
@@ -57,21 +64,19 @@ export const FormCreate = () => {
         })
     })
 
-
-    return (
-        <Dialog open={isOpen} onOpenChange={setIsOpen}>
-            <DialogTrigger asChild>
-                <Button className="w-full md:w-fit bg-gnrPrimary cursor-pointer hover:bg-gnrPrimary/80">
-                    <Plus />
-                    <span>Tambah Event Baru</span>
-                </Button>
-            </DialogTrigger>
-            <DialogContent>
-                <Form {...form}>
-                    <form onSubmit={handleForm} className="space-y-4">
+  return (
+    <Dialog open={isOpen} onOpenChange={setIsOpen}>
+        <DialogTrigger asChild>
+            <Button onClick={() => setIsOpen(true)} variant={"ghost"} className="size-5 cursor-pointer">
+                <Pencil />
+            </Button>
+        </DialogTrigger>
+        <DialogContent>
+            <Form {...form}>
+                <form onSubmit={handleForm} className="space-y-4">
                     <DialogHeader>
-                        <DialogTitle>Tambah Event Baru</DialogTitle>
-                        <DialogDescription>Buat event baru dengan mengisi form di bawah ini.</DialogDescription>
+                        <DialogTitle>Ubah Event</DialogTitle>
+                        <DialogDescription>Update informasi event yang dipilih.</DialogDescription>
                     </DialogHeader>
                     <div className="space-y-8">
                         <div className="space-y-6">
@@ -138,8 +143,8 @@ export const FormCreate = () => {
                                         <FormItem>
                                             <FormLabel>Status</FormLabel>
                                             <FormControl>
-                                                <Select {...field} value={field.value} onValueChange={field.onChange}>
-                                                    <SelectTrigger className="w-full">
+                                                <Select {...field} value={field.value} onValueChange={field.onChange} defaultValue={data.status}>
+                                                    <SelectTrigger className="w-full cursor-pointer">
                                                         <SelectValue placeholder="Status" />
                                                     </SelectTrigger>
                                                     <SelectContent>
@@ -175,7 +180,7 @@ export const FormCreate = () => {
                                 render={({field}) => (
                                     <FormItem className="flex items-center gap-3">
                                         <FormControl>
-                                            <Switch checked={field.value ?? false} onCheckedChange={field.onChange} className="" />
+                                            <Switch checked={field.value ?? false} onCheckedChange={field.onChange} className="cursor-pointer" />
                                         </FormControl>
                                         <FormLabel>Event Publik</FormLabel>
                                         <FormMessage />
@@ -187,12 +192,12 @@ export const FormCreate = () => {
                             <DialogClose asChild>
                                 <Button variant={"outline"}>Batal</Button>
                             </DialogClose>
-                            <ButtonFormSubmit type="submit" style="bg-gnrPrimary text-gnrWhite hover:bg-gnrPrimary/70" title="Simpan" />
+                            <ButtonFormSubmit type="submit" style="bg-gnrPrimary text-gnrWhite hover:bg-gnrPrimary/70" title="Update" />
                         </div>
                     </div>
-                    </form>
-                </Form>
-            </DialogContent>
-        </Dialog>
-    )
-}
+                </form>
+            </Form>
+        </DialogContent>
+    </Dialog>
+  );
+};

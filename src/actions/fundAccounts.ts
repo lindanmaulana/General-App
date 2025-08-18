@@ -1,11 +1,11 @@
 'use server';
 
 import { errorHandler } from '@/lib/helpers/errorHandler';
-import { FundAccounts } from '@/lib/models/fund-accounts';
+import { fundAccounts } from '@/lib/models/fund-accounts';
 import { fundAccountsService } from '@/lib/services/fund-accounts.service';
 import { fundAccountsCreateSchema, fundAccountsUpdateSchema, TypeFundAccountsCreateSchema, TypeFundAccountsUpdateSchema } from '@/lib/validations/fund-accounts';
 
-export const createFundAccounts = async (req: TypeFundAccountsCreateSchema): Promise<FundAccounts> => {
+export const createFundAccounts = async (req: TypeFundAccountsCreateSchema): Promise<fundAccounts> => {
   const validatedFields = fundAccountsCreateSchema.safeParse(req);
 
   if (!validatedFields.success) throw new Error('Validation Invalid');
@@ -23,7 +23,7 @@ export const createFundAccounts = async (req: TypeFundAccountsCreateSchema): Pro
   }
 };
 
-export const updateFundAccounts = async (req: TypeFundAccountsUpdateSchema, id: string): Promise<FundAccounts> => {
+export const updateFundAccounts = async (req: TypeFundAccountsUpdateSchema, id: string): Promise<fundAccounts> => {
   const validatedFields = fundAccountsUpdateSchema.safeParse(req);
 
   if (validatedFields.error) throw new Error('Validation invalid');
@@ -41,30 +41,13 @@ export const updateFundAccounts = async (req: TypeFundAccountsUpdateSchema, id: 
   }
 };
 
-export const deleteFundAccounts = async (id: string): Promise<FundAccounts> => {
+export const deleteFundAccounts = async (id: string): Promise<fundAccounts> => {
     try {
         const result = await fundAccountsService.delete(id)
 
-        return result.data
+        return result
     } catch (err) {
         const errorMessage = errorHandler(err)
         throw new Error(errorMessage)
     }
 }
-
-
-//   id varchar [primary key]
-//   code varchar [unique]
-//   name varchar
-//   description text
-//   date date
-//   status status_event [default: "SCHEDULED"]
-//   budget decimal [default: 0]
-//   is_public boolean [default: false]
-//   created_at timestamp
-//   updated_at timestamp
-
-//   SCHEDULED
-//   RUNNING
-//   COMPLETED
-//   CANCELLED
