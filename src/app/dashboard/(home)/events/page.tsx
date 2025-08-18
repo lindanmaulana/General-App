@@ -2,6 +2,11 @@ import { ShowPrivate } from "@/app/dashboard/(home)/_components/ShowPrivate"
 import { FormCreate } from "@/app/dashboard/(home)/events/_components/FormCreate"
 import { OverviewCard } from "@/app/dashboard/(home)/events/_components/OverviewCard"
 import { TableEvents } from "./_components/TableEvents"
+import { Metadata } from "next"
+
+export const metadata: Metadata = {
+    title: "Dashboard | Events"
+}
 
 const PageEvents = () => {
     return (

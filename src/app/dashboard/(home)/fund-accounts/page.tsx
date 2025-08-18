@@ -2,15 +2,14 @@
 import { Metadata } from "next"
 import { FormCreate } from "./_components/FormCreate"
 import { OverviewCard } from "./_components/OverviewCard"
-import { ShowPrice } from "./_components/ShowPrice"
 import { TableFundAccounts } from "./_components/TableFundAccounts"
+import { ShowPrivate } from "../_components/ShowPrivate"
 
 export const metadata: Metadata = {
     title: "Dashboard | Fund-Accounts"
 }
 
-const PageFundAccounts = async () => {
-
+const PageFundAccounts = () => {
     return (
         <div className="space-y-5">
             <div className="flex flex-col md:flex-row items-center justify-between gap-3">
@@ -20,7 +19,7 @@ const PageFundAccounts = async () => {
                 </div>
 
                 <div className="w-full md:w-fit flex flex-col md:flex-row items-center gap-2">
-                    <ShowPrice />
+                    <ShowPrivate />
                     <FormCreate />
                 </div>
             </div>

@@ -8,7 +8,7 @@ export const ShowPrivate = () => {
   const isShow = useShow((state) => state.isShow);
   const handleShow = useShow((state) => state.handleShow);
   return (
-    <Button onClick={handleShow} variant={'outline'}>
+    <Button onClick={handleShow} variant={'outline'} className='w-full md:w-fit'>
       {isShow ? (
         <>
           <Eye /> <span>Tampilkan</span>

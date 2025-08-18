@@ -23,7 +23,7 @@ export class eventsService {
     static async update(req: TypeEventsSchema, id: string) {
         const event = await this.checkingEvent(id)
 
-        await this.checkingDuplicateCode(req.code)
+        await this.checkingDuplicateCodeNeId(req.code, event.id)
 
         const result = await supabase.from(this.table).update(req).eq("id", event.id).single()
 
@@ -157,6 +157,14 @@ export class eventsService {
 
     static async checkingDuplicateCode(code: string) {
         const result = await supabase.from(this.table).select("*").eq("code", code).maybeSingle()
+
+        if(result.data) throw new errorApiCustom(`Event dengan code ${RESPONSE_MESSAGE.error.duplicate}`, result.status)
+
+        return result
+    }
+
+    static async checkingDuplicateCodeNeId(id: string, code: string) {
+        const result = await supabase.from(this.table).select("*").eq("code", code).neq("id", id).maybeSingle()
 
         if(result.data) throw new errorApiCustom(`Event dengan code ${RESPONSE_MESSAGE.error.duplicate}`, result.status)
 
