@@ -23,7 +23,7 @@ export const AppSidebar = () => {
         },
         { 
             title: "Pemasukan", 
-            url: "/dashboard/incomes", 
+            url: `${DEFAULT_ROUTE.incomes}?${DEFAULT_QUERY_PARAMS}`, 
             icon: TrendingUp,
         },
         { 

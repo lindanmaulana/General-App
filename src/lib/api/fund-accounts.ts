@@ -19,6 +19,20 @@ export const apiFundAccountsGetAll = async ({params}: FundAccountsParams) => {
     }
 }
 
+export const apiFundAccountsGetAllOptions = async () => {
+    try {
+        const response = await api.get("/fund-accounts/options")
+
+        if(response.data.error) throw new Error(response.data.error)
+
+        return response.data
+    } catch (err) {
+        const errorMessage = errorHandler(err)
+
+        throw new Error(errorMessage)
+    }
+}
+
 export const apiFundAccountsGetCountActive = async () => {
     try {
         const response = await api.get(`/fund-accounts/active/count`)

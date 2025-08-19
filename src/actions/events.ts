@@ -29,8 +29,11 @@ export const updateEvents = async (req: TypeEventsSchema, id: string): Promise<e
 
     if(validatedFields.error) throw new Error("Validation invalid")
 
+    const isPublic = validatedFields.data.is_public ? true : false
+    const date = validatedFields.data.date ? new Date(validatedFields.data.date) : undefined
+    
     try {
-        const result = await eventsService.update(req, id)
+        const result = await eventsService.update({...validatedFields.data, date, is_public: isPublic}, id)
 
         return result
     } catch (err) {

@@ -118,6 +118,14 @@ export class fundAccountsService {
         return response
     }
 
+    static async getAllOptions() {
+        const result = await supabase.from(this.table).select("id, name")
+
+        if(result.error) throw new errorApiCustom(`${RESPONSE_MESSAGE.error.read} akun`, result.status)
+
+        return result.data
+    }
+
     static async getActiveCount() {
         const result = (await supabase.from(this.table).select("*", {"count": "exact", head: true}).eq("is_active", true))
 
@@ -155,6 +163,6 @@ export class fundAccountsService {
 
         if(result.error) throw new errorApiCustom(`${RESPONSE_MESSAGE.error.read} akun`, result.status)
 
-        return result
+        return result.data
     }
 }

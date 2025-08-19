@@ -1,3 +1,5 @@
+
+-- GET TOTAL CASH
 -- SQL Editor di Supabase
 CREATE OR REPLACE FUNCTION get_total_cash()
 RETURNS decimal AS $$
@@ -14,7 +16,7 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
-
+-- GET TOTAL BUDGET
 -- SQL Editor di Supabase
 CREATE OR REPLACE FUNCTION get_total_balance()
 RETURNS decimal AS $$
@@ -24,5 +26,20 @@ BEGIN
   ) - (
     SELECT COALESCE(SUM(amount), 0) FROM expenses
   );
+END;
+$$ LANGUAGE plpgsql;
+
+-- GET TOTAL AMOUNT pada bulan dan tahun di get
+CREATE OR REPLACE FUNCTION get_total_amount_this_month()
+RETURNS decimal AS $$
+DECLARE
+    total_income_amount decimal;
+BEGIN
+    -- Menjumlahkan total amount dari tabel incomes di bulan ini
+    SELECT COALESCE(SUM(amount), 0) INTO total_income_amount FROM incomes
+    WHERE EXTRACT(MONTH FROM date) = EXTRACT(MONTH FROM NOW())
+    AND EXTRACT(YEAR FROM date) = EXTRACT(YEAR FROM NOW());
+
+    RETURN total_income_amount;
 END;
 $$ LANGUAGE plpgsql;

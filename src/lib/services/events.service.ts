@@ -2,9 +2,8 @@ import { NextRequest } from "next/server"
 import { DEFAULT_LIMIT, DEFAULT_PAGE, MAXIMUM_LIMIT } from "../constant/pagination"
 import { RESPONSE_MESSAGE } from "../constant/response-message"
 import { errorApiCustom } from "../helpers/errorApiCustom"
-import { events, eventsCreateRequest } from "../models/events"
+import { events, eventsCreateRequest, eventsUpdateRequest } from "../models/events"
 import supabase from "../supabase"
-import { TypeEventsSchema } from "../validations/events"
 
 export class eventsService {
     static table = "events"
@@ -14,13 +13,12 @@ export class eventsService {
 
         const result = await supabase.from(this.table).insert(req).select()
 
-        console.log({result})
         if(result.error) throw new errorApiCustom(`${RESPONSE_MESSAGE.error.create} event`, result.status)
 
         return result.data[0]
     }
 
-    static async update(req: TypeEventsSchema, id: string) {
+    static async update(req: eventsUpdateRequest, id: string) {
         const event = await this.checkingEvent(id)
 
         await this.checkingDuplicateCodeNeId(req.code, event.id)
@@ -121,6 +119,15 @@ export class eventsService {
         }
 
         return response
+    }
+
+    static async getAllOptions() {
+        const result = await supabase.from(this.table).select("id, name, code")
+
+        console.log({result})
+        if(result.error) throw new errorApiCustom(`${RESPONSE_MESSAGE.error.read} event`, result.status)
+
+        return result.data
     }
 
     static async getCount() {

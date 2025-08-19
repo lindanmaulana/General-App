@@ -20,3 +20,13 @@ export interface eventsCreateRequest {
     budget?: string
     is_public: boolean
 }
+
+export interface eventsUpdateRequest {
+    code: string
+    name: string
+    description?: string
+    date?: Date
+    status: string
+    budget?: string
+    is_public: boolean
+}

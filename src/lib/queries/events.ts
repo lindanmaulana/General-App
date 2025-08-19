@@ -1,10 +1,19 @@
 import { queryOptions } from "@tanstack/react-query"
-import { apiEventsGetAll, apiEventsGetCount, apiEventsGetCountIsPublic, apiEventsGetTotalBudget } from "../api/events"
+import { apiEventsGetAll, apiEventsgetAllOptions, apiEventsGetCount, apiEventsGetCountIsPublic, apiEventsGetTotalBudget } from "../api/events"
 
 export const queryGetAllEventsOptions = (params: string) => {
     return queryOptions({
         queryKey: ['getAllEvents', params],
         queryFn: () => apiEventsGetAll({params}),
+        staleTime: 5 * 60 * 1000,
+        gcTime: 10 * 60 * 1000
+    })
+}
+
+export const queryGetAllEventsOnlyOptions = () => {
+    return queryOptions({
+        queryKey: ["getAllEventsOptions"],
+        queryFn: apiEventsgetAllOptions,
         staleTime: 5 * 60 * 1000,
         gcTime: 10 * 60 * 1000
     })

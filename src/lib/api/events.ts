@@ -19,6 +19,20 @@ export const apiEventsGetAll = async ({params}: eventsParams) => {
     }
 }
 
+export const apiEventsgetAllOptions = async () => {
+    try {
+        const response = await api.get(`/events/options`)
+
+        if(response.data.error) throw new Error(response.data.error)
+
+        return response.data
+    } catch (err) {
+        const errorMessage = errorHandler(err)
+
+        throw new Error(errorMessage)
+    }
+}
+
 export const apiEventsGetCount = async () => {
     try {
         const response = await api.get("/events/count")
