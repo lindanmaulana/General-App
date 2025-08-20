@@ -1,6 +1,6 @@
 "use client"
 import { DataTable } from "@/components/DataTable";
-import { DatePicker } from "@/components/DatePicker";
+import { DatePickerMultiple } from "@/components/DatePicketMultiple";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -13,7 +13,8 @@ import { queryGetAllIncomesOptions } from "@/lib/queries/incomes";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { Search } from 'lucide-react';
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { ChangeEvent, useMemo } from "react";
+import { ChangeEvent, useMemo, useState } from "react";
+import { DateRange } from "react-day-picker";
 import { useDebouncedCallback } from "use-debounce";
 import { SkeletonTable } from "../../_components/SkeletonTable";
 import { ErrorTable } from "../../fund-accounts/_components/ErrorTable";
@@ -33,6 +34,16 @@ export const TableIncomes = () => {
     const queryIncomes = useQuery(queryOption)
     const querySelectEvents = useQuery(queryGetAllEventsOnlyOptions())
     const querySelectFundAccounts = useQuery(queryGetAllFundAccountsOnlyOptions())
+
+    // GET DEFAULT QUERY from URL
+    const defaultQueryKeyword = currentParams.get("keyword") ? currentParams.get("keyword")?.toString() : ""
+    const defaultQueryEvent = currentParams.get("event") ? currentParams.get("event")?.toString() : "default"
+    const defaultQueryAccount = currentParams.get("account") ? currentParams.get("account")?.toString() : "default"
+    const defaultQuerySort = currentParams.get("sort") ? currentParams.get("sort")?.toString() : "default"
+    const defaultQueryStartDate = currentParams.get("start-date") ? new Date(currentParams.get("start-date") ?? "") : undefined
+    const defaultQueryEndDate = currentParams.get("end-date") ? new Date(currentParams.get("end-date") ?? "") : undefined
+
+    const [date, setDate] = useState<DateRange | undefined>(defaultQueryStartDate && defaultQueryEndDate ? {from: defaultQueryStartDate, to: defaultQueryEndDate} : undefined)
 
     const handleDebounceSearch = useDebouncedCallback((params: string) => {
         const url = new URLSearchParams(currentParams.toString())
@@ -61,7 +72,7 @@ export const TableIncomes = () => {
         router.replace(`${pathname}?${url.toString()}`)
     }
 
-    const handleFilter = (filter: "event" | "account" | "sort" | "date", params: string) => {
+    const handleFilter = (filter: "event" | "account" | "sort" | "date", params: string, paramsRange?: DateRange) => {
         const url = new URLSearchParams(currentParams.toString())
 
         if(filter === "sort") {
@@ -92,17 +103,21 @@ export const TableIncomes = () => {
         }
 
         if(filter === "date") {
-            if(params) {
-                url.set("date", params)
+            if(paramsRange && paramsRange.from && paramsRange.to) {
+                url.set("start-date", paramsRange.from.toISOString())
+                url.set("end-date", paramsRange.to.toISOString())
                 url.set("page", "1")
             } else {
-                url.delete("date")
+                url.delete("start-date")
+                url.delete("end-date")
             }
         }
-
+        console.log({paramsRange})
+        
         queryClient.prefetchQuery(queryGetAllIncomesOptions(url.toString()))
         router.replace(`${pathname}?${url.toString()}`)
     }
+
 
     const handleSearch = (e: ChangeEvent<HTMLInputElement>) => {
         const value = e.target.value
@@ -138,12 +153,15 @@ export const TableIncomes = () => {
                     <div className='w-full flex flex-col md:flex-row items-center gap-3'>
                         <Label className='relative flex w-full'>
                             <Search className='absolute left-2 size-4 text-gnrGray' />
-                            <Input id='filter-search' onChange={handleSearch} defaultValue={currentParams.get("keyword") ? currentParams.get("keyword")?.toString() : ""} placeholder='Cari nama...' type='text' className='w-full pl-8 font-normal' />
+                            <Input id='filter-search' onChange={handleSearch} defaultValue={defaultQueryKeyword} placeholder='Cari nama...' type='text' className='w-full pl-8 font-normal' />
                         </Label>
+                        
+                        <DatePickerMultiple title="Periode Uang Masuk" date={date} onDateChange={(e) => {
+                            setDate(e)
+                            handleFilter("date", "", e)
+                        }} />
 
-                        <DatePicker title="Pilih tanggal" date={currentParams.get("date") ? new Date(currentParams.get("date") ?? "") : undefined} setDate={(e) => handleFilter("date", e?.toISOString() ?? "")}  />
-
-                        <Select onValueChange={(value) => handleFilter("event", value)} defaultValue={currentParams.get("event") ? currentParams.get("event")?.toString() : "default"}>
+                        <Select onValueChange={(value) => handleFilter("event", value)} defaultValue={defaultQueryEvent}>
                             <SelectTrigger className="w-1/2">
                                 <SelectValue placeholder="Semua Jenis" />
                             </SelectTrigger>
@@ -157,7 +175,7 @@ export const TableIncomes = () => {
                             </SelectContent>
                         </Select>
 
-                        <Select onValueChange={(value) => handleFilter("account", value)} defaultValue={currentParams.get("account") ? currentParams.get("account")?.toString() : "default"}>
+                        <Select onValueChange={(value) => handleFilter("account", value)} defaultValue={defaultQueryAccount}>
                             <SelectTrigger className="w-1/2">
                                 <SelectValue placeholder="Semua Status" />
                             </SelectTrigger>
@@ -171,7 +189,7 @@ export const TableIncomes = () => {
                             </SelectContent>
                         </Select>
 
-                        <Select onValueChange={(value) => handleFilter("sort", value) } defaultValue={currentParams.get("sort") ? currentParams.get("sort")?.toString() : "default"}>
+                        <Select onValueChange={(value) => handleFilter("sort", value) } defaultValue={defaultQuerySort}>
                             <SelectTrigger>
                                 <SelectValue placeholder="Urutkan Jumlah" />
                             </SelectTrigger>

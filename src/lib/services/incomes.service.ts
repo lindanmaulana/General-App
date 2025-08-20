@@ -44,6 +44,8 @@ export class incomesService {
             const accountParams = url.searchParams.get("account")
             const sortParams = url.searchParams.get("sort")
             const dateParams = url.searchParams.get("date")
+            const startDateParams = url.searchParams.get("start-date")
+            const endDateParams = url.searchParams.get("end-date")
 
             if(limitParams) {
                 const parseLimit = Number(limitParams)
@@ -75,6 +77,8 @@ export class incomesService {
                 else query.order("created_at", {ascending: false})
 
             if(dateParams) query.eq("date", dateParams)
+
+            if(startDateParams && endDateParams) query.gte("date", startDateParams).lte("date", endDateParams)
 
             const start = (page - 1) * limit
             const end = start + limit - 1
