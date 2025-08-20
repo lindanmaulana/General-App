@@ -11,7 +11,7 @@ const PageIncomes = () => {
                     <p className="text-gnrGray">Kelola semua sumber pemasukan anda</p>
                 </div>
                 
-               <FormCreate />
+                <FormCreate />
             </div>
             
             <OverviewTotalAmount />

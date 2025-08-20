@@ -1,6 +1,5 @@
 "use client";
 
-import { createFundAccounts } from "@/actions/fundAccounts";
 import { createIncomes } from "@/actions/incomes";
 import { ButtonSubmit } from "@/components/ButtonSubmit";
 import { Button } from "@/components/ui/button";
@@ -55,6 +54,7 @@ export const FormCreate = () => {
                 toast.success("Pemasukan berhasil di simpan")
                 form.reset()
                 queryClient.invalidateQueries({queryKey: ['getTotalAmountThisMonthIncomes']})
+                queryClient.invalidateQueries({queryKey: ['getAllIncomes']})
             },
 
             onError: (err) => {

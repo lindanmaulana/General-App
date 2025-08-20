@@ -4,7 +4,7 @@ import { apiIncomesGetAll, apiIncomesGetTotalAmountThisMonth } from "../api/inco
 
 export const queryGetAllIncomesOptions = (params: string) => {
     return queryOptions({
-        queryKey: ['getAllIncomes'],
+        queryKey: ['getAllIncomes', params],
         queryFn: () => apiIncomesGetAll({params}),
         staleTime: 5 * 60 * 1000,
         gcTime: 10 * 60 * 1000

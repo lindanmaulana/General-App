@@ -1,10 +1,13 @@
 "use client"
 import { DataTable } from "@/components/DataTable";
+import { DatePicker } from "@/components/DatePicker";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Pagination, PaginationContent, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from '@/components/ui/pagination';
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { events } from "@/lib/models/events";
+import { queryGetAllEventsOnlyOptions } from "@/lib/queries/events";
 import { queryGetAllFundAccountsOnlyOptions, queryGetAllFundAccountsOptions } from "@/lib/queries/fund-accounts";
 import { queryGetAllIncomesOptions } from "@/lib/queries/incomes";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
@@ -15,8 +18,6 @@ import { useDebouncedCallback } from "use-debounce";
 import { SkeletonTable } from "../../_components/SkeletonTable";
 import { ErrorTable } from "../../fund-accounts/_components/ErrorTable";
 import { useColumnsIncomes } from "./useColumnsIncomes";
-import { queryGetAllEventsOnlyOptions } from "@/lib/queries/events";
-import { events } from "@/lib/models/events";
 
 export const TableIncomes = () => {
     const currentParams = useSearchParams()
@@ -24,12 +25,12 @@ export const TableIncomes = () => {
     const router = useRouter()
     const pathname = usePathname()
     const queryClient = useQueryClient()
-    
+
     const queryOption = useMemo(() => {
         return queryGetAllIncomesOptions(currentParams.toString())
     }, [currentParams])
 
-    const queryFundAccounts = useQuery(queryOption)
+    const queryIncomes = useQuery(queryOption)
     const querySelectEvents = useQuery(queryGetAllEventsOnlyOptions())
     const querySelectFundAccounts = useQuery(queryGetAllFundAccountsOnlyOptions())
 
@@ -50,16 +51,8 @@ export const TableIncomes = () => {
         router.replace(`${pathname}?${url.toString()}`)
     }, 1000)
 
-    if(queryFundAccounts.isLoading) return <SkeletonTable />
 
-    if(queryFundAccounts.isError) return <ErrorTable />
-
-    const data = queryFundAccounts.data
-    const pagination = queryFundAccounts.data.pagination
-
-    console.log(queryFundAccounts.data)
-
-    const handlePagination = (page: string) => {
+        const handlePagination = (page: string) => {
         const url = new URLSearchParams(currentParams.toString())
 
         url.set("page", page)
@@ -68,28 +61,46 @@ export const TableIncomes = () => {
         router.replace(`${pathname}?${url.toString()}`)
     }
 
-    const handleFilter = (filter: "type" | "status", params: string) => {
+    const handleFilter = (filter: "event" | "account" | "sort" | "date", params: string) => {
         const url = new URLSearchParams(currentParams.toString())
 
-        if(filter === "type") {
+        if(filter === "sort") {
             if(params !== "default") {
-                url.set("type", params)
+                url.set("sort", params)
                 url.set("page", "1")
             } else {
-                url.delete("type")
+                url.delete("sort")
             }
         }
 
-        if(filter === "status") {
-             if(params !== "default") {
-                url.set("status", params)
+        if(filter === "event") {
+            if(params !== "default") {
+                url.set("event", params)
                 url.set("page", "1")
             } else {
-                url.delete("status")
+                url.delete("event")
             }
         }
 
-        queryClient.prefetchQuery(queryGetAllFundAccountsOptions(url.toString()))
+        if(filter === "account") {
+            if(params !== "default") {
+                url.set("account", params)
+                url.set("page", "1")
+            } else {
+                url.delete("account")
+            }
+        }
+
+        if(filter === "date") {
+            if(params) {
+                url.set("date", params)
+                url.set("page", "1")
+            } else {
+                url.delete("date")
+            }
+        }
+
+        queryClient.prefetchQuery(queryGetAllIncomesOptions(url.toString()))
         router.replace(`${pathname}?${url.toString()}`)
     }
 
@@ -109,35 +120,45 @@ export const TableIncomes = () => {
         router.replace(`${pathname}?${url.toString()}`)
     }
 
+    if(queryIncomes.isLoading) return <SkeletonTable />
+
+    if(queryIncomes.isError) return <ErrorTable />
+
+    const data = queryIncomes.data
+    const pagination = queryIncomes.data.pagination
+
     return (
         <Card>
             <CardHeader>
-                <div className='flex flex-col md:flex-row items-center justify-between gap-3'>
+                <div className='flex flex-col gap-3'>
                     <div>
                         <CardTitle>Riwayat Pemasukan</CardTitle>
                         <CardDescription>Daftar semua transaksi pemasukan yang telah dicatat</CardDescription>
                     </div>
-                    <div className='w-full md:w-fit flex flex-col md:flex-row items-center gap-3'>
-                        <Label className='relative w-full'>
+                    <div className='w-full flex flex-col md:flex-row items-center gap-3'>
+                        <Label className='relative flex w-full'>
                             <Search className='absolute left-2 size-4 text-gnrGray' />
-                            <Input id='filter-search' onChange={handleSearch} defaultValue={currentParams.get("keyword") ? currentParams.get("keyword")?.toString() : ""} placeholder='Cari nama...' type='text' className='pl-8 font-normal' />
+                            <Input id='filter-search' onChange={handleSearch} defaultValue={currentParams.get("keyword") ? currentParams.get("keyword")?.toString() : ""} placeholder='Cari nama...' type='text' className='w-full pl-8 font-normal' />
                         </Label>
-                        <Select onValueChange={(value) => handleFilter("type", value)} defaultValue={currentParams.get("type") ? currentParams.get("type")?.toString() : "default"}>
-                            <SelectTrigger className="w-full">
+
+                        <DatePicker title="Pilih tanggal" date={currentParams.get("date") ? new Date(currentParams.get("date") ?? "") : undefined} setDate={(e) => handleFilter("date", e?.toISOString() ?? "")}  />
+
+                        <Select onValueChange={(value) => handleFilter("event", value)} defaultValue={currentParams.get("event") ? currentParams.get("event")?.toString() : "default"}>
+                            <SelectTrigger className="w-1/2">
                                 <SelectValue placeholder="Semua Jenis" />
                             </SelectTrigger>
                             <SelectContent>
                                 <SelectGroup>
                                     <SelectItem value='default'>Semua Event</SelectItem>
                                     {querySelectEvents.isLoading ? <SelectItem value="loading">Loading...</SelectItem> : querySelectEvents.isError ? <SelectItem value="error">Error...</SelectItem> : querySelectEvents.data.map((event: events) => (
-                                        <SelectItem key={event.id} value={event.name}>{event.name}</SelectItem>
+                                        <SelectItem key={event.id} value={event.code}>{event.name}</SelectItem>
                                     ))}
                                 </SelectGroup>
                             </SelectContent>
                         </Select>
 
-                        <Select onValueChange={(value) => handleFilter("status", value)} defaultValue={currentParams.get("status") ? currentParams.get("status")?.toString() : "default"}>
-                            <SelectTrigger className="w-full">
+                        <Select onValueChange={(value) => handleFilter("account", value)} defaultValue={currentParams.get("account") ? currentParams.get("account")?.toString() : "default"}>
+                            <SelectTrigger className="w-1/2">
                                 <SelectValue placeholder="Semua Status" />
                             </SelectTrigger>
                             <SelectContent>
@@ -149,11 +170,24 @@ export const TableIncomes = () => {
                                 </SelectGroup>
                             </SelectContent>
                         </Select>
+
+                        <Select onValueChange={(value) => handleFilter("sort", value) } defaultValue={currentParams.get("sort") ? currentParams.get("sort")?.toString() : "default"}>
+                            <SelectTrigger>
+                                <SelectValue placeholder="Urutkan Jumlah" />
+                            </SelectTrigger>
+                            <SelectContent>
+                                <SelectGroup>
+                                    <SelectItem value="default">Default</SelectItem>
+                                    <SelectItem value="dsc">Tertinggi</SelectItem>
+                                    <SelectItem value="asc">Terendah</SelectItem>
+                                </SelectGroup>
+                            </SelectContent>
+                        </Select>
                     </div>
                 </div>
             </CardHeader>
             <CardContent>
-                <DataTable title="Daftar Akun" description="Semua akun keuangan yang dikelola dalam sistem" columns={columns} data={queryFundAccounts.data.data} />
+                <DataTable title="Daftar Akun" description="Semua akun keuangan yang dikelola dalam sistem" columns={columns} data={queryIncomes.data.data} />
             </CardContent>
             <CardFooter>
                 <div className='w-full flex items-center justify-between'>

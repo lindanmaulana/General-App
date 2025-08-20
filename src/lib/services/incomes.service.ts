@@ -22,8 +22,8 @@ export class incomesService {
         return result.data
     }
 
-       static async getAll(req: NextRequest) {
-        const query = supabase.from(this.table).select("*, events(*), fund_accounts(*)", {count: "exact"}).order("created_at", {ascending: false}).limit(5)
+    static async getAll(req: NextRequest) {
+        const query = supabase.from(this.table).select("*, events!inner(id, code, name), fund_accounts!inner(id, name)", {count: "exact"}).limit(5)
 
         let limit = DEFAULT_LIMIT
         let page = DEFAULT_PAGE
@@ -38,9 +38,12 @@ export class incomesService {
 
             const limitParams = url.searchParams.get("limit")
             const pageParams = url.searchParams.get("page")
+
             const keywordParams = url.searchParams.get("keyword")
-            const statusParams = url.searchParams.get("status")
-            const accessParams = url.searchParams.get("access")
+            const eventParams = url.searchParams.get("event")
+            const accountParams = url.searchParams.get("account")
+            const sortParams = url.searchParams.get("sort")
+            const dateParams = url.searchParams.get("date")
 
             if(limitParams) {
                 const parseLimit = Number(limitParams)
@@ -64,12 +67,14 @@ export class incomesService {
 
             if(keywordParams) query.ilike("name", `%${keywordParams}%`)
 
-            if(accessParams) {
-                if(accessParams.toLowerCase() === "public") query.eq("is_public", true)
-                    else if(accessParams.toLowerCase() === "private") query.eq("is_public", false)
-            }
+            if(eventParams) query.eq("events.code", eventParams)
 
-            if(statusParams) query.eq("status", statusParams.toUpperCase())
+            if(accountParams) query.eq("fund_accounts.name", accountParams)
+
+            if(sortParams) query.order("amount", {ascending: sortParams === "asc"})
+                else query.order("created_at", {ascending: false})
+
+            if(dateParams) query.eq("date", dateParams)
 
             const start = (page - 1) * limit
             const end = start + limit - 1
