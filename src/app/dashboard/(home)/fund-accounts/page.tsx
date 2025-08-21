@@ -1,9 +1,9 @@
 
 import { Metadata } from "next"
-import { FormCreate } from "./_components/FormCreate"
-import { OverviewCard } from "./_components/OverviewCard"
-import { TableFundAccounts } from "./_components/TableFundAccounts"
 import { ShowPrivate } from "../_components/ShowPrivate"
+import { FormCreate } from "./_components/FormCreate"
+import { FundAccountsTableCard } from "./_components/FundAccountsTableCard"
+import { OverviewCard } from "./_components/OverviewCard"
 
 export const metadata: Metadata = {
     title: "Dashboard | Fund-Accounts"
@@ -25,7 +25,7 @@ const PageFundAccounts = () => {
             </div>
             
             <OverviewCard />
-            <TableFundAccounts/>
+            <FundAccountsTableCard/>
         </div>
     )
 }

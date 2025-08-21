@@ -19,7 +19,7 @@ export const DatePickerMultiple = ({title, date, onDateChange}: DatePickerMultip
 
     return (
         <Popover>
-            <PopoverTrigger asChild>
+            <PopoverTrigger className="w-full md:w-1/5" asChild>
                 <Button
                     variant={"outline"}
                     className={cn("min-w-[140px] justify-start text-left font-normal", !date && "text-muted-foreground")}

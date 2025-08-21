@@ -5,13 +5,14 @@ import { handleParsePrice } from "@/lib/helpers/parsing"
 import { queryGetTotalAmountThisMonthIncomesOptions } from "@/lib/queries/incomes"
 import { useQuery } from "@tanstack/react-query"
 import { TrendingUp } from "lucide-react"
+import { SkeletonOverviewCardPrice } from "../../_components/SkeletonOverviewCardPrice"
 
 export const OverviewTotalAmount = () => {
 
     const queryTotalAmount = useQuery(queryGetTotalAmountThisMonthIncomesOptions())
 
-    if(queryTotalAmount.isLoading) return <p>Loading....</p>
-    if(queryTotalAmount.isError) return <p>Error....</p>
+    if(queryTotalAmount.isLoading) return <SkeletonOverviewCardPrice />
+    if(queryTotalAmount.isError) return <></>
 
     const totalAmount = handleParsePrice(queryTotalAmount.data)
 

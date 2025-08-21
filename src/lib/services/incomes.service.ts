@@ -43,7 +43,6 @@ export class incomesService {
             const eventParams = url.searchParams.get("event")
             const accountParams = url.searchParams.get("account")
             const sortParams = url.searchParams.get("sort")
-            const dateParams = url.searchParams.get("date")
             const startDateParams = url.searchParams.get("start-date")
             const endDateParams = url.searchParams.get("end-date")
 
@@ -67,7 +66,7 @@ export class incomesService {
                 }
             }
 
-            if(keywordParams) query.ilike("name", `%${keywordParams}%`)
+            if(keywordParams) query.ilike("source", `%${keywordParams}%`)
 
             if(eventParams) query.eq("events.code", eventParams)
 
@@ -75,8 +74,6 @@ export class incomesService {
 
             if(sortParams) query.order("amount", {ascending: sortParams === "asc"})
                 else query.order("created_at", {ascending: false})
-
-            if(dateParams) query.eq("date", dateParams)
 
             if(startDateParams && endDateParams) query.gte("date", startDateParams).lte("date", endDateParams)
 
