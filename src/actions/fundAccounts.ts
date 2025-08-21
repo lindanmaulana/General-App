@@ -48,6 +48,7 @@ export const deleteFundAccounts = async (id: string): Promise<fundAccounts> => {
         return result
     } catch (err) {
         const errorMessage = errorHandler(err)
+
         throw new Error(errorMessage)
     }
 }

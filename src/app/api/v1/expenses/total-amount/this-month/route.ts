@@ -1,10 +1,10 @@
 import { errorApiCatch } from "@/lib/helpers/errorApiCatch";
-import { incomesService } from "@/lib/services/incomes.service";
+import { expensesService } from "@/lib/services/expenses.service";
 import { NextRequest, NextResponse } from "next/server";
 
 export const GET = async (req: NextRequest) => {
     try {
-        const result = await incomesService.getTotalThisMonth()
+        const result = await expensesService.getTotalThisMonth()
 
         return NextResponse.json(result)
     } catch (err) {

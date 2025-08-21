@@ -127,7 +127,7 @@ export const IncomesToolbar = () => {
                 <SelectContent>
                     <SelectGroup>
                         <SelectItem value='default'>Semua Event</SelectItem>
-                        {querySelectEvents.isLoading ? <SelectItem value="loading">Loading...</SelectItem> : querySelectEvents.isError ? <SelectItem value="error">Error...</SelectItem> : querySelectEvents.data.map((event: events) => (
+                        {querySelectEvents.isLoading ? <SelectItem value="loading">Loading...</SelectItem> : querySelectEvents.isError ? <SelectItem value="error">Error...</SelectItem> : querySelectEvents.data && querySelectEvents.data.map((event: events) => (
                             <SelectItem key={event.id} value={event.code}>{event.name}</SelectItem>
                         ))}
                     </SelectGroup>
@@ -141,7 +141,8 @@ export const IncomesToolbar = () => {
                 <SelectContent>
                     <SelectGroup>
                         <SelectItem value='default'>Semua Akun</SelectItem>
-                        {querySelectFundAccounts.isLoading ? <SelectItem value="loading">Loading...</SelectItem> : querySelectFundAccounts.isError ? <SelectItem value="error">Error...</SelectItem> : querySelectFundAccounts.data.map((event: events) => (
+                        {querySelectFundAccounts.isLoading ? 
+                        <SelectItem value="loading">Loading...</SelectItem> : querySelectFundAccounts.isError ? <SelectItem value="error">Error...</SelectItem> : querySelectFundAccounts.data && querySelectFundAccounts.data.map((event: events) => (
                             <SelectItem key={event.id} value={event.name}>{event.name}</SelectItem>
                         ))}
                     </SelectGroup>

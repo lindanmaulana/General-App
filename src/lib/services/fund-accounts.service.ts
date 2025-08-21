@@ -29,7 +29,8 @@ export class fundAccountsService {
     static async delete(id: string) {
         const checkFundAccount = await this.checkingFundAccount(id)
 
-        const result = await supabase.from(this.table).delete().eq("id", checkFundAccount.data.id).single()
+        const result = await supabase.from(this.table).delete().eq("id", checkFundAccount.id).single()
+
 
         if(result.error) throw new errorApiCustom(`${RESPONSE_MESSAGE.error.delete} akun`, result.status)
 

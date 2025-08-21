@@ -43,3 +43,26 @@ BEGIN
     RETURN total_income_amount;
 END;
 $$ LANGUAGE plpgsql;
+
+
+-- GET TOTAL INCOMES pada bulan dan tahun ini
+create or replace function get_total_incomes_this_month()
+returns numeric
+language sql
+as $$
+  select coalesce(sum(amount), 0) as total
+  from incomes
+  where date >= date_trunc('month', now())::date
+    and date < (date_trunc('month', now()) + interval '1 month')::date;
+$$;
+
+-- GET TOTAL EXPENSES pada bulan dan tahun ini
+create or replace function get_total_expenses_this_month()
+returns numeric
+language sql
+as $$
+  select coalesce(sum(amount), 0) as total
+  from expenses
+  where date >= date_trunc('month', now())::date
+    and date < (date_trunc('month', now()) + interval '1 month')::date;
+$$;

@@ -4,6 +4,8 @@ import { handleParseDate, handleParsePrice } from "@/lib/helpers/parsing"
 import { incomes } from "@/lib/models/incomes"
 import { ColumnDef } from "@tanstack/react-table"
 import { useMemo } from "react"
+import { FormDelete } from "./FormDelete"
+import { FormUpdate } from "./FormUpdate"
 
 export const useColumnsIncomes = () => {
     const columns = useMemo(() => {
@@ -68,6 +70,19 @@ export const useColumnsIncomes = () => {
                     const amount = handleParsePrice(income.amount)
 
                     return <span className="text-gnrGreen font-semibold">{amount}</span>
+                }
+            },
+            {
+                header: "Aksi",
+                cell: ({row}) => {
+                    const income = row.original
+
+                    return (
+                        <div className="flex items-center gap-1">
+                            <FormUpdate data={income} />
+                            <FormDelete data={income} />
+                        </div>
+                    )
                 }
             }
         ]

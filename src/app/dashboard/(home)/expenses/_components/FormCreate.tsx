@@ -1,5 +1,6 @@
 "use client";
 
+import { createExpenses } from "@/actions/expenses";
 import { createIncomes } from "@/actions/incomes";
 import { ButtonSubmit } from "@/components/ButtonSubmit";
 import { Button } from "@/components/ui/button";
@@ -14,7 +15,7 @@ import { events } from "@/lib/models/events";
 import { fundAccounts } from "@/lib/models/fund-accounts";
 import { queryGetAllEventsOnlyOptions } from "@/lib/queries/events";
 import { queryGetAllFundAccountsOnlyOptions } from "@/lib/queries/fund-accounts";
-import { incomesShcema, TypeIncomesSchema } from "@/lib/validations/incomes";
+import { expensesSchema, TypeExpensesSchema } from "@/lib/validations/expenses";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Plus } from "lucide-react";
@@ -30,8 +31,8 @@ export const FormCreate = () => {
     const queryFundAccounts = useQuery(queryGetAllFundAccountsOnlyOptions())
 
     const dateNow = handleParseDate(new Date(), "YYYY-MM-DDTHH:mm")
-    const form = useForm<TypeIncomesSchema>({
-        resolver: zodResolver(incomesShcema),
+    const form = useForm<TypeExpensesSchema>({
+        resolver: zodResolver(expensesSchema),
         defaultValues: {
             event_id: "",
             fund_account_id: "",
@@ -43,18 +44,18 @@ export const FormCreate = () => {
     })
 
     const mutationCreate = useMutation({
-        mutationKey: ['createIncomes'],
-        mutationFn: (req: TypeIncomesSchema) => createIncomes(req)
+        mutationKey: ['createExpenses'],
+        mutationFn: (req: TypeExpensesSchema) => createExpenses(req)
     })
 
-    const handleForm = form.handleSubmit((value: TypeIncomesSchema) => {
+    const handleForm = form.handleSubmit((value: TypeExpensesSchema) => {
         mutationCreate.mutate(value, {
             onSuccess: () => {
                 setIsOpen(false)
-                toast.success("Pemasukan berhasil di simpan")
+                toast.success("Pengeluaran berhasil di simpan")
                 form.reset()
-                queryClient.invalidateQueries({queryKey: ['getTotalAmountThisMonthIncomes']})
-                queryClient.invalidateQueries({queryKey: ['getAllIncomes']})
+                queryClient.invalidateQueries({queryKey: ['getTotalAmountThisMonthExpenses']})
+                // queryClient.invalidateQueries({queryKey: ['getAllIncomes']})
             },
 
             onError: (err) => {
@@ -69,15 +70,15 @@ export const FormCreate = () => {
         <DialogTrigger asChild>
             <Button onClick={() => setIsOpen(true)} className="w-full md:w-fit bg-gnrPrimary cursor-pointer hover:bg-gnrPrimary/80">
                 <Plus />
-                <span>Tambah Pemasukan</span>
+                <span>Tambah Pengeluaran</span>
             </Button>
         </DialogTrigger>
         <DialogContent>
             <Form {...form}>
                 <form onSubmit={handleForm} className="space-y-4">
                     <DialogHeader>
-                        <DialogTitle>Tambah Pemasukan Baru</DialogTitle>
-                        <DialogDescription>Masukkan detail pemasukan yang akan dicatat</DialogDescription>
+                        <DialogTitle>Tambah Pengeluaran Baru</DialogTitle>
+                        <DialogDescription>Masukkan detail pengeluaran yang akan dicatat</DialogDescription>
                     </DialogHeader>
                     <div className="space-y-8">
                         <div className="space-y-4">
@@ -158,11 +159,11 @@ export const FormCreate = () => {
                                 name="source"
                                 render={({field}) => (
                                     <FormItem>
-                                        <FormLabel>Sumber pendapatan</FormLabel>
+                                        <FormLabel>Kategori pengeluaran (Opsional)</FormLabel>
                                         <FormControl>
                                             <div>
-                                                <Input {...field} type="text" placeholder="Sponsor, Donatur, Penjualan Tiket" />
-                                                <span className="text-xs text-gnrGray">Masukkan asal pemasukan, misalnya Sponsor, Donatur, atau Tiket.</span>
+                                                <Input {...field} type="text" placeholder="Peralatan, Sewa Tempat, Konsumsi" />
+                                                <span className="text-xs text-gnrGray">Masukkan kategorinya, misalnya Peralatan, Sewa Tempat, atau Konsumsi.</span>
                                             </div>
                                         </FormControl>
                                         <FormMessage />

@@ -28,7 +28,7 @@ export const AppSidebar = () => {
         },
         { 
             title: "Pengeluaran", 
-            url: "/pengeluaran", 
+            url: `${DEFAULT_ROUTE.expenses}?${DEFAULT_QUERY_PARAMS}`, 
             icon: TrendingDown,
         },
         { 

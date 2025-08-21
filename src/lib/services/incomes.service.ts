@@ -2,10 +2,11 @@ import { NextRequest } from "next/server";
 import { DEFAULT_LIMIT, DEFAULT_PAGE, MAXIMUM_LIMIT } from "../constant/pagination";
 import { RESPONSE_MESSAGE } from "../constant/response-message";
 import { errorApiCustom } from "../helpers/errorApiCustom";
-import { incomesCreateRequest } from "../models/incomes";
+import { incomes, incomesCreateRequest } from "../models/incomes";
 import supabase from "../supabase";
 import { eventsService } from "./events.service";
 import { fundAccountsService } from "./fund-accounts.service";
+import { TypeIncomesSchema } from "../validations/incomes";
 
 export class incomesService {
     static table = "incomes"
@@ -18,6 +19,26 @@ export class incomesService {
         const result = await supabase.from(this.table).insert({...req, event_id: event.id, fund_account_id: fundAccount.id}).single()
 
         if(result.error) throw new errorApiCustom(`${RESPONSE_MESSAGE.error.create} pemasukan`, result.status)
+
+        return result.data
+    }
+
+    static async update(req: TypeIncomesSchema, id: string): Promise<incomes> {
+        const checkIncomes = await this.checkingIncomes(id)
+
+        const result = await supabase.from(this.table).update(req).eq("id", checkIncomes.id).select().single()
+
+        if(result.error) throw new errorApiCustom(`${RESPONSE_MESSAGE.error.delete} pemasukan`, result.status)
+
+        return result.data
+    }
+
+    static async delete(id: string): Promise<incomes> {
+        const checkIncomes = await this.checkingIncomes(id)
+
+        const result = await supabase.from(this.table).delete().eq("id", checkIncomes.id).select().single()
+
+        if(result.error) throw new errorApiCustom(`${RESPONSE_MESSAGE.error.delete} pemasukan`, result.status)
 
         return result.data
     }
@@ -109,10 +130,18 @@ export class incomesService {
         return response
     }
 
-    static async getTotalAmountThisMonth() {
-        const result = await supabase.rpc("get_total_amount_this_month")
+    static async getTotalThisMonth() {
+        const result = await supabase.rpc("get_total_incomes_this_month")
 
         if(result.error) throw new errorApiCustom(`${RESPONSE_MESSAGE.error.read} total pemasukan bulan ini`, result.status)
+
+        return result.data
+    }
+
+    static async checkingIncomes(id: string): Promise<incomes> {
+        const result = await supabase.from(this.table).select("*").eq("id", id).select().single()
+
+        if(result.error) throw new errorApiCustom(`${RESPONSE_MESSAGE.error.read} pemasukan`, result.status)
 
         return result.data
     }

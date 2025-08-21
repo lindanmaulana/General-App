@@ -22,3 +22,31 @@ export const createIncomes = async (req: TypeIncomesSchema): Promise<incomes> =>
         throw new Error(errorMessage)
     }
 }
+
+export const updateIncomes = async (req: TypeIncomesSchema, id: string): Promise<incomes> => {
+    const validatedFields = incomesShcema.safeParse(req)
+
+    if(validatedFields.error) throw new Error("Validation invalid")
+
+    try {
+        const result = await incomesService.update(validatedFields.data, id)
+
+        return result
+    } catch (err) {
+        const errorMessage = errorHandler(err)
+
+        throw new Error(errorMessage)
+    }
+}
+
+export const deleteIncomes = async (id: string): Promise<incomes> => {
+    try {
+        const result = await incomesService.delete(id)
+
+        return result
+    } catch (err) {
+        const errorMessage = errorHandler(err)
+
+        throw new Error(errorMessage)
+    }
+}
