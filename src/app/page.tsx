@@ -1,12 +1,8 @@
-import { getSession } from "@/actions/getSession";
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
 
 export default async function Home() {
-  const session = await getSession()
-
-
   return (
     <main>
       <section className="relative bg-cover bg-no-repeat -z-10" style={{backgroundImage: "url('/images/banner/mushola-alhidayah.jpg')"}}>
@@ -30,9 +26,6 @@ export default async function Home() {
 
       <section>
         <div className="container max-w-5xl mx-auto px-4 md:px-0">
-          {session && session.user.name}
-          {session && new Date(session.expires).toLocaleString()}
-          <span>UTC asli: {session && session.expires}</span>
         </div>
       </section>
     </main>

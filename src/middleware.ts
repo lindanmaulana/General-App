@@ -41,7 +41,7 @@ export default async function middleware(req: NextRequest) {
 
   if(isLoggedIn && token) {
     if (!token.exp || Date.now() > token.exp * 1000) {
-      const response = NextResponse.redirect(new URL("/auth/login", nextUrl));
+      const response = NextResponse.redirect(new URL("/session-expire", nextUrl));
       
       response.cookies.set("authjs.session-token", "", { maxAge: 0 });
       response.cookies.set("__Secure-next-auth.session-token", "", { maxAge: 0 });

@@ -21,7 +21,7 @@ export const AuthContainer = ({children, title, description, type}: AuthContaine
             {children}
             <div className="flex items-center justify-center">
                 <p className="text-gnrWhiteGray text-sm">{isAuth}</p>
-                <Link href={type === "LOGIN" ? "/dashboard/register" : "/dashboard/login"} className="relative text-sm font-medium text-gnrDarkBlue">{type === "LOGIN" ? "Daftar disini" : "Masuk"}<Image src={'/images/auth/auth-vector.svg'} alt="general-vector-auth" width={100} height={100} className="absolute top-6" /></Link>
+                <Link href={type === "LOGIN" ? "/" : "/dashboard/login"} className="relative text-sm font-medium text-gnrDarkBlue">{type === "LOGIN" ? "Daftar disini" : "Masuk"}<Image src={'/images/auth/auth-vector.svg'} alt="general-vector-auth" width={100} height={100} className="absolute top-6" /></Link>
             </div>
         </div>
     )

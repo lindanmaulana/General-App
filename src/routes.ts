@@ -6,14 +6,14 @@ export const DEFAULT_LOGIN_REDIRECT = "/"
 export const DEFAULT_MEMBER_REDIRECT = "/"
 export const DEFAULT_ADMIN_REDIRECT = "/dashboard"
 export const REDIRECT_HOME = "/"
-export const REDIRECT_AUTH = "/auth/login"
+export const REDIRECT_AUTH = "/session-expire"
 
 /**
  * An array of routes that are accesible to the public
  * These routes do not require authentication
  * @type {string[]}
  */
-export const ROUTESPUBLIC = ["/", "/auth/login", "/dashboard/login", "/dashboard/register"]
+export const ROUTESPUBLIC = ["/", "/auth/login", "/dashboard/login", "/session-expire"]
 
 /**
  * The prefix of routes admin
