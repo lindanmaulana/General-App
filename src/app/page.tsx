@@ -32,6 +32,7 @@ export default async function Home() {
         <div className="container max-w-5xl mx-auto px-4 md:px-0">
           {session && session.user.name}
           {session && new Date(session.expires).toLocaleString()}
+          <span>UTC asli: {session && session.expires}</span>
         </div>
       </section>
     </main>
