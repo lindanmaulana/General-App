@@ -34,7 +34,8 @@ export const FormDelete = ({data}: FormDeleteProps) => {
                 queryClient.invalidateQueries({queryKey: ['getTotalAmountThisMonthExpenses']})
                 queryClient.invalidateQueries({queryKey: ['getAllExpenses']})
                 queryClient.invalidateQueries({queryKey: ['getTotalBalanceFundAccounts']})
-                queryClient.invalidateQueries({queryKey: ['getTotalCashFundAccounts']})
+                queryClient.invalidateQueries({queryKey: ['getTotalBalanceNonCashFundAccounts']})
+                queryClient.invalidateQueries({queryKey: ['getTotalBalanceCashFundAccounts']})
             },
 
             onError: (err) => {

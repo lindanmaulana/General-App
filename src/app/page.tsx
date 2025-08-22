@@ -1,8 +1,11 @@
+import { getSession } from "@/actions/getSession";
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
 
-export default function Home() {
+export default async function Home() {
+  const session = await getSession()
+
 
   return (
     <main>
@@ -27,7 +30,8 @@ export default function Home() {
 
       <section>
         <div className="container max-w-5xl mx-auto px-4 md:px-0">
-
+          {session && session.user.name}
+          {session && new Date(session.expires).toLocaleString()}
         </div>
       </section>
     </main>

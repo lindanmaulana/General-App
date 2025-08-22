@@ -23,7 +23,7 @@ export const OverviewCard = () => {
   const queryTotalBalanceCash: TypeTotalCash = useQuery(queryGetTotalBalanceCashFundAccountsOptions());
   const queryCountActiveNonCash: TypeActiveNonCash = useQuery(queryGetCountActiveNonCashFundAccountsOptions());
 
-  if (queryCountActive.isLoading || queryTotalBalance.isLoading || queryTotalBalanceNonCash.isLoading || queryTotalBalanceCash.isLoading || queryCountActiveNonCash.isLoading) return <SkeletonOverviewCard />;
+  if (queryCountActive.isLoading || queryTotalBalance.isLoading || queryTotalBalanceNonCash.isLoading || queryTotalBalanceCash.isLoading || queryCountActiveNonCash.isLoading) return <SkeletonOverviewCard totalCard={4} />;
 
   if (queryCountActive.isError || queryTotalBalance.isError || queryTotalBalanceNonCash.isError || queryTotalBalanceCash.isError || queryCountActiveNonCash.isError) return <ErrorOverview />;
 
@@ -33,7 +33,7 @@ export const OverviewCard = () => {
   const countActiveNonCash: number = queryCountActiveNonCash.data ?? 0;
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-4 gap-3">
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3">
       <Card className="w-full bg-gnrPrimary/10">
         <CardContent className="space-y-2">
           <div className="flex items-center justify-between">
@@ -42,7 +42,7 @@ export const OverviewCard = () => {
           </div>
           <div className="t">
             <strong className="text-2xl text-gnrPrimary">{isShow ? totalBalance : '........'}</strong>
-            <span className="block text-xs text-gnrGray">Dari {countActiveNonCash} akun yang aktif</span>
+            <span className="block text-xs text-gnrGray">Dari {countActiveNonCash} akun yang aktif (Non Cash)</span>
           </div>
         </CardContent>
       </Card>
