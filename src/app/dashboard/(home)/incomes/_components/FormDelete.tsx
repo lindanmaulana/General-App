@@ -31,7 +31,10 @@ export const FormDelete = ({data}: FormDeleteProps) => {
         mutationDelete.mutate(data.id, {
             onSuccess: () => {
                 toast.success("Pemasukan berhasil di hapus")
+                queryClient.invalidateQueries({queryKey: ['getTotalAmountThisMonthIncomes']})
                 queryClient.invalidateQueries({queryKey: ['getAllIncomes']})
+                queryClient.invalidateQueries({queryKey: ['getTotalBalanceFundAccounts']})
+                queryClient.invalidateQueries({queryKey: ['getTotalCashFundAccounts']})
             },
 
             onError: (err) => {

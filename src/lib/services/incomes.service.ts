@@ -16,7 +16,9 @@ export class incomesService {
 
         const fundAccount = await fundAccountsService.checkingFundAccount(req.fund_account_id)
 
-        const result = await supabase.from(this.table).insert({...req, event_id: event.id, fund_account_id: fundAccount.id}).single()
+        const fundAccountActive = await fundAccountsService.checkingFundAccountActive(fundAccount.id)
+
+        const result = await supabase.from(this.table).insert({...req, event_id: event.id, fund_account_id: fundAccountActive.id}).single()
 
         if(result.error) throw new errorApiCustom(`${RESPONSE_MESSAGE.error.create} pemasukan`, result.status)
 

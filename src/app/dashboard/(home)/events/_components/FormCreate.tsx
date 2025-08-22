@@ -46,8 +46,9 @@ export const FormCreate = () => {
             onSuccess: () => {
                 setIsOpen(false)
                 toast.success("Event berhasil di buat")
-                queryClient.invalidateQueries({queryKey: ['getAllEvents']})
                 form.reset()
+                queryClient.invalidateQueries({queryKey: ['getAllEvents']})
+                queryClient.invalidateQueries({queryKey: ['getAllEventsOptions']})
             },
 
             onError: (err) => {

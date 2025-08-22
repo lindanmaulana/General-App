@@ -55,6 +55,8 @@ export const FormCreate = () => {
                 form.reset()
                 queryClient.invalidateQueries({queryKey: ['getTotalAmountThisMonthIncomes']})
                 queryClient.invalidateQueries({queryKey: ['getAllIncomes']})
+                queryClient.invalidateQueries({queryKey: ['getTotalBalanceFundAccounts']})
+                queryClient.invalidateQueries({queryKey: ['getTotalCashFundAccounts']})
             },
 
             onError: (err) => {

@@ -1,4 +1,5 @@
 import { FormCreate } from "./_components/FormCreate"
+import { ExpensesTableCard } from "./_components/ExpensesTableCard"
 import { OverviewExpensesAmount } from "./_components/OverviewExpensesAmount"
 
 const PageExpenses = () => {
@@ -14,7 +15,7 @@ const PageExpenses = () => {
             </div>
             
             <OverviewExpensesAmount />
-            {/* <IncomesTableCard /> */}
+            <ExpensesTableCard />
         </div>
     )
 }

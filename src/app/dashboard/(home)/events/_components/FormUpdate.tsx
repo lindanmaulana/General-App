@@ -55,6 +55,7 @@ export const FormUpdate = ({data}: FormUpdateProps) => {
                 setIsOpen(false)
                 toast.success("Event berhasil di perbarui")
                 queryClient.invalidateQueries({queryKey: ['getAllEvents']})
+                queryClient.invalidateQueries({queryKey: ['getAllEventsOptions']})
             },
 
             onError: (err) => {

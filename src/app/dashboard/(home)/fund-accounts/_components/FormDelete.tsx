@@ -29,6 +29,7 @@ export const FormDelete = ({data}: FormDeleteProps) => {
             onSuccess: () => {
                 toast.success("Akun berhasil di hapus")
                 queryClient.invalidateQueries({queryKey: ['getAllFundAccounts']})
+                queryClient.invalidateQueries({queryKey: ['getAllFundAccountsOptions']})
             },
 
             onError: (err) => {

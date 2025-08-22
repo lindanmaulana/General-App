@@ -44,6 +44,7 @@ export const FormCreate = () => {
                 toast.success("Akun berhasil di buat")
                 form.reset()
                 queryClient.invalidateQueries({queryKey: ['getAllFundAccounts']})
+                queryClient.invalidateQueries({queryKey: ['getAllFundAccountsOptions']})
             },
 
             onError: (err) => {

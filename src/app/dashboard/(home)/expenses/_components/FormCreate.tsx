@@ -55,7 +55,9 @@ export const FormCreate = () => {
                 toast.success("Pengeluaran berhasil di simpan")
                 form.reset()
                 queryClient.invalidateQueries({queryKey: ['getTotalAmountThisMonthExpenses']})
-                // queryClient.invalidateQueries({queryKey: ['getAllIncomes']})
+                queryClient.invalidateQueries({queryKey: ['getAllExpenses']})
+                queryClient.invalidateQueries({queryKey: ['getTotalBalanceFundAccounts']})
+                queryClient.invalidateQueries({queryKey: ['getTotalCashFundAccounts']})
             },
 
             onError: (err) => {
@@ -159,7 +161,7 @@ export const FormCreate = () => {
                                 name="source"
                                 render={({field}) => (
                                     <FormItem>
-                                        <FormLabel>Kategori pengeluaran (Opsional)</FormLabel>
+                                        <FormLabel>Kategori pengeluaran</FormLabel>
                                         <FormControl>
                                             <div>
                                                 <Input {...field} type="text" placeholder="Peralatan, Sewa Tempat, Konsumsi" />

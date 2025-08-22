@@ -1,6 +1,6 @@
 "use client";
 
-import { updateIncomes } from "@/actions/incomes";
+import { updateExpenses } from "@/actions/expenses";
 import { ButtonSubmit } from "@/components/ButtonSubmit";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogClose, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
@@ -15,7 +15,7 @@ import { fundAccounts } from "@/lib/models/fund-accounts";
 import { incomes } from "@/lib/models/incomes";
 import { queryGetAllEventsOnlyOptions } from "@/lib/queries/events";
 import { queryGetAllFundAccountsOnlyOptions } from "@/lib/queries/fund-accounts";
-import { incomesShcema, TypeIncomesSchema } from "@/lib/validations/incomes";
+import { expensesSchema, TypeExpensesSchema } from "@/lib/validations/expenses";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Pencil } from "lucide-react";
@@ -37,8 +37,8 @@ export const FormUpdate = ({data}: FormUpdateProps) => {
     const incomeDate = handleParseDate(data.date ?? "", "YYYY-MM-DDTHH:mm")
     const dateNow = handleParseDate(new Date(), "YYYY-MM-DDTHH:mm")
 
-    const form = useForm<TypeIncomesSchema>({
-        resolver: zodResolver(incomesShcema),
+    const form = useForm<TypeExpensesSchema>({
+        resolver: zodResolver(expensesSchema),
         defaultValues: {
             event_id: data.event_id,
             fund_account_id: data.fund_account_id,
@@ -50,17 +50,17 @@ export const FormUpdate = ({data}: FormUpdateProps) => {
     })
 
     const mutationUpdate = useMutation({
-        mutationKey: ['updateIncomes'],
-        mutationFn: async (req: TypeIncomesSchema) => updateIncomes(req, data.id)
+        mutationKey: ['updateExpenses'],
+        mutationFn: async (req: TypeExpensesSchema) => updateExpenses(req, data.id)
     })
 
-    const handleForm = form.handleSubmit((value: TypeIncomesSchema) => {
+    const handleForm = form.handleSubmit((value: TypeExpensesSchema) => {
         mutationUpdate.mutate(value, {
             onSuccess: () => {
                 setIsOpen(false)
-                toast.success("Pemasukan berhasil di perbarui")
-                queryClient.invalidateQueries({queryKey: ['getTotalAmountThisMonthIncomes']})
-                queryClient.invalidateQueries({queryKey: ['getAllIncomes']})
+                toast.success("Pengeluaran berhasil di perbarui")
+                queryClient.invalidateQueries({queryKey: ['getTotalAmountThisMonthExpenses']})
+                queryClient.invalidateQueries({queryKey: ['getAllExpenses']})
                 queryClient.invalidateQueries({queryKey: ['getTotalBalanceFundAccounts']})
                 queryClient.invalidateQueries({queryKey: ['getTotalCashFundAccounts']})
             },
@@ -83,8 +83,8 @@ export const FormUpdate = ({data}: FormUpdateProps) => {
             <Form {...form}>
                 <form onSubmit={handleForm} className="space-y-4">
                     <DialogHeader>
-                        <DialogTitle>Ubah Pemasukan</DialogTitle>
-                        <DialogDescription>Ubah pemasukan untuk dikelola</DialogDescription>
+                        <DialogTitle>Ubah Pengeluaran</DialogTitle>
+                        <DialogDescription>Ubah pengeluaran untuk dikelola</DialogDescription>
                     </DialogHeader>
                     <div className="space-y-8">
                         <div className="space-y-4">

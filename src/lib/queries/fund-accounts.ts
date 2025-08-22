@@ -1,5 +1,5 @@
 import { queryOptions } from "@tanstack/react-query"
-import { apiFundAccountsGetAll, apiFundAccountsGetAllOptions, apiFundAccountsGetCountActive, apiFundAccountsGetCountActiveNonCash, apiFundAccountsGetTotalBalance, apiFundAccountsGetTotalCash } from "../api/fund-accounts"
+import { apiFundAccountsGetAll, apiFundAccountsGetAllOptions, apiFundAccountsGetCountActive, apiFundAccountsGetCountActiveNonCash, apiFundAccountsGetTotalBalance, apiFundAccountsGetTotalBalanceNonCash, apiFundAccountsGetTotalBalanceCash } from "../api/fund-accounts"
 
 export const queryGetAllFundAccountsOptions = (params: string) => {
     return queryOptions({
@@ -37,10 +37,19 @@ export const queryGetTotalBalanceFundAccountsOptions = () => {
     })
 }
 
-export const queryGetTotalCashFundAccountsOptions = () => {
+export const queryGetTotalBalanceNonCashFundAccountsOptions = () => {
     return queryOptions({
-        queryKey: ['getTotalCashFundAccounts'],
-        queryFn: () => apiFundAccountsGetTotalCash(),
+        queryKey: ['getTotalBalanceNonCashFundAccounts'],
+        queryFn: apiFundAccountsGetTotalBalanceNonCash,
+        staleTime: 5 * 60 * 1000,
+        gcTime: 10 * 60 * 1000
+    })
+}
+
+export const queryGetTotalBalanceCashFundAccountsOptions = () => {
+    return queryOptions({
+        queryKey: ['getTotalBalanceCashFundAccounts'],
+        queryFn: () => apiFundAccountsGetTotalBalanceCash(),
         staleTime: 5 * 60 * 1000,
         gcTime: 10 * 60 * 1000
     })

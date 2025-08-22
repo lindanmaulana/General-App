@@ -19,7 +19,7 @@ export class fundAccountsService {
     static async update(req: fundAccountsUpdateRequest, id: string) {
         const checkFundAccount = await this.checkingFundAccount(id)
 
-        const result = await supabase.from(this.table).update(req).eq("id", checkFundAccount.data.id).select()
+        const result = await supabase.from(this.table).update(req).eq("id", checkFundAccount.id).select()
 
         if(result.error) throw new errorApiCustom(`${RESPONSE_MESSAGE.error.update} akun`, result.status)
         
@@ -120,7 +120,7 @@ export class fundAccountsService {
     }
 
     static async getAllOptions() {
-        const result = await supabase.from(this.table).select("id, name")
+        const result = await supabase.from(this.table).select("id, name").eq("is_active", true)
 
         if(result.error) throw new errorApiCustom(`${RESPONSE_MESSAGE.error.read} akun`, result.status)
 
@@ -143,10 +143,18 @@ export class fundAccountsService {
         return result.data
     }
 
-    static async getTotalCash() {
-        const result = await supabase.rpc('get_total_cash').single()
+    static async getTotalBalanceCash() {
+        const result = await supabase.rpc('get_total_balance_cash').single()
 
         if(result.error) throw new errorApiCustom(`${RESPONSE_MESSAGE.error.read} total cash`, result.status)
+
+        return result.data
+    }
+
+    static async getTotalBalanceNonCash() {
+        const result = await supabase.rpc("get_total_balance_non_cash").single()
+
+        if(result.error) throw new errorApiCustom(`${RESPONSE_MESSAGE.error.read} total saldo non cash`, result.status)
 
         return result.data
     }
@@ -163,6 +171,16 @@ export class fundAccountsService {
         const result = await supabase.from(this.table).select("*").eq("id", id).select().single()
 
         if(result.error) throw new errorApiCustom(`${RESPONSE_MESSAGE.error.read} akun`, result.status)
+
+        return result.data
+    }
+
+    static async checkingFundAccountActive(id: string) {
+        const result = await supabase.from(this.table).select("*").eq("id", id).eq("is_active", true).single()
+
+        if(result.error) throw new errorApiCustom(`${RESPONSE_MESSAGE.error.read} akun`, result.status)
+
+        if(!result.data) throw new errorApiCustom(`${RESPONSE_MESSAGE.error.read} akun non aktif`, result.status)
 
         return result.data
     }

@@ -6,8 +6,8 @@ import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { events } from "@/lib/models/events"
 import { queryGetAllEventsOnlyOptions } from "@/lib/queries/events"
+import { queryGetAllExpensesOptions } from "@/lib/queries/expenses"
 import { queryGetAllFundAccountsOnlyOptions } from "@/lib/queries/fund-accounts"
-import { queryGetAllIncomesOptions } from "@/lib/queries/incomes"
 import { useQuery, useQueryClient } from "@tanstack/react-query"
 import { Search } from "lucide-react"
 import { usePathname, useRouter, useSearchParams } from "next/navigation"
@@ -15,7 +15,7 @@ import { ChangeEvent, useState } from "react"
 import { DateRange } from "react-day-picker"
 import { useDebouncedCallback } from "use-debounce"
 
-export const IncomesToolbar = () => {
+export const ExpensesToolbar = () => {
     const currentParams = useSearchParams()
     const pathname = usePathname()
     const queryClient = useQueryClient()
@@ -47,7 +47,7 @@ export const IncomesToolbar = () => {
                 break
             }
     
-            queryClient.prefetchQuery(queryGetAllIncomesOptions(url.toString()))
+            queryClient.prefetchQuery(queryGetAllExpensesOptions(url.toString()))
             router.replace(`${pathname}?${url.toString()}`)
         }, 1000)
     
@@ -63,7 +63,7 @@ export const IncomesToolbar = () => {
                     url.delete("end-date")
                 }
             
-            queryClient.prefetchQuery(queryGetAllIncomesOptions(url.toString()))
+            queryClient.prefetchQuery(queryGetAllExpensesOptions(url.toString()))
             router.replace(`${pathname}?${url.toString()}`)
     }, 1200)    
     
@@ -97,7 +97,7 @@ export const IncomesToolbar = () => {
                 }
             }
             
-            queryClient.prefetchQuery(queryGetAllIncomesOptions(url.toString()))
+            queryClient.prefetchQuery(queryGetAllExpensesOptions(url.toString()))
             router.replace(`${pathname}?${url.toString()}`)
     }
     

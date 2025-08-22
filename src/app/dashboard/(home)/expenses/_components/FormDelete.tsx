@@ -1,35 +1,40 @@
 "use client"
 
-import { deleteEvents } from '@/actions/events';
+import { deleteExpenses } from '@/actions/expenses';
 import { ButtonFormSubmit } from '@/components/ButtonFormSubmit';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { errorHandler } from '@/lib/helpers/errorHandler';
-import { events } from '@/lib/models/events';
+import { handleParsePrice } from '@/lib/helpers/parsing';
+import { incomes } from '@/lib/models/incomes';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { Trash } from 'lucide-react';
 import { useState } from 'react';
 import { toast } from 'sonner';
 
 interface FormDeleteProps {
-    data: events
+    data: incomes
 }
 
 export const FormDelete = ({data}: FormDeleteProps) => {
     const [isOpen, setIsOpen] = useState<boolean>(false)
     const queryClient = useQueryClient()
 
+    const incomeAmount = handleParsePrice(data.amount)
+
     const mutationDelete = useMutation({
-        mutationKey: ['deleteEvents'],
-        mutationFn: (id: string) => deleteEvents(id)
+        mutationKey: ['deleteExpenses'],
+        mutationFn: (id: string) => deleteExpenses(id)
     })
 
     const handleForm = () => {
         mutationDelete.mutate(data.id, {
             onSuccess: () => {
-                toast.success("Event berhasil di hapus")
-                queryClient.invalidateQueries({queryKey: ['getAllEvents']})
-                queryClient.invalidateQueries({queryKey: ['getAllEventsOptions']})
+                toast.success("Pengeluaran berhasil di hapus")
+                queryClient.invalidateQueries({queryKey: ['getTotalAmountThisMonthExpenses']})
+                queryClient.invalidateQueries({queryKey: ['getAllExpenses']})
+                queryClient.invalidateQueries({queryKey: ['getTotalBalanceFundAccounts']})
+                queryClient.invalidateQueries({queryKey: ['getTotalCashFundAccounts']})
             },
 
             onError: (err) => {
@@ -49,8 +54,8 @@ export const FormDelete = ({data}: FormDeleteProps) => {
         <DialogContent>
                 <form onSubmit={handleForm} className="space-y-4">
                     <DialogHeader>
-                        <DialogTitle>Hapus Event</DialogTitle>
-                        <DialogDescription>Apakah Anda yakin ingin menghapus event <span className='font-bold text-gnrDark'>{data.name}</span>? Tindakan ini tidak dapat dibatalkan dan semua data terkait akan hilang.</DialogDescription>
+                        <DialogTitle>Hapus Pengeluaran</DialogTitle>
+                        <DialogDescription>Apakah Anda yakin ingin menghapus pengeluaran dari <span className='font-bold text-gnrDark'>{data.source}</span> sejumlah <span>{incomeAmount}</span> ? Tindakan ini tidak dapat dibatalkan dan semua data terkait akan hilang.</DialogDescription>
                     </DialogHeader>
                     <DialogFooter>
                         <DialogClose asChild>

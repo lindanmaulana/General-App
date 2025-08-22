@@ -22,3 +22,31 @@ export const createExpenses = async (req: TypeExpensesSchema): Promise<expenses>
         throw new Error(errorMessage)
     }
 }
+
+export const updateExpenses = async (req: TypeExpensesSchema, id: string): Promise<expenses> => {
+    const validatedFields = expensesSchema.safeParse(req)
+
+    if(validatedFields.error) throw new Error("Validation invalid")
+
+    try {
+        const result = await expensesService.update(validatedFields.data, id)
+
+        return result
+    } catch (err) {
+        const errorMessage = errorHandler(err)
+
+        throw new Error(errorMessage)
+    }
+}
+
+export const deleteExpenses = async (id: string): Promise<expenses> => {
+    try {
+        const result = await expensesService.delete(id)
+
+        return result
+    } catch (err) {
+        const errorMessage = errorHandler(err)
+
+        throw new Error(errorMessage)
+    }
+}

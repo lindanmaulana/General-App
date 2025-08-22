@@ -61,9 +61,23 @@ export const apiFundAccountsGetTotalBalance = async () => {
     }
 }
 
-export const apiFundAccountsGetTotalCash = async () => {
+export const apiFundAccountsGetTotalBalanceNonCash = async () => {
     try {
-        const response = await api.get('/fund-accounts/total-cash')
+        const response = await api.get('/fund-accounts/total-balance/non-cash')
+
+        if(response.data.error) throw new Error(response.data.error)
+
+        return response.data
+    } catch (err) {
+        const errorMessage = errorHandler(err)
+
+        throw new Error(errorMessage)
+    }
+}
+
+export const apiFundAccountsGetTotalBalanceCash = async () => {
+    try {
+        const response = await api.get('/fund-accounts/total-balance/cash')
 
         if(response.data.error) throw new Error(response.data.error)
 

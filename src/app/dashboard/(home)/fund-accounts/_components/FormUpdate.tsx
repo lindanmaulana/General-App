@@ -48,6 +48,7 @@ export const FormUpdate = ({data}: FormUpdateProps) => {
                 setIsOpen(false)
                 toast.success("Akun berhasil di perbarui")
                 queryClient.invalidateQueries({queryKey: ['getAllFundAccounts']})
+                queryClient.invalidateQueries({queryKey: ['getAllFundAccountsOptions']})
             },
 
             onError: (err) => {
