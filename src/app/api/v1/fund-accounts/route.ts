@@ -1,5 +1,5 @@
-import { errorApiCatch } from '@/lib/helpers/errorApiCatch';
-import { fundAccountsService } from '@/lib/services/fund-accounts.service';
+import { fundAccountsService } from '@/app/api/_lib/services/fund-accounts.service';
+import { customAPIErrorNextResponse } from '@/lib/helpers/customAPIErrorNextResponse';
 import { NextRequest, NextResponse } from 'next/server';
 
 export const GET = async (req: NextRequest) => {
@@ -8,8 +8,8 @@ export const GET = async (req: NextRequest) => {
 
     return NextResponse.json(result);
   } catch (err) {
-    const error = errorApiCatch(err)
-    
-    return NextResponse.json({error: error.message}, {status: error.statusCode})
+    const error = customAPIErrorNextResponse(err);
+
+    return NextResponse.json({ error: error.message }, { status: error.statusCode });
   }
 };

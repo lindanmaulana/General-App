@@ -1,4 +1,4 @@
-export class errorApiCustom extends Error{
+export class customAPIError extends Error{
     public statusCode: number
     constructor(message: string, statusCode: number) {
         super(message)

@@ -1,8 +1,8 @@
 'use server';
 
 import { errorHandler } from '@/lib/helpers/errorHandler';
-import { fundAccounts } from '@/lib/models/fund-accounts';
-import { fundAccountsService } from '@/lib/services/fund-accounts.service';
+import { fundAccounts } from '@/app/api/_lib/models/fund-accounts';
+import { fundAccountsService } from '@/app/api/_lib/services/fund-accounts.service';
 import { fundAccountsCreateSchema, fundAccountsUpdateSchema, TypeFundAccountsCreateSchema, TypeFundAccountsUpdateSchema } from '@/lib/validations/fund-accounts';
 
 export const createFundAccounts = async (req: TypeFundAccountsCreateSchema): Promise<fundAccounts> => {
@@ -42,13 +42,13 @@ export const updateFundAccounts = async (req: TypeFundAccountsUpdateSchema, id: 
 };
 
 export const deleteFundAccounts = async (id: string): Promise<fundAccounts> => {
-    try {
-        const result = await fundAccountsService.delete(id)
+  try {
+    const result = await fundAccountsService.delete(id);
 
-        return result
-    } catch (err) {
-        const errorMessage = errorHandler(err)
+    return result;
+  } catch (err) {
+    const errorMessage = errorHandler(err);
 
-        throw new Error(errorMessage)
-    }
-}
+    throw new Error(errorMessage);
+  }
+};

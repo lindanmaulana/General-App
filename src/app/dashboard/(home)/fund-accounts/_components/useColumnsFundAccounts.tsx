@@ -1,7 +1,7 @@
 'use client';
 
 import { Badge } from '@/components/ui/badge';
-import type { fundAccounts } from '@/lib/models/fund-accounts';
+import type { fundAccounts } from '@/app/api/_lib/models/fund-accounts';
 import { cn } from '@/lib/utils';
 import { useShow } from '@/lib/zustand/useShow';
 import { ColumnDef } from '@tanstack/react-table';
@@ -90,13 +90,13 @@ export const useColumnsFundAccounts = () => {
         },
       },
       {
-        accessorKey: "is_active",
-        header: "Status",
-        cell: ({row}) => {
-          const fundAccount = row.original
+        accessorKey: 'is_active',
+        header: 'Status',
+        cell: ({ row }) => {
+          const fundAccount = row.original;
 
-          return <Badge className={cn(fundAccount.is_active ? "bg-gnrPrimary" : "bg-gnrRed")}>{fundAccount.is_active ? "Aktif" : "Non Aktif"}</Badge>
-        }
+          return <Badge className={cn(fundAccount.is_active ? 'bg-gnrPrimary' : 'bg-gnrRed')}>{fundAccount.is_active ? 'Aktif' : 'Non Aktif'}</Badge>;
+        },
       },
       {
         header: 'Aksi',
@@ -104,7 +104,7 @@ export const useColumnsFundAccounts = () => {
           const fundAccount = row.original;
 
           return (
-            <div className='flex items-center gap-1'>
+            <div className="flex items-center gap-1">
               <FormUpdate key={fundAccount.id} data={fundAccount} />
               <FormDelete data={fundAccount} />
             </div>

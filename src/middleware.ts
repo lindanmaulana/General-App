@@ -1,7 +1,7 @@
 import { getToken } from "next-auth/jwt";
 import { NextRequest, NextResponse } from "next/server";
 import { AUTHSECRET } from "./lib/config";
-import { APIPREFIX, REDIRECT_AUTH, REDIRECT_HOME, ROUTESPREFIXADMIN, ROUTESPUBLIC } from "./routes";
+import { APIPREFIX, REDIRECT_EXPIRE_SESSION, REDIRECT_HOME, ROUTESPREFIXADMIN, ROUTESPUBLIC } from "./routes";
 
 export default async function middleware(req: NextRequest) {
   const {nextUrl} = req
@@ -32,8 +32,9 @@ export default async function middleware(req: NextRequest) {
   if(isApiRoute) return NextResponse.next();
 
   if(!isLoggedIn) {
+    
     if(!isPublicRoute) {
-      return NextResponse.redirect(new URL(REDIRECT_AUTH, nextUrl))
+      return NextResponse.redirect(new URL(REDIRECT_EXPIRE_SESSION, nextUrl))
     }
 
     return NextResponse.next()

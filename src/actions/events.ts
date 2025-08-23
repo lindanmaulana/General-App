@@ -1,56 +1,56 @@
-"use server"
+'use server';
 
-import { errorHandler } from "@/lib/helpers/errorHandler"
-import { events } from "@/lib/models/events"
-import { eventsService } from "@/lib/services/events.service"
-import { eventsSchema, TypeEventsSchema } from "@/lib/validations/events"
+import { errorHandler } from '@/lib/helpers/errorHandler';
+import { events } from '@/app/api/_lib/models/events';
+import { eventsService } from '@/app/api/_lib/services/events.service';
+import { eventsSchema, TypeEventsSchema } from '@/lib/validations/events';
 
 export const createEvents = async (req: TypeEventsSchema): Promise<events> => {
-    const validatedFields = eventsSchema.safeParse(req)
+  const validatedFields = eventsSchema.safeParse(req);
 
-    if(!validatedFields.success) throw new Error("Validation invalid")
+  if (!validatedFields.success) throw new Error('Validation invalid');
 
-        const is_public = validatedFields.data.is_public ? true : false
-        const date = validatedFields.data.date ? new Date(validatedFields.data.date) : undefined
-    
-    try {
-        const result = await eventsService.create({...validatedFields.data, date, is_public})
+  const is_public = validatedFields.data.is_public ? true : false;
+  const date = validatedFields.data.date ? new Date(validatedFields.data.date) : undefined;
 
-        return result.data
-    } catch (err) {
-        const errorMessage = errorHandler(err)
+  try {
+    const result = await eventsService.create({ ...validatedFields.data, date, is_public });
 
-        throw new Error(errorMessage)
-    }
-}
+    return result.data;
+  } catch (err) {
+    const errorMessage = errorHandler(err);
+
+    throw new Error(errorMessage);
+  }
+};
 
 export const updateEvents = async (req: TypeEventsSchema, id: string): Promise<events> => {
-    const validatedFields = eventsSchema.safeParse(req)
+  const validatedFields = eventsSchema.safeParse(req);
 
-    if(validatedFields.error) throw new Error("Validation invalid")
+  if (validatedFields.error) throw new Error('Validation invalid');
 
-    const isPublic = validatedFields.data.is_public ? true : false
-    const date = validatedFields.data.date ? new Date(validatedFields.data.date) : undefined
-    
-    try {
-        const result = await eventsService.update({...validatedFields.data, date, is_public: isPublic}, id)
+  const isPublic = validatedFields.data.is_public ? true : false;
+  const date = validatedFields.data.date ? new Date(validatedFields.data.date) : undefined;
 
-        return result
-    } catch (err) {
-        const errorMessage = errorHandler(err)
+  try {
+    const result = await eventsService.update({ ...validatedFields.data, date, is_public: isPublic }, id);
 
-        throw new Error(errorMessage)
-    }
-}
+    return result;
+  } catch (err) {
+    const errorMessage = errorHandler(err);
+
+    throw new Error(errorMessage);
+  }
+};
 
 export const deleteEvents = async (id: string): Promise<events> => {
-    try {
-        const result = await eventsService.delete(id)
+  try {
+    const result = await eventsService.delete(id);
 
-        return result
-    } catch (err) {
-        const errorMessage = errorHandler(err)
+    return result;
+  } catch (err) {
+    const errorMessage = errorHandler(err);
 
-        throw new Error(errorMessage)
-    }
-}
+    throw new Error(errorMessage);
+  }
+};
