@@ -1,13 +1,15 @@
 "use client"
 
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Card, CardContent } from "@/components/ui/card"
+import { handleParsePrice } from "@/lib/helpers/parsing"
+import { queryGetTotalAmountThisMonthExpensesOptions } from "@/lib/queries/expenses"
 import { queryGetCountActiveFundAccountsOptions, queryGetTotalBalanceFundAccountsOptions } from "@/lib/queries/fund-accounts"
+import { queryGetTotalAmountThisMonthIncomesOptions } from "@/lib/queries/incomes"
 import { useQuery } from "@tanstack/react-query"
 import { DollarSign, TrendingDown, TrendingUp, Wallet } from "lucide-react"
+import { FinancialSummaryChartCard } from "./FinancialSummaryChartCard"
 import { SkeletonOverviewCard } from "./SkeletonOverviewCard"
-import { handleParsePrice } from "@/lib/helpers/parsing"
-import { queryGetTotalAmountThisMonthIncomesOptions } from "@/lib/queries/incomes"
-import { queryGetTotalAmountThisMonthExpensesOptions } from "@/lib/queries/expenses"
+import { ToolbarCard } from "./ToolbarCard"
 
 export const DashboardContent = () => {
 
@@ -28,7 +30,7 @@ export const DashboardContent = () => {
 
     return (
         <>
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-3">
+        <section className="grid grid-cols-1 md:grid-cols-4 gap-3">
             <Card>
                 <CardContent className="space-y-2">
                     <h3 className="text-sm text-gnrGray font-medium">Total Akun (active)</h3>
@@ -73,8 +75,12 @@ export const DashboardContent = () => {
                     </div>
                 </CardContent>
             </Card>
-        </div>
+        </section>
         
+        <section className="grid grid-cols-1 lg:grid-cols-6 gap-3">
+            <FinancialSummaryChartCard />
+            <ToolbarCard />
+        </section>
         </>
     )
 }

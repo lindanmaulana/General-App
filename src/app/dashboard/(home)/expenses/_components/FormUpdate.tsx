@@ -64,6 +64,7 @@ export const FormUpdate = ({ data }: FormUpdateProps) => {
         queryClient.invalidateQueries({ queryKey: ['getTotalBalanceFundAccounts'] });
         queryClient.invalidateQueries({ queryKey: ['getTotalBalanceNonCashFundAccounts'] });
         queryClient.invalidateQueries({ queryKey: ['getTotalBalanceCashFundAccounts'] });
+        queryClient.invalidateQueries({ queryKey: ['getFinancialSummaryMonthly'] });
       },
 
       onError: (err) => {

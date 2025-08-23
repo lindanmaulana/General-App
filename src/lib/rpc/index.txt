@@ -85,3 +85,44 @@ as $$
   where date >= date_trunc('month', now())::date
     and date < (date_trunc('month', now()) + interval '1 month')::date;
 $$;
+
+
+-- GET DATA KEUANGAN SEMUA / tahun
+CREATE OR REPLACE FUNCTION get_monthly_financial_summary_by_year(target_year int)
+RETURNS TABLE (
+  month text,
+  incomes decimal,
+  expenses decimal,
+  balance decimal
+) AS $$
+BEGIN
+  RETURN QUERY
+  WITH monthly_incomes AS (
+    SELECT
+      EXTRACT(YEAR FROM date) AS year_num,
+      EXTRACT(MONTH FROM date) AS month_num,
+      SUM(amount) AS income
+    FROM incomes
+    WHERE EXTRACT(YEAR FROM date) = target_year
+    GROUP BY year_num, month_num
+  ),
+  monthly_expenses AS (
+    SELECT
+      EXTRACT(YEAR FROM date) AS year_num,
+      EXTRACT(MONTH FROM date) AS month_num,
+      SUM(amount) AS expense
+    FROM expenses
+    WHERE EXTRACT(YEAR FROM date) = target_year
+    GROUP BY year_num, month_num
+  )
+  SELECT
+    TO_CHAR(make_date(2000, COALESCE(i.month_num, e.month_num), 1), 'Mon') AS month,
+    COALESCE(i.income, 0) AS pemasukan,
+    COALESCE(e.expense, 0) AS pengeluaran,
+    COALESCE(i.income, 0) - COALESCE(e.expense, 0) AS saldo
+  FROM monthly_incomes i
+  FULL OUTER JOIN monthly_expenses e ON i.month_num = e.month_num AND i.year_num = e.year_num
+  ORDER BY COALESCE(i.month_num, e.month_num);
+
+END;
+$$ LANGUAGE plpgsql;
