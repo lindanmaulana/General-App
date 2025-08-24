@@ -90,6 +90,9 @@ export const useColumnsEvents = () => {
         },
       },
       {
+        header: "Foto"
+      },
+      {
         header: 'Aksi',
         cell: ({ row }) => {
           const event = row.original;
