@@ -29,7 +29,7 @@ export const FinancialSummaryChart = () => {
     } satisfies ChartConfig
 
     return (
-        <div className="min-h-40">
+        <div className="min-h-40 py-4">
             <ResponsiveContainer width={"100%"} height={"100%"}>
                 <ChartContainer config={chartConfig}>
                     <LineChart
