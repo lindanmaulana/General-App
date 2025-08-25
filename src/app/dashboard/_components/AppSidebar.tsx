@@ -2,10 +2,11 @@
 
 import { Sidebar, SidebarContent, SidebarFooter, SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from "@/components/ui/sidebar"
 import { DEFAULT_QUERY_PARAMS, DEFAULT_ROUTE } from "@/lib/constant/default-route"
-import { Calendar, CreditCard, LayoutDashboard, LogOutIcon, TrendingDown, TrendingUp, Wallet, type LucideIcon } from "lucide-react"
+import { Calendar, LayoutDashboard, LogOutIcon, TrendingDown, TrendingUp, Wallet, type LucideIcon } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
+import { FormLogout } from "./FormLogout"
 
 interface Item {
     title: string
@@ -41,11 +42,6 @@ export const AppSidebar = () => {
             url: `${DEFAULT_ROUTE.events}?${DEFAULT_QUERY_PARAMS}`, 
             icon: Calendar,
         },
-        { 
-            title: "Kartu Kredit", 
-            url: "/kartu-kredit", 
-            icon: CreditCard,
-        },
     ]
     
     const getActiveRoute = (route: string) => {
@@ -55,11 +51,11 @@ export const AppSidebar = () => {
         const exactMatchRoutes = ["/dashboard"];
         
         if (exactMatchRoutes.includes(cleanRoute)) {
-            return cleanPathname === cleanRoute ? "bg-gnrPrimary text-white" : "";
+            return cleanPathname === cleanRoute ? "bg-gnrPrimary text-white border-2 border-blue-800" : "";
         }
         
         return cleanPathname === cleanRoute || cleanPathname.startsWith(cleanRoute + "/") 
-            ? "bg-gnrPrimary text-white" 
+            ? "bg-gnrPrimary text-white border-2 border-blue-800" 
             : "";
     }
     
@@ -95,11 +91,8 @@ export const AppSidebar = () => {
             <SidebarFooter>
                 <SidebarMenu>
                     <SidebarMenuItem className="px-2">
-                        <SidebarMenuButton className="bg-gnrRed hover:bg-gnrRed/70 cursor-pointer" asChild>
-                            <button className="px-2 text-white flex items-center gap-3">
-                                <LogOutIcon />
-                                <span>Logout</span>
-                            </button>
+                        <SidebarMenuButton asChild>
+                            <FormLogout />
                         </SidebarMenuButton>
                     </SidebarMenuItem>
                 </SidebarMenu>

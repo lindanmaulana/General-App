@@ -4,12 +4,12 @@ import { incomes } from "@/app/api/_lib/models/incomes"
 import { handleParseDate, handleParsePrice } from "@/lib/helpers/parsing"
 import { Document, Image, Page, StyleSheet, Text, View } from "@react-pdf/renderer"
 
-interface IncomesDocumentProps {
+interface FinancialSummaryDocumentProps {
     period: string
     data: incomes[] | []
 }
 
-export const IncomesDocument = ({period, data}: IncomesDocumentProps) => {
+export const FinancialSummaryDocument = ({period, data}: FinancialSummaryDocumentProps) => {
     const reportDate = handleParseDate(new Date(), "YYYY-MM-DD")
 
     const styles = StyleSheet.create({
@@ -75,13 +75,11 @@ export const IncomesDocument = ({period, data}: IncomesDocumentProps) => {
                 border: '1px solid #E0E0E0',
                 marginBottom: 20
             },
-            
             headerContainer: {
                 flexDirection: 'row',
-                backgroundColor: '#2FCC71',
+                backgroundColor: '#007BFF',
                 borderBottom: '1px solid #E0E0E0',
             },
-
             headerCell: {
                 padding: 8,
                 fontSize: 10,
@@ -89,13 +87,11 @@ export const IncomesDocument = ({period, data}: IncomesDocumentProps) => {
                 color: '#fff',
                 textAlign: 'center',
             },
-
             rowContainer: {
                 flexDirection: 'row',
                 borderBottom: '1px solid #E0E0E0',
                 backgroundColor: '#f5f5f5',
             },
-
             bodyCell: {
                 padding: 8,
                 fontSize: 10,
@@ -135,7 +131,7 @@ export const IncomesDocument = ({period, data}: IncomesDocumentProps) => {
                             </View>
     
                             <View style={styles.report_heading_title}>
-                                <Text style={styles.report_heading_title_text}> LAPORAN PEMASUKAN BULANAN</Text>
+                                <Text style={styles.report_heading_title_text}> LAPORAN KEUANGAN BULANAN</Text>
                             </View>
     
                             <View style={styles.report_heading_period}>

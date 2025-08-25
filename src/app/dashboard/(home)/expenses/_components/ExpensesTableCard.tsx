@@ -1,15 +1,19 @@
 import { Card, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { ExpensesTable } from "./ExpensesTable";
 import { ExpensesToolbar } from "./ExpensesToolbar";
+import { PdfExportToolbar } from './PDFExportToolbar';
 
 export const ExpensesTableCard = () => {
     return (
         <Card>
             <CardHeader>
                 <div className='flex flex-col gap-3'>
-                    <div>
-                        <CardTitle>Riwayat Pemasukan</CardTitle>
-                        <CardDescription>Daftar semua transaksi pemasukan yang telah dicatat</CardDescription>
+                    <div className='flex flex-col md:flex-row items-center justify-between'>
+                        <div>
+                            <CardTitle>Riwayat Pemasukan</CardTitle>
+                            <CardDescription>Daftar semua transaksi pemasukan yang telah dicatat</CardDescription>
+                        </div>
+                        <PdfExportToolbar />
                     </div>
                     <ExpensesToolbar />
                 </div>

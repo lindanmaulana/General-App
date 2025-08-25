@@ -14,8 +14,8 @@ import { FileDown } from "lucide-react"
 import { useSearchParams } from "next/navigation"
 import { useMemo, useState } from "react"
 import { useForm } from "react-hook-form"
-import { SkeletonButton } from "../../_components/SkeletonButton"
-import { IncomesDocument } from "./IncomesDocument"
+import { SkeletonButton } from "./SkeletonButton"
+import { IncomesDocument } from "../incomes/_components/IncomesDocument"
 
 export const PdfExportToolbar = () => {
     const currentParams = useSearchParams()
@@ -48,7 +48,7 @@ export const PdfExportToolbar = () => {
     return (
         <Dialog key={data.data.id}>
             <DialogTrigger asChild>
-                <Button variant={"outline"} className="w-full md:w-fit cursor-pointer"><FileDown /> Buat Laporan PDF</Button>
+                <Button variant={"outline"} className="cursor-pointer"><FileDown /> Buat Laporan PDF</Button>
             </DialogTrigger>
             <DialogContent>
                 <DialogHeader>

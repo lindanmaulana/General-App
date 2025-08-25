@@ -8,7 +8,7 @@ export const IncomesTableCard = () => {
         <Card>
             <CardHeader>
                 <div className='flex flex-col gap-3'>
-                    <div className='flex items-center justify-between'>
+                    <div className='flex flex-col md:flex-row items-center justify-between gap-3'>
                         <div>
                             <CardTitle>Riwayat Pemasukan</CardTitle>
                             <CardDescription>Daftar semua transaksi pemasukan yang telah dicatat</CardDescription>

@@ -4,12 +4,12 @@ import { incomes } from "@/app/api/_lib/models/incomes"
 import { handleParseDate, handleParsePrice } from "@/lib/helpers/parsing"
 import { Document, Image, Page, StyleSheet, Text, View } from "@react-pdf/renderer"
 
-interface IncomesDocumentProps {
+interface ExpensesDocumentProps {
     period: string
     data: incomes[] | []
 }
 
-export const IncomesDocument = ({period, data}: IncomesDocumentProps) => {
+export const ExpensesDocument = ({period, data}: ExpensesDocumentProps) => {
     const reportDate = handleParseDate(new Date(), "YYYY-MM-DD")
 
     const styles = StyleSheet.create({
@@ -75,13 +75,11 @@ export const IncomesDocument = ({period, data}: IncomesDocumentProps) => {
                 border: '1px solid #E0E0E0',
                 marginBottom: 20
             },
-            
             headerContainer: {
                 flexDirection: 'row',
-                backgroundColor: '#2FCC71',
+                backgroundColor: '#EF4444',
                 borderBottom: '1px solid #E0E0E0',
             },
-
             headerCell: {
                 padding: 8,
                 fontSize: 10,
@@ -89,13 +87,11 @@ export const IncomesDocument = ({period, data}: IncomesDocumentProps) => {
                 color: '#fff',
                 textAlign: 'center',
             },
-
             rowContainer: {
                 flexDirection: 'row',
                 borderBottom: '1px solid #E0E0E0',
                 backgroundColor: '#f5f5f5',
             },
-
             bodyCell: {
                 padding: 8,
                 fontSize: 10,
@@ -113,7 +109,7 @@ export const IncomesDocument = ({period, data}: IncomesDocumentProps) => {
             },
     
             footer_total_balance_price: {
-                color: '#2FCC71'
+                color: '#EF4444'
             },
             // Untuk warna baris bergantian
             rowEven: {
@@ -135,7 +131,7 @@ export const IncomesDocument = ({period, data}: IncomesDocumentProps) => {
                             </View>
     
                             <View style={styles.report_heading_title}>
-                                <Text style={styles.report_heading_title_text}> LAPORAN PEMASUKAN BULANAN</Text>
+                                <Text style={styles.report_heading_title_text}> LAPORAN PENGELUARAN BULANAN</Text>
                             </View>
     
                             <View style={styles.report_heading_period}>
@@ -182,7 +178,7 @@ export const IncomesDocument = ({period, data}: IncomesDocumentProps) => {
     
                         <View style={styles.footer} >
                             <Text style={styles.footer_total_balance}>Ringkasan Bulan {period}</Text>
-                            <Text style={styles.footer_total_balance}>Total Pemasukan: <Text style={styles.footer_total_balance_price}>{reportTotalBalance}</Text></Text>
+                            <Text style={styles.footer_total_balance}>Total Pengeluaran: <Text style={styles.footer_total_balance_price}>{reportTotalBalance}</Text></Text>
                         </View>
                     </Page> 
                 </Document>

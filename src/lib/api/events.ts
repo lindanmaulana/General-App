@@ -59,9 +59,7 @@ export const apiEventsGetCountIsPublic = async () => {
 
 export const apiEventsGetTotalBudget = async () => {
     try {
-        const response = await api.get('/events/budget')
-
-        if(response.data.error) throw new Error(response.data.error)
+        const response = await api.get('/events/budget/total')
 
         return response.data
     } catch (err) {

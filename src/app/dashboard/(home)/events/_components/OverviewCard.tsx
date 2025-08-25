@@ -19,9 +19,9 @@ export const OverviewCard = () => {
   const isShow = useShow((state) => state.isShow);
 
   if (queryPublicCount.isLoading || queryCount.isLoading || queryTotalBudget.isLoading) return <SkeletonOverviewCard totalCard={3} />;
-  if (queryPublicCount.isError || queryCount.isError || queryTotalBudget.isError) return <p>Error... {queryTotalBudget.error?.message}</p>;
+  if (queryPublicCount.isError || queryCount.isError || queryTotalBudget.isError) return <p>Error...</p>;
 
-  const totalBudget = handleParsePrice(queryTotalBudget.data) ?? 0;
+  const totalBudget = queryTotalBudget.data !== null ? handleParsePrice(queryTotalBudget.data) : 0;
   const totalEvent = queryCount.data ?? 0;
   const totalEventPublic = queryPublicCount.data ?? 0;
 

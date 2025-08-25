@@ -4,8 +4,7 @@ import { Button } from "@/components/ui/button"
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
-import { queryGetTotalBalanceFundAccountsOptions } from "@/lib/queries/fund-accounts"
-import { queryGetAllIncomesOptions } from "@/lib/queries/incomes"
+import { queryGetAllExpensesOptions } from "@/lib/queries/expenses"
 import { incomesReportDocumentSchema, typeIncomesReportDocumentSchema } from "@/lib/validations/report-document"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { PDFDownloadLink } from "@react-pdf/renderer"
@@ -15,18 +14,17 @@ import { useSearchParams } from "next/navigation"
 import { useMemo, useState } from "react"
 import { useForm } from "react-hook-form"
 import { SkeletonButton } from "../../_components/SkeletonButton"
-import { IncomesDocument } from "./IncomesDocument"
+import { ExpensesDocument } from "./ExpenseDocument"
 
 export const PdfExportToolbar = () => {
     const currentParams = useSearchParams()
     const [pdf, setPdf] = useState<{period: string} | null>(null)
     
     const queryOptions = useMemo(() => {
-        return queryGetAllIncomesOptions(currentParams.toString())
+        return queryGetAllExpensesOptions(currentParams.toString())
     }, [currentParams])
 
     const {isLoading, isError, data} = useQuery(queryOptions)
-    const queryTotalBalance = useQuery(queryGetTotalBalanceFundAccountsOptions())
 
     const form = useForm<typeIncomesReportDocumentSchema>({
         resolver: zodResolver(incomesReportDocumentSchema),
@@ -35,11 +33,9 @@ export const PdfExportToolbar = () => {
         }
     })
 
-    if(isLoading || queryTotalBalance.isLoading) return <SkeletonButton />
+    if(isLoading) return <SkeletonButton />
 
-    if(isError || queryTotalBalance.isError) return <p>Error...</p>
-
-    const totalBalance = queryTotalBalance.data
+    if(isError) return <p>Error...</p>
 
     const handleForm = form.handleSubmit((value) => {
         setPdf({period: value.period})
@@ -52,8 +48,8 @@ export const PdfExportToolbar = () => {
             </DialogTrigger>
             <DialogContent>
                 <DialogHeader>
-                    <DialogTitle>Laporan Pemasukan</DialogTitle>
-                    <DialogDescription>Export laporan pemasukan</DialogDescription>
+                    <DialogTitle>Laporan Pengeluaran</DialogTitle>
+                    <DialogDescription>Export laporan pengeluaran</DialogDescription>
                 </DialogHeader> 
 
                 <Form {...form}>
@@ -76,7 +72,7 @@ export const PdfExportToolbar = () => {
 
                         {pdf ? (
                             <div className="flex items-center gap-2">
-                                <PDFDownloadLink document={<IncomesDocument period={pdf.period} data={data.data} />} fileName="Laporan pemasukan keuangan">
+                                <PDFDownloadLink document={<ExpensesDocument period={pdf.period} data={data.data} />} fileName="Laporan pengeluaran keuangan">
                                     {({loading}) => (
                                             <Button type="button" variant="outline" className="flex items-center gap-2">
                                                 <FileDown size={16} />

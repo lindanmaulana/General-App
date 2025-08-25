@@ -122,7 +122,7 @@ export class eventsService {
   }
 
   static async getAllOptions() {
-    const result = await supabase.from(this.table).select('id, name, code');
+    const result = await supabase.from(this.table).select('id, name, code').neq("status", "CANCELLED");
 
     console.log({ result });
     if (result.error) throw new customAPIError(`${RESPONSE_MESSAGE.error.read} event`, result.status);
@@ -148,7 +148,7 @@ export class eventsService {
 
   static async getTotalBudget() {
     const result = await supabase.rpc('get_total_budget');
-
+    
     if (result.error) throw new customAPIError(`${RESPONSE_MESSAGE.error.read} budget event`, result.status);
 
     return result.data;
@@ -173,8 +173,18 @@ export class eventsService {
   static async checkingDuplicateCodeNeId(id: string, code: string) {
     const result = await supabase.from(this.table).select('*').eq('code', code).neq('id', id).maybeSingle();
 
-    if (result.data) throw new customAPIError(`Event dengan code ${RESPONSE_MESSAGE.error.duplicate}`, result.status);
+    if (result.data) throw new customAPIError(`Event dengan code ${RESPONSE_MESSAGE.error.duplicate}`, 400);
 
     return result;
+  }
+
+  static async checkingStatusNotCancelled(id: string) {
+    const result = await supabase.from(this.table).select("*").eq("id", id).neq("status", "CANCELLED").limit(1).maybeSingle()
+
+    if(result.error) throw new customAPIError(`${RESPONSE_MESSAGE.error.read} event`, result.status)
+
+    if(!result.data) throw new customAPIError(`${RESPONSE_MESSAGE.error.read}, event telah di batalkan`, 400)
+
+    return result.data
   }
 }

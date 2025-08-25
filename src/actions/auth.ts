@@ -1,7 +1,7 @@
 'use server';
 
 import { ActionResult } from '@/actions/index';
-import { signIn } from '@/auth';
+import { signIn, signOut } from '@/auth';
 import { errorHandler } from '@/lib/helpers/errorHandler';
 import { AuthService } from '@/app/api/_lib/services/auth.service';
 import { AuthLoginCredentialsSchema, AuthRegisterCredentialsSchema } from '@/lib/validations/auth';
@@ -38,6 +38,10 @@ export const AuthLogin = async (prevState: unknown, formData: FormData): Promise
 
   redirect('/dashboard');
 };
+
+export const AuthLogout = async () => {
+  await signOut({redirectTo: "/dashboard/login"})
+}
 
 export const AuthRegister = async (prevState: unknown, formData: FormData): Promise<ActionResult> => {
   const validatedFields = AuthRegisterCredentialsSchema.safeParse({
