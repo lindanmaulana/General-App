@@ -83,7 +83,7 @@ export const PdfExportToolbar = () => {
                                 <Button type="button" variant={"destructive"} onClick={() => setPdf(null)}>Reset</Button>
                             </div>
                         ) : (
-                            <Button type="submit">Simpan</Button>
+                            <Button type="submit" disabled={data.data.length <= 0} >Simpan</Button>
                         )}
                     </form>
                 </Form>
