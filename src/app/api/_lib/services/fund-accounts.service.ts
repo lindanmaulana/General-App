@@ -1,8 +1,8 @@
 import { NextRequest } from 'next/server';
-import { DEFAULT_LIMIT, DEFAULT_PAGE, MAXIMUM_LIMIT } from '../../../../lib/constant/pagination';
+import { DEFAULT_LIMIT, DEFAULT_PAGE, MAXIMUM_LIMIT } from '../../../../lib/constants/pagination';
 import { fundAccountsCreateRequest, fundAccountsUpdateRequest } from '../models/fund-accounts';
 import supabase from '../../../../lib/supabase';
-import { RESPONSE_MESSAGE } from '../../../../lib/constant/response-message';
+import { RESPONSE_MESSAGE } from '../../../../lib/constants/response-message';
 import { customAPIError } from '@/lib/helpers/customAPIError';
 
 export class fundAccountsService {

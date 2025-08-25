@@ -1,6 +1,6 @@
 import { NextRequest } from 'next/server';
-import { DEFAULT_LIMIT, DEFAULT_PAGE, MAXIMUM_LIMIT } from '../../../../lib/constant/pagination';
-import { RESPONSE_MESSAGE } from '../../../../lib/constant/response-message';
+import { DEFAULT_LIMIT, DEFAULT_PAGE, MAXIMUM_LIMIT } from '../../../../lib/constants/pagination';
+import { RESPONSE_MESSAGE } from '../../../../lib/constants/response-message';
 import { events, eventsCreateRequest, eventsUpdateRequest } from '../models/events';
 import supabase from '../../../../lib/supabase';
 import { customAPIError } from '@/lib/helpers/customAPIError';
@@ -122,7 +122,7 @@ export class eventsService {
   }
 
   static async getAllOptions() {
-    const result = await supabase.from(this.table).select('id, name, code').neq("status", "CANCELLED");
+    const result = await supabase.from(this.table).select('id, name, code').neq('status', 'CANCELLED');
 
     console.log({ result });
     if (result.error) throw new customAPIError(`${RESPONSE_MESSAGE.error.read} event`, result.status);
@@ -148,7 +148,7 @@ export class eventsService {
 
   static async getTotalBudget() {
     const result = await supabase.rpc('get_total_budget');
-    
+
     if (result.error) throw new customAPIError(`${RESPONSE_MESSAGE.error.read} budget event`, result.status);
 
     return result.data;
@@ -179,12 +179,12 @@ export class eventsService {
   }
 
   static async checkingStatusNotCancelled(id: string) {
-    const result = await supabase.from(this.table).select("*").eq("id", id).neq("status", "CANCELLED").limit(1).maybeSingle()
+    const result = await supabase.from(this.table).select('*').eq('id', id).neq('status', 'CANCELLED').limit(1).maybeSingle();
 
-    if(result.error) throw new customAPIError(`${RESPONSE_MESSAGE.error.read} event`, result.status)
+    if (result.error) throw new customAPIError(`${RESPONSE_MESSAGE.error.read} event`, result.status);
 
-    if(!result.data) throw new customAPIError(`${RESPONSE_MESSAGE.error.read}, event telah di batalkan`, 400)
+    if (!result.data) throw new customAPIError(`${RESPONSE_MESSAGE.error.read}, event telah di batalkan`, 400);
 
-    return result.data
+    return result.data;
   }
 }

@@ -1,5 +1,5 @@
 'use client';
-import { SkeletonOverviewCard } from '@/app/dashboard/(home)/_components/SkeletonOverviewCard';
+import { SkeletonOverviewCard } from '@/app/dashboard/(home)/_components/skeleton/SkeletonOverviewCard';
 import { Card, CardContent } from '@/components/ui/card';
 import { handleParsePrice } from '@/lib/helpers/parsing';
 import { queryGetCountEventsOptions, queryGetCountIsPublicEventsOptions, queryGetTotalBudgetEventsOptions } from '@/lib/queries/events';
@@ -19,7 +19,7 @@ export const OverviewCard = () => {
   const isShow = useShow((state) => state.isShow);
 
   if (queryPublicCount.isLoading || queryCount.isLoading || queryTotalBudget.isLoading) return <SkeletonOverviewCard totalCard={3} />;
-  if (queryPublicCount.isError || queryCount.isError || queryTotalBudget.isError) return <p>Error...</p>;
+  if (queryPublicCount.isError || queryCount.isError || queryTotalBudget.isError) return <></>;
 
   const totalBudget = queryTotalBudget.data !== null ? handleParsePrice(queryTotalBudget.data) : 0;
   const totalEvent = queryCount.data ?? 0;

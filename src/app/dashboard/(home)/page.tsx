@@ -1,5 +1,6 @@
-import { DashboardContent } from "@/app/dashboard/(home)/_components/DashboardContent"
 import { Metadata } from "next"
+import { FinancialSummaryCards } from "./_components/financial-summary/FinancialSummaryCards"
+import { FinancialChartPanel } from "./_components/FinancialChartPanel"
 
 export const metadata: Metadata = {
     title: "Dashboard | Beranda"
@@ -12,7 +13,8 @@ const PageDashboard = () => {
                 <h3 className="text-3xl font-bold text-gnrDark">Dashboard</h3>
                 <p className="text-gnrGray">Ringkasan aktivitas keuangan anda</p>
             </div>
-            <DashboardContent />
+            <FinancialSummaryCards />
+            <FinancialChartPanel />
         </section>
     )
 }

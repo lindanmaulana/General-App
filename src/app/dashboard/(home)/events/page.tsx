@@ -1,7 +1,7 @@
 import { ShowPrivate } from '@/app/dashboard/(home)/_components/ShowPrivate';
-import { FormCreate } from '@/app/dashboard/(home)/events/_components/FormCreate';
+import { FormCreate } from '@/app/dashboard/(home)/events/_components/form/FormCreate';
 import { OverviewCard } from '@/app/dashboard/(home)/events/_components/OverviewCard';
-import { EventsTableCard } from './_components/EventsTableCard';
+import { EventsTableCard } from './_components/table/EventsTableCard';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {

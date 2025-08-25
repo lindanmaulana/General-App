@@ -36,4 +36,4 @@ export const ROUTE_LOGIN_ADMIN = "/dashboard/login"
  * Routes that start with the prefix are used for API authentication purpose
  * @type {string}
  */
-export const APIPREFIX = "/api"
+export const APIPREFIX = "/api" 

@@ -1,6 +1,6 @@
 import { NextRequest } from 'next/server';
-import { DEFAULT_LIMIT, DEFAULT_PAGE, MAXIMUM_LIMIT } from '../../../../lib/constant/pagination';
-import { RESPONSE_MESSAGE } from '../../../../lib/constant/response-message';
+import { DEFAULT_LIMIT, DEFAULT_PAGE, MAXIMUM_LIMIT } from '../../../../lib/constants/pagination';
+import { RESPONSE_MESSAGE } from '../../../../lib/constants/response-message';
 import { incomes, incomesCreateRequest } from '../models/incomes';
 import supabase from '../../../../lib/supabase';
 import { eventsService } from './events.service';

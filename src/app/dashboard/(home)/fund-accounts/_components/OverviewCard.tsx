@@ -1,34 +1,34 @@
 'use client';
+import { SkeletonOverviewCard } from '@/app/dashboard/(home)/_components/skeleton/SkeletonOverviewCard';
 import { Card, CardContent } from '@/components/ui/card';
 import {
   queryGetCountActiveFundAccountsOptions,
   queryGetCountActiveNonCashFundAccountsOptions,
+  queryGetTotalBalanceCashFundAccountsOptions,
   queryGetTotalBalanceFundAccountsOptions,
   queryGetTotalBalanceNonCashFundAccountsOptions,
-  queryGetTotalBalanceCashFundAccountsOptions,
 } from '@/lib/queries/fund-accounts';
 import { useShow } from '@/lib/zustand/useShow';
 import { useQuery } from '@tanstack/react-query';
 import { CreditCard, Wallet } from 'lucide-react';
-import { TypeActive, TypeActiveNonCash, TypeTotalBalance, TypeTotalCash } from '../types';
-import { ErrorOverview } from './ErrorOverview';
-import { SkeletonOverviewCard } from '@/app/dashboard/(home)/_components/SkeletonOverviewCard';
+import { TypeActive, TypeActiveNonCash, TypeTotalBalance, TypeTotalCash } from '../_types';
 
 export const OverviewCard = () => {
   const isShow = useShow((state) => state.isShow);
 
   const queryCountActive: TypeActive = useQuery(queryGetCountActiveFundAccountsOptions());
   const queryTotalBalance: TypeTotalBalance = useQuery(queryGetTotalBalanceFundAccountsOptions());
-  const queryTotalBalanceNonCash = useQuery(queryGetTotalBalanceNonCashFundAccountsOptions())
+  const queryTotalBalanceNonCash = useQuery(queryGetTotalBalanceNonCashFundAccountsOptions());
   const queryTotalBalanceCash: TypeTotalCash = useQuery(queryGetTotalBalanceCashFundAccountsOptions());
   const queryCountActiveNonCash: TypeActiveNonCash = useQuery(queryGetCountActiveNonCashFundAccountsOptions());
 
-  if (queryCountActive.isLoading || queryTotalBalance.isLoading || queryTotalBalanceNonCash.isLoading || queryTotalBalanceCash.isLoading || queryCountActiveNonCash.isLoading) return <SkeletonOverviewCard totalCard={4} />;
+  if (queryCountActive.isLoading || queryTotalBalance.isLoading || queryTotalBalanceNonCash.isLoading || queryTotalBalanceCash.isLoading || queryCountActiveNonCash.isLoading)
+    return <SkeletonOverviewCard totalCard={4} />;
 
-  if (queryCountActive.isError || queryTotalBalance.isError || queryTotalBalanceNonCash.isError || queryTotalBalanceCash.isError || queryCountActiveNonCash.isError) return <ErrorOverview />;
+  if (queryCountActive.isError || queryTotalBalance.isError || queryTotalBalanceNonCash.isError || queryTotalBalanceCash.isError || queryCountActiveNonCash.isError) return <></>;
 
   const totalBalance: number = queryTotalBalance.data ?? 0;
-  const totalBalanceNonCash: number = queryTotalBalanceNonCash.data ?? 0
+  const totalBalanceNonCash: number = queryTotalBalanceNonCash.data ?? 0;
   const totalBalanceCash: number = queryTotalBalanceCash.data ?? 0;
   const countActiveNonCash: number = queryCountActiveNonCash.data ?? 0;
 

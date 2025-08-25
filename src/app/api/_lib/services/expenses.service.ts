@@ -1,6 +1,6 @@
 import { NextRequest } from 'next/server';
-import { DEFAULT_LIMIT, DEFAULT_PAGE, MAXIMUM_LIMIT } from '../../../../lib/constant/pagination';
-import { RESPONSE_MESSAGE } from '../../../../lib/constant/response-message';
+import { DEFAULT_LIMIT, DEFAULT_PAGE, MAXIMUM_LIMIT } from '../../../../lib/constants/pagination';
+import { RESPONSE_MESSAGE } from '../../../../lib/constants/response-message';
 import { expenses, expensesCreateRequest } from '../models/expenses';
 import supabase from '../../../../lib/supabase';
 import { eventsService } from './events.service';
@@ -14,7 +14,7 @@ export class expensesService {
   static async create(req: expensesCreateRequest) {
     const event = await eventsService.checkingEvent(req.event_id);
 
-    const checkStatusEvent = await eventsService.checkingStatusNotCancelled(event.id)
+    const checkStatusEvent = await eventsService.checkingStatusNotCancelled(event.id);
 
     const fundAccount = await fundAccountsService.checkingFundAccount(req.fund_account_id);
 
