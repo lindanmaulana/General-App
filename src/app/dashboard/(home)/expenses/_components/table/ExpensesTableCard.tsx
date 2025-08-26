@@ -2,6 +2,7 @@ import { Card, CardDescription, CardHeader, CardTitle } from '@/components/ui/ca
 import { ExpensesTable } from './ExpensesTable';
 import { ExpensesToolbar } from '../toolbar/ExpensesToolbar';
 import { PdfExportToolbar } from '../toolbar/PDFExportToolbar';
+import { CsvExportToolbar } from '../toolbar/CSVExportToolbar';
 
 export const ExpensesTableCard = () => {
   return (
@@ -13,7 +14,10 @@ export const ExpensesTableCard = () => {
               <CardTitle>Riwayat Pemasukan</CardTitle>
               <CardDescription>Daftar semua transaksi pemasukan yang telah dicatat</CardDescription>
             </div>
-            <PdfExportToolbar />
+            <div className='w-full md:w-fit flex flex-col md:flex-row items-center gap-2'>
+              <CsvExportToolbar />
+              <PdfExportToolbar />
+            </div>
           </div>
           <ExpensesToolbar />
         </div>

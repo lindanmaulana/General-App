@@ -11,7 +11,7 @@ export const FinancialSummaryChartCard = () => {
             <Card>
                 <CardHeader>
                     <CardTitle>Tren Cash Flow</CardTitle>
-                    <CardDescription>Perkembangan arus kas 6 bulan terakhir</CardDescription>
+                    <CardDescription>Perkembangan arus kas 1 tahun terakhir</CardDescription>
                 </CardHeader>
 
                 <CardContent>

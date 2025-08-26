@@ -14,13 +14,15 @@ export class incomesService {
   static async create(req: incomesCreateRequest) {
     const event = await eventsService.checkingEvent(req.event_id);
 
+    const checkStatusEvent = await eventsService.checkingStatusNotCancelled(event.id)
+
     const fundAccount = await fundAccountsService.checkingFundAccount(req.fund_account_id);
 
     const fundAccountActive = await fundAccountsService.checkingFundAccountActive(fundAccount.id);
 
     const result = await supabase
       .from(this.table)
-      .insert({ ...req, event_id: event.id, fund_account_id: fundAccountActive.id })
+      .insert({ ...req, event_id: checkStatusEvent.id, fund_account_id: fundAccountActive.id })
       .single();
 
     if (result.error) throw new customAPIError(`${RESPONSE_MESSAGE.error.create} pemasukan`, result.status);
