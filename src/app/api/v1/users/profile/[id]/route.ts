@@ -3,9 +3,9 @@ import { customAPIErrorNextResponse } from "@/lib/helpers/customAPIErrorNextResp
 import { NextRequest, NextResponse } from "next/server";
 
 interface UserProfileParams {
-    params: {
+    params: Promise<{
         id: string
-    }
+    }>
 }
 export const GET = async (req: NextRequest, params: UserProfileParams) => {
     try {
