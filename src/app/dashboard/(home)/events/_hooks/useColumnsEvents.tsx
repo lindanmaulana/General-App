@@ -9,7 +9,6 @@ import { ColumnDef } from '@tanstack/react-table';
 import { useMemo } from 'react';
 import { FormDelete } from '../_components/form/FormDelete';
 import { FormUpdate } from '../_components/form/FormUpdate';
-import { IconNode, Timer } from 'lucide-react';
 
 export const useColumnsEvents = () => {
   const isShow = useShow((state) => state.isShow);
