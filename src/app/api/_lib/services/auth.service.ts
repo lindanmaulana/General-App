@@ -1,11 +1,12 @@
 import bcrypt from 'bcrypt';
 import supabase from '../../../../lib/supabase';
 import { TypeAuthRegisterCredentialsSchema } from '../../../../lib/validations/auth';
+import { userService } from './users.service';
 
 export class AuthService {
   static table = 'users';
   static async register(req: TypeAuthRegisterCredentialsSchema) {
-    const checkDuplicate = await this.checkEmail(req.email);
+    const checkDuplicate = await userService.checkingEmail(req.email);
 
     if (checkDuplicate.data) throw new Error('Email already exists!');
 
@@ -20,11 +21,5 @@ export class AuthService {
     return result;
   }
 
-  static async checkEmail(email: string) {
-    const result = await supabase.from(this.table).select('*').eq('email', email).single();
 
-    if (!result) throw new Error('User not found!');
-
-    return result;
-  }
 }
