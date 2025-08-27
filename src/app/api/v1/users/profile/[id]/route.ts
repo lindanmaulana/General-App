@@ -2,16 +2,16 @@ import { userService } from "@/app/api/_lib/services/users.service";
 import { customAPIErrorNextResponse } from "@/lib/helpers/customAPIErrorNextResponse";
 import { NextRequest, NextResponse } from "next/server";
 
-interface userParams {
+interface UserProfileParams {
     params: {
         id: string
     }
 }
-export const GET = async (req: NextRequest, params: userParams) => {
+export const GET = async (req: NextRequest, params: UserProfileParams) => {
     try {
-        const requestParams = await params.params
+        const {id} = await params.params
 
-        const result = await userService.getOne(requestParams.id)
+        const result = await userService.getOne(id)
 
         return NextResponse.json(result)
     } catch (err) {
