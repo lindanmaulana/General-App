@@ -24,13 +24,13 @@ Dibangun dengan **Next.js, Supabase, Auth.js, Zustand, Tailwind, dan Shadcn**.
 
 ![Dashboard Screenshot](./public/screenshots/dashboard.png)
 
-![Dashboard Incomes Screenshot]("./public/screenshots/dashboard-incomes.png")
+![Dashboard Incomes Screenshot](./public/screenshots/dashboard-incomes.png)
 
-![Dashboard Expenses Screenshot]("./public/screenshots/dashboard-expenses.png")
+![Dashboard Expenses Screenshot](./public/screenshots/dashboard-expenses.png)
 
-![Dashboard Fundaccounts Screenshot]("./public/screenshots/dashboard-fundaccounts.png")
+![Dashboard Fundaccounts Screenshot](./public/screenshots/dashboard-fundaccounts.png)
 
-![Dashboard Events Screenshot]("./public/screenshots/dashboard-events.png")
+![Dashboard Events Screenshot](./public/screenshots/dashboard-events.png)
 
 ### Laporan
 ![Reports Incomes Screenshot](./public/screenshots/report-incomes-pdf.png)
