@@ -1,15 +1,24 @@
+const SUPABASESERVICEROLE = process.env.SUPABASE_SERVICE_ROLE ?? ""
 
 const SUPABASEURL = process.env.NEXT_PUBLIC_SUPABASE_URL ?? ""
 const SUPABASEKEY = process.env.NEXT_PUBLIC_SUPABASE_KEY ?? ""
 const AUTHSECRET = process.env.AUTH_SECRET ?? ""
 const APIURL = process.env.NEXT_PUBLIC_API_URL ?? ""
 
+const AUTH_GOOGLE_ID = process.env.AUTH_GOOGLE_ID
+const AUTH_GOOGLE_SECRET = process.env.AUTH_GOOGLE_SECRET
+
 const TABLEUSERS = "users"
+const TABLEACCOUNTS = "accounts"
 
 export {
+    SUPABASESERVICEROLE,
     SUPABASEKEY,
     SUPABASEURL,
     AUTHSECRET,
     TABLEUSERS,
-    APIURL
+    TABLEACCOUNTS,
+    APIURL,
+    AUTH_GOOGLE_ID,
+    AUTH_GOOGLE_SECRET
 }

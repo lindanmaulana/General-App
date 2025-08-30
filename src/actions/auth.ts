@@ -1,9 +1,9 @@
 'use server';
 
 import { ActionResult } from '@/actions/index';
+import { AuthService } from '@/app/api/_lib/services/auth.service';
 import { signIn, signOut } from '@/auth';
 import { errorHandler } from '@/lib/helpers/errorHandler';
-import { AuthService } from '@/app/api/_lib/services/auth.service';
 import { AuthLoginCredentialsSchema, AuthRegisterCredentialsSchema } from '@/lib/validations/auth';
 import { redirect } from 'next/navigation';
 

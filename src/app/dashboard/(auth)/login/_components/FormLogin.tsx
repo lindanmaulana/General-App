@@ -57,7 +57,7 @@ export const FormLogin = () => {
             )}
           />
         </div>
-
+        
         <ButtonFormSubmit type="submit" title="Sign in" style="bg-gnrPrimary w-full text-gnrWhite hover:bg-gnrPrimary/70" />
       </form>
     </Form>

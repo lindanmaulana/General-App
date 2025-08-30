@@ -3,6 +3,7 @@ import { Toaster } from "sonner";
 import { Header } from "./(home)/_components/Header";
 import "./globals.css";
 import SessionApp from "./session-app";
+import { Footer } from "./(home)/_components/Footer";
 
 
 export const metadata: Metadata = {
@@ -31,6 +32,7 @@ export default function RootLayout({
         <SessionApp>
           {children}
         </SessionApp>
+        <Footer />
       </body>
     </html>
   );

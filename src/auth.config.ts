@@ -1,9 +1,10 @@
-import { AUTHSECRET, TABLEUSERS } from "@/lib/config";
+import { AUTH_GOOGLE_ID, AUTH_GOOGLE_SECRET, AUTHSECRET, TABLEUSERS } from "@/lib/config";
 import supabase from "@/lib/supabase";
 import { AuthLoginCredentialsSchema } from "@/lib/validations/auth";
 import bcrypt from "bcrypt";
 import type { NextAuthConfig } from "next-auth";
 import Credentials from "next-auth/providers/credentials";
+import GoogleProviders from "next-auth/providers/google";
 
 export default {
     providers: [
@@ -29,6 +30,10 @@ export default {
                     return null
                 }
             }
+        }),
+        GoogleProviders({
+            clientId: AUTH_GOOGLE_ID,
+            clientSecret: AUTH_GOOGLE_SECRET
         })
     ],
     callbacks: {
