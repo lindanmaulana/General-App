@@ -4,6 +4,7 @@ import { Header } from "./(home)/_components/Header";
 import "./globals.css";
 import SessionApp from "./session-app";
 import { Footer } from "./(home)/_components/Footer";
+import { ThemeProvider } from "@/components/ThemeProvider";
 
 
 export const metadata: Metadata = {
@@ -27,12 +28,14 @@ export default function RootLayout({
       <body
         className={`antialiased`}
       >
-        <Header />
-        <Toaster />
-        <SessionApp>
-          {children}
-        </SessionApp>
-        <Footer />
+        <ThemeProvider>
+          <Header />
+          <Toaster />
+          <SessionApp>
+            {children}
+          </SessionApp>
+          <Footer />
+        </ThemeProvider>
       </body>
     </html>
   );

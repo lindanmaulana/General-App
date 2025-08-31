@@ -9,7 +9,7 @@ export const Header = () => {
   if (pathname.startsWith('/dashboard') || pathname === '/session-expire') return null;
 
   return (
-    <header className="fixed top-0 right-0 w-full py-4">
+    <header className={` fixed top-0 right-0 w-full py-4 z-50 backdrop-blur-xs`}>
       <Navbar />
     </header>
   );
