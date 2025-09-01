@@ -8,6 +8,7 @@ Dibangun dengan **Next.js, Supabase, Auth.js, Zustand, Tailwind, dan Shadcn**.
 - [Supabase](https://supabase.com/) (Database & Auth)
 - [Auth.js](https://authjs.dev/) (Authentication)
 - [Zustand](https://zustand-demo.pmnd.rs/) (State Management)
+- [React Query](https://tanstack.com/query/latest) (Server State Management & Data Fetching)
 - [TailwindCSS](https://tailwindcss.com/) + [Shadcn](https://ui.shadcn.com/)
 
 ## ✨ Features
