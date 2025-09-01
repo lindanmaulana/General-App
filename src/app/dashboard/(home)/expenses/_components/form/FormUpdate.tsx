@@ -81,11 +81,11 @@ export const FormUpdate = ({ data }: FormUpdateProps) => {
           <Pencil />
         </Button>
       </DialogTrigger>
-      <DialogContent>
+      <DialogContent className='dark:bg-black dark:border-white/30'>
         <Form {...form}>
           <form onSubmit={handleForm} className="space-y-4">
             <DialogHeader>
-              <DialogTitle>Ubah Pengeluaran</DialogTitle>
+              <DialogTitle className='dark:text-white'>Ubah Pengeluaran</DialogTitle>
               <DialogDescription>Ubah pengeluaran untuk dikelola</DialogDescription>
             </DialogHeader>
             <div className="space-y-8">
@@ -95,9 +95,9 @@ export const FormUpdate = ({ data }: FormUpdateProps) => {
                   name="date"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Tanggal</FormLabel>
+                      <FormLabel className='dark:text-gnrWhite'>Tanggal</FormLabel>
                       <FormControl>
-                        <Input {...field} type="datetime-local" className="block" />
+                        <Input {...field} type="datetime-local" className="dark:text-gnrWhite dark:border-white/20 block" />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -108,13 +108,13 @@ export const FormUpdate = ({ data }: FormUpdateProps) => {
                   name="event_id"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Acara</FormLabel>
+                      <FormLabel className='dark:text-gnrWhite'>Acara</FormLabel>
                       <FormControl>
                         <Select value={field.value} onValueChange={field.onChange}>
-                          <SelectTrigger className="w-full">
+                          <SelectTrigger className="dark:text-gnrWhite dark:border-white/20 w-full">
                             <SelectValue placeholder="Pilih acara" />
                           </SelectTrigger>
-                          <SelectContent>
+                          <SelectContent className='dark:bg-black dark:text-gnrWhite dark:border-white/20'>
                             {queryEvents.isLoading ? (
                               <SelectItem value="loading...">Loading...</SelectItem>
                             ) : queryEvents.isError ? (
@@ -138,13 +138,13 @@ export const FormUpdate = ({ data }: FormUpdateProps) => {
                   name="fund_account_id"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Akun Tujuan</FormLabel>
+                      <FormLabel className='dark:text-gnrWhite'>Akun Tujuan</FormLabel>
                       <FormControl>
                         <Select value={field.value} onValueChange={field.onChange}>
-                          <SelectTrigger className="w-full">
+                          <SelectTrigger className="dark:text-gnrWhite dark:border-white/20 w-full">
                             <SelectValue placeholder="Pilih akun" />
                           </SelectTrigger>
-                          <SelectContent>
+                          <SelectContent className='dark:bg-black dark:text-gnrWhite dark:border-white/20'>
                             {queryFundAccounts.isLoading ? (
                               <SelectItem value="loading...">Loading...</SelectItem>
                             ) : queryFundAccounts.isError ? (
@@ -169,9 +169,9 @@ export const FormUpdate = ({ data }: FormUpdateProps) => {
                   name="amount"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Jumlah</FormLabel>
+                      <FormLabel className='dark:text-gnrWhite'>Jumlah</FormLabel>
                       <FormControl>
-                        <Input {...field} type="number" placeholder="0" />
+                        <Input {...field} type="number" placeholder="0" className='dark:text-gnrWhite dark:border-white/20' />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -183,10 +183,10 @@ export const FormUpdate = ({ data }: FormUpdateProps) => {
                   name="source"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Sumber pendapatan</FormLabel>
+                      <FormLabel className='dark:text-gnrWhite'>Sumber pendapatan</FormLabel>
                       <FormControl>
                         <div>
-                          <Input {...field} type="text" placeholder="Sponsor, Donatur, Penjualan Tiket" />
+                          <Input {...field} type="text" placeholder="Sponsor, Donatur, Penjualan Tiket" className='dark:text-gnrWhite dark:border-white/20' />
                           <span className="text-xs text-gnrGray">Masukkan asal pemasukan, misalnya Sponsor, Donatur, atau Tiket.</span>
                         </div>
                       </FormControl>
@@ -200,9 +200,9 @@ export const FormUpdate = ({ data }: FormUpdateProps) => {
                   name="note"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Catatan tambahan (Opsional) </FormLabel>
+                      <FormLabel className='dark:text-gnrWhite'>Catatan tambahan (Opsional) </FormLabel>
                       <FormControl>
-                        <Textarea {...field} placeholder="Keterangan tambahan" className="resize-none" />
+                        <Textarea {...field} placeholder="Keterangan tambahan" className="dark:text-gnrWhite dark:border-white/20 resize-none" />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -211,7 +211,7 @@ export const FormUpdate = ({ data }: FormUpdateProps) => {
               </div>
               <div className="flex items-center justify-end gap-2">
                 <DialogClose asChild>
-                  <Button variant={'outline'}>Batal</Button>
+                  <Button variant={'outline'} className='dark:text-gnrWhite dark:hover:text-gnrWhite/80 dark:border-white/20 cursor-pointer' >Batal</Button>
                 </DialogClose>
                 <ButtonSubmit type="submit" style="bg-gnrPrimary text-gnrWhite hover:bg-gnrPrimary/70" title="Update" isLoading={mutationUpdate.isPending} />
               </div>

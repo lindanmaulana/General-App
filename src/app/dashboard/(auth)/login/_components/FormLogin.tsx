@@ -35,9 +35,9 @@ export const FormLogin = () => {
             name="email"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Email</FormLabel>
+                <FormLabel className='dark:text-gnrWhite'>Email</FormLabel>
                 <FormControl>
-                  <Input {...field} placeholder="Masukan email anda..." type="email" required />
+                  <Input {...field} placeholder="Masukan email anda..." type="email" className='dark:text-gnrWhite dark:border-white/20' required />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -48,9 +48,9 @@ export const FormLogin = () => {
             name="password"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Password</FormLabel>
+                <FormLabel className='dark:text-gnrWhite'>Password</FormLabel>
                 <FormControl>
-                  <Input {...field} placeholder="Masukan password anda..." type="password" required />
+                  <Input {...field} placeholder="Masukan password anda..." type="password" className='dark:text-gnrWhite dark:border-white/20' required />
                 </FormControl>
                 <FormMessage />
               </FormItem>

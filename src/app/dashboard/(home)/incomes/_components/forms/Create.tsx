@@ -17,7 +17,7 @@ export const FormCreate = () => {
           <span>Tambah Pemasukan</span>
         </Button>
       </DialogTrigger>
-      <DialogContent>
+      <DialogContent className='dark:bg-black dark:border-white/30'>
         <FormCreateIncomes setIsOpen={setIsOpen} />
       </DialogContent>
     </Dialog>

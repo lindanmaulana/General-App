@@ -13,19 +13,19 @@ export const Footer = () => {
         <footer className="relative py-20 bg-gnrDarkBlue -z-10">
             <Image src={'/images/banner/lines.png'} alt="Line" width={100} height={100} className="absolute bottom-0 -left-9 w-full h-56 -z-10" unoptimized />
             <div className="z-20 container max-w-5xl mx-auto px-4 lg:px-0">
-                <section className="flex justify-between">
-                    <section className="w-[60%] space-y-3">   
+                <div className="flex flex-col md:flex-row justify-between gap-8">
+                    <div className="w-full md:w-[60%] space-y-3">   
                         <strong className="text-xl text-gnrWhite font-bold">Kami hadir untuk menciptakan ekosistem yang mendukung kemandirian dan kesejahteraan, di mana setiap individu memiliki kesempatan untuk berkembang.</strong>
-                    </section>
-                    <section className="w-[30%]  space-y-3">
+                    </div>
+                    <div className="w-[80%] md:w-[30%]  space-y-3">
                         <h2 className="text-xl font-bold text-gnrWhite flex items-center gap-2"><MapPinHouse /> <span>General | Desa. Mucangela</span></h2>
                         <p className="text-gnrWhite font-light">Desa Muncangela, Kampung Pahing (Alhidayah), RT 06, RW 03, Kecamatan Cipicung, Kabupaten Kuningan, Jawa Barat, 45592.</p>
-                    </section>
-                </section>
+                    </div>
+                </div>
 
                 <hr className="my-20" />
 
-                <section className="flex items-center justify-between">
+                <section className="flex items-center justify-center md:justify-between">
                     <p className="text-gnrWhite font-semibold">Copyright © 2025 generalofficial</p>
                 </section>
             </div>

@@ -74,14 +74,14 @@ export const FundAccountsToolbar = () => {
           defaultValue={currentParams.get('keyword') ? currentParams.get('keyword')?.toString() : ''}
           placeholder="Cari akun..."
           type="text"
-          className="pl-8 font-normal"
+          className="dark:text-gnrWhite dark:border-white/20 pl-8 font-normal"
         />
       </Label>
       <Select onValueChange={(value) => handleFilter('type', value)} defaultValue={currentParams.get('type') ? currentParams.get('type')?.toString() : 'default'}>
-        <SelectTrigger className="w-full">
+        <SelectTrigger className="dark:text-gnrWhite dark:border-white/20 w-full">
           <SelectValue placeholder="Semua Jenis" />
         </SelectTrigger>
-        <SelectContent>
+        <SelectContent className='dark:bg-black dark:text-gnrWhite dark:border-white/20'>
           <SelectGroup>
             <SelectItem value="default">Semua Jenis</SelectItem>
             <SelectItem value="Bank">Bank</SelectItem>
@@ -92,10 +92,10 @@ export const FundAccountsToolbar = () => {
       </Select>
 
       <Select onValueChange={(value) => handleFilter('status', value)} defaultValue={currentParams.get('status') ? currentParams.get('status')?.toString() : 'default'}>
-        <SelectTrigger className="w-full">
+        <SelectTrigger className="dark:text-gnrWhite dark:border-white/20 w-full">
           <SelectValue placeholder="Semua Status" />
         </SelectTrigger>
-        <SelectContent>
+        <SelectContent className='dark:bg-black dark:text-gnrWhite dark:border-white/20'>
           <SelectGroup>
             <SelectItem value="default">Semua Status</SelectItem>
             <SelectItem value="aktif">Aktif</SelectItem>

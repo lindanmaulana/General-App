@@ -50,7 +50,6 @@ export const CsvExportToolbar = () => {
             const clean = (val: string) => val.replace(/\u00A0/g, " ");
             const expensesDate = expenses.date ? handleParseDate(expenses.date, "YYYY-MM-DD"): ""
             const amount = handleParsePrice(expenses.amount)
-            console.log({expenses})
 
             return ({
                 No: index + 1,
@@ -85,12 +84,12 @@ export const CsvExportToolbar = () => {
     return (
         <Dialog>
             <DialogTrigger asChild>
-                <Button variant={'outline'} className="w-full md:w-fit cursor-pointer">
+                <Button variant={'outline'} className="dark:text-gnrWhite dark:hover:text-gnrWhite/80 dark:border-white/20 w-full md:w-fit cursor-pointer">
                     <Download /> Download File CSV
                 </Button>
             </DialogTrigger>
-            <DialogContent>
-                <DialogTitle>Laporan pemasukan</DialogTitle>
+            <DialogContent className="dark:bg-black dark:border-white/30">
+                <DialogTitle className="dark:text-gnrWhite">Laporan pemasukan</DialogTitle>
                 <DialogDescription>Buat data laporan pemasukan ke CSV</DialogDescription>
                 <Form {...form}>
                     <form onSubmit={handleForm} className="space-y-2">
@@ -101,7 +100,7 @@ export const CsvExportToolbar = () => {
                                 <FormItem>
                                     <FormLabel>Nama File</FormLabel>
                                     <FormControl>
-                                        <Input {...field} type="text" placeholder="Contoh Laporan bulan agustus" readOnly={fileName !== null} />
+                                        <Input {...field} type="text" placeholder="Contoh Laporan bulan agustus" className="dark:text-gnrWhite" readOnly={fileName !== null} />
                                     </FormControl>
                                 </FormItem>
                             )}

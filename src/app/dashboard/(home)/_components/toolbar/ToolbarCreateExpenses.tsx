@@ -16,7 +16,7 @@ export const ToolbarCreateExpenses = () => {
           <span>Tambah Pengeluaran</span>
         </Button>
       </DialogTrigger>
-      <DialogContent>
+      <DialogContent className='dark:bg-black dark:border-white/30'>
         <FormCreateExpenses setIsOpen={setIsOpen} />
       </DialogContent>
     </Dialog>

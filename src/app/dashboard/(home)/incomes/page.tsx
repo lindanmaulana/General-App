@@ -7,7 +7,7 @@ const PageIncomes = () => {
     <div className="space-y-5">
       <div className="flex flex-col md:flex-row items-center justify-between gap-3">
         <div className="w-full">
-          <h3 className="text-3xl font-bold text-gnrDark">Pemasukan</h3>
+          <h3 className="dark:text-white text-3xl font-bold text-gnrDark">Pemasukan</h3>
           <p className="text-gnrGray">Kelola semua sumber pemasukan anda</p>
         </div>
 

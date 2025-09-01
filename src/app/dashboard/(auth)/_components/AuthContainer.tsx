@@ -15,13 +15,13 @@ export const AuthContainer = ({children, title, description, type}: AuthContaine
     return (
         <div className="w-full mt-8 space-y-6">
             <div>
-                <h3 className="text-3xl font-semibold text-gnrDarkBlue">{title}</h3>
+                <h3 className="dark:text-white text-3xl font-semibold text-gnrDarkBlue">{title}</h3>
                 <p className="text-base font-normal text-gnrGray">{description}</p>
             </div>
             {children}
             <div className="flex items-center justify-center">
                 <p className="text-gnrWhiteGray text-sm">{isAuth}</p>
-                <Link href={type === "LOGIN" ? "/" : "/dashboard/login"} className="relative text-sm font-medium text-gnrDarkBlue">{type === "LOGIN" ? "Daftar disini" : "Masuk"}<Image src={'/images/auth/auth-vector.svg'} alt="general-vector-auth" width={100} height={100} className="absolute top-6" /></Link>
+                <Link href={type === "LOGIN" ? "/" : "/dashboard/login"} className="relative dark:text-gnrWhite text-sm font-medium text-gnrDarkBlue">{type === "LOGIN" ? "Daftar disini" : "Masuk"}<Image src={'/images/auth/auth-vector.svg'} alt="general-vector-auth" width={100} height={100} className="absolute top-6" /></Link>
             </div>
         </div>
     )

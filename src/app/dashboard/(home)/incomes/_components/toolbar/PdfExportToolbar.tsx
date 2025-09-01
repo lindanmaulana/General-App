@@ -39,8 +39,6 @@ export const PdfExportToolbar = () => {
 
   if (isError || queryTotalBalance.isError) return <p>Error...</p>;
 
-  const totalBalance = queryTotalBalance.data;
-
   const handleForm = form.handleSubmit((value) => {
     setPdf({ period: value.period });
   });
@@ -48,13 +46,13 @@ export const PdfExportToolbar = () => {
   return (
     <Dialog key={data.data.id}>
       <DialogTrigger asChild>
-        <Button variant={'outline'} className="w-full md:w-fit cursor-pointer">
+        <Button variant={'outline'} className="dark:border-white/20 dark:text-gnrWhite dark:hover:text-gnrWhite/80 w-full md:w-fit cursor-pointer">
           <FileDown /> Buat Laporan PDF
         </Button>
       </DialogTrigger>
-      <DialogContent>
+      <DialogContent className='dark:bg-black dark:border-white/30'>
         <DialogHeader>
-          <DialogTitle>Laporan Pemasukan</DialogTitle>
+          <DialogTitle className='dark:text-gnrWhite'>Laporan Pemasukan</DialogTitle>
           <DialogDescription>Export laporan pemasukan</DialogDescription>
         </DialogHeader>
 
@@ -68,7 +66,7 @@ export const PdfExportToolbar = () => {
                   <FormItem>
                     <FormLabel>Periode</FormLabel>
                     <FormControl>
-                      <Input {...field} type="text" placeholder="Contoh Agustus - Desember 2025" disabled={pdf ? true : false} />
+                      <Input {...field} type="text" placeholder="Contoh Agustus - Desember 2025" className='dark:text-gnrWhite' disabled={pdf ? true : false} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>

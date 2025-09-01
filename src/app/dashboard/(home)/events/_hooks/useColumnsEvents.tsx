@@ -84,7 +84,7 @@ export const useColumnsEvents = () => {
         cell: ({ row }) => {
           const event = row.original;
 
-          return <Badge className={cn(event.is_public ? 'text-white bg-gnrPrimary' : 'text-gnrDark bg-gnrGray/20', 'rounded-full px-3 py-1')}>{event.is_public ? 'Ya' : 'Tidak'}</Badge>;
+          return <Badge className={cn(event.is_public ? 'text-white bg-gnrPrimary' : 'dark:text-gnrWhite dark:bg-gnrWhite/20 text-gnrDark bg-gnrGray/20', 'rounded-full px-3 py-1')}>{event.is_public ? 'Ya' : 'Tidak'}</Badge>;
         },
       },
       {

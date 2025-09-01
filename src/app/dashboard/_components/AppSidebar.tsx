@@ -59,22 +59,22 @@ export const AppSidebar = () => {
 
   return (
     <Sidebar>
-      <SidebarHeader className="flex flex-row items-center gap-2 p-4 border-b">
+      <SidebarHeader className="bg-white dark:bg-black dark:border-white/20 flex flex-row items-center gap-2 p-4 border-b">
         <Image src={'/images/logo/general.png'} alt="General Muncangela" width={40} height={40} />
         <div>
-          <h2 className="text-gnrDarkBlue font-bold">General CashFlow</h2>
+          <h2 className="text-gnrDarkBlue dark:text-white font-bold">General CashFlow</h2>
           <p className="text-sm text-gnrGray">Management</p>
         </div>
       </SidebarHeader>
-      <SidebarContent className="py-4 px-2">
+      <SidebarContent className="bg-white dark:bg-black py-4 px-2">
         <SidebarGroup>
-          <SidebarGroupLabel>Menu Utama</SidebarGroupLabel>
+          <SidebarGroupLabel className='dark:text-white'>Menu Utama</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
               {items?.map((item) => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton className={`${getActiveRoute(item.url)} hover:bg-gnrPrimary/40`} asChild>
-                    <Link href={item.url} className="font-medium flex items-center gap-3 py-5">
+                    <Link href={item.url} className="dark:text-white font-medium flex items-center gap-3 py-5">
                       <item.icon />
                       <h3>{item.title}</h3>
                     </Link>
@@ -89,7 +89,7 @@ export const AppSidebar = () => {
             <SidebarMenu>
               <SidebarMenuItem>
                 <SidebarMenuButton className={`${getActiveRoute('/dashboard/settings')} hover:bg-gnrPrimary/40`} asChild>
-                  <Link href={"/dashboard/settings"} className='font-medium flex items-center gap-3 py-5'>
+                  <Link href={"/dashboard/settings"} className='dark:text-white font-medium flex items-center gap-3 py-5'>
                     <Settings />
                     <h3>Pengaturan</h3>
                   </Link>
@@ -99,7 +99,7 @@ export const AppSidebar = () => {
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
-      <SidebarFooter>
+      <SidebarFooter className='bg-white dark:bg-black'>
         <SidebarMenu>
           <SidebarMenuItem className="px-2">
             <SidebarMenuButton asChild>

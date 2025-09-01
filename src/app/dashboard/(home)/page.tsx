@@ -10,7 +10,7 @@ const PageDashboard = () => {
     return (
         <section className="space-y-4">
             <div>
-                <h3 className="text-3xl font-bold text-gnrDark">Dashboard</h3>
+                <h3 className="text-gnrDark dark:text-white text-3xl font-bold ">Dashboard</h3>
                 <p className="text-gnrGray">Ringkasan aktivitas keuangan anda</p>
             </div>
             <FinancialSummaryCards />

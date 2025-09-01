@@ -34,7 +34,7 @@ export const OverviewCard = () => {
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3">
-      <Card className="w-full bg-gnrPrimary/10">
+      <Card className="dark:border-white/20 w-full bg-gnrPrimary/10">
         <CardContent className="space-y-2">
           <div className="flex items-center justify-between">
             <h4 className="text-gnrPrimary font-semibold">Total Saldo</h4>
@@ -47,40 +47,40 @@ export const OverviewCard = () => {
         </CardContent>
       </Card>
 
-      <Card className="w-full">
+      <Card className="dark:bg-black dark:border-white/20 w-full">
         <CardContent className="space-y-2">
           <div className="flex items-center justify-between">
-            <h4 className="text-gnrDark font-semibold">Akun</h4>
+            <h4 className="dark:text-gnrWhite text-gnrDark font-semibold">Akun</h4>
             <CreditCard className="size-4 text-gnrDark" />
           </div>
           <div className="t">
-            <strong className="text-2xl text-gnrDark">{queryCountActive.data}</strong>
+            <strong className="dark:text-gnrWhite text-2xl text-gnrDark">{queryCountActive.data}</strong>
             <span className="block text-xs text-gnrGray">akun aktif</span>
           </div>
         </CardContent>
       </Card>
 
-      <Card className="w-full">
+      <Card className="dark:bg-black dark:border-white/20 w-full">
         <CardContent className="space-y-2">
           <div className="flex items-center justify-between">
-            <h4 className="text-gnrDark font-semibold">Kas Non Tunai</h4>
+            <h4 className="dark:text-gnrWhite text-gnrDark font-semibold">Kas Non Tunai</h4>
             <Wallet className="size-4 text-gnrDark" />
           </div>
           <div className="t">
-            <strong className="text-2xl text-gnrDark">{isShow ? totalBalanceNonCash : '........'}</strong>
+            <strong className="dark:text-gnrWhite text-2xl text-gnrDark">{isShow ? totalBalanceNonCash : '........'}</strong>
             <span className="block text-xs text-gnrGray">Saldo kas tersedia</span>
           </div>
         </CardContent>
       </Card>
 
-      <Card className="w-full">
+      <Card className="dark:bg-black dark:border-white/20 w-full">
         <CardContent className="space-y-2">
           <div className="flex items-center justify-between">
-            <h4 className="text-gnrDark font-semibold">Kas Tunai</h4>
+            <h4 className="dark:text-gnrWhite text-gnrDark font-semibold">Kas Tunai</h4>
             <Wallet className="size-4 text-gnrDark" />
           </div>
           <div className="t">
-            <strong className="text-2xl text-gnrDark">{isShow ? totalBalanceCash : '........'}</strong>
+            <strong className="dark:text-gnrWhite text-2xl text-gnrDark">{isShow ? totalBalanceCash : '........'}</strong>
             <span className="block text-xs text-gnrGray">Saldo kas tersedia</span>
           </div>
         </CardContent>

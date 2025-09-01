@@ -71,7 +71,7 @@ export const FormCreateExpenses = ({setIsOpen}: FormCreateExpensesProps) => {
          <Form {...form}>
           <form onSubmit={handleForm} className="space-y-4">
             <DialogHeader>
-              <DialogTitle>Tambah Pengeluaran Baru</DialogTitle>
+              <DialogTitle className='dark:text-white'>Tambah Pengeluaran Baru</DialogTitle>
               <DialogDescription>Masukkan detail pengeluaran yang akan dicatat</DialogDescription>
             </DialogHeader>
             <div className="space-y-8">
@@ -81,9 +81,9 @@ export const FormCreateExpenses = ({setIsOpen}: FormCreateExpensesProps) => {
                   name="date"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Tanggal</FormLabel>
+                      <FormLabel className='dark:text-gnrWhite'>Tanggal</FormLabel>
                       <FormControl>
-                        <Input {...field} type="datetime-local" className="block" />
+                        <Input {...field} type="datetime-local" className="block dark:border-white/20 dark:text-gnrWhite" />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -94,10 +94,10 @@ export const FormCreateExpenses = ({setIsOpen}: FormCreateExpensesProps) => {
                   name="event_id"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Acara</FormLabel>
+                      <FormLabel className='dark:text-gnrWhite'>Acara</FormLabel>
                       <FormControl>
                         <Select value={field.value} onValueChange={field.onChange}>
-                          <SelectTrigger className="w-full">
+                          <SelectTrigger className="w-full dark:border-white/20 dark:text-gnrWhite">
                             <SelectValue placeholder="Pilih acara" />
                           </SelectTrigger>
                           <SelectContent>
@@ -124,10 +124,10 @@ export const FormCreateExpenses = ({setIsOpen}: FormCreateExpensesProps) => {
                   name="fund_account_id"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Akun Tujuan</FormLabel>
+                      <FormLabel className='dark:text-gnrWhite'>Akun Tujuan</FormLabel>
                       <FormControl>
                         <Select value={field.value} onValueChange={field.onChange}>
-                          <SelectTrigger className="w-full">
+                          <SelectTrigger className="w-full dark:border-white/20 dark:text-gnrWhite">
                             <SelectValue placeholder="Pilih akun" />
                           </SelectTrigger>
                           <SelectContent>
@@ -155,9 +155,9 @@ export const FormCreateExpenses = ({setIsOpen}: FormCreateExpensesProps) => {
                   name="amount"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Jumlah</FormLabel>
+                      <FormLabel className='dark:text-gnrWhite'>Jumlah</FormLabel>
                       <FormControl>
-                        <Input {...field} type="number" placeholder="0" />
+                        <Input {...field} type="number" placeholder="0" className='dark:border-white/20 dark:text-gnrWhite' />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -169,10 +169,10 @@ export const FormCreateExpenses = ({setIsOpen}: FormCreateExpensesProps) => {
                   name="source"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Kategori pengeluaran</FormLabel>
+                      <FormLabel className='dark:text-gnrWhite'>Kategori pengeluaran</FormLabel>
                       <FormControl>
                         <div>
-                          <Input {...field} type="text" placeholder="Peralatan, Sewa Tempat, Konsumsi" />
+                          <Input {...field} type="text" placeholder="Peralatan, Sewa Tempat, Konsumsi" className='dark:border-white/20 dark:text-gnrWhite' />
                           <span className="text-xs text-gnrGray">Masukkan kategorinya, misalnya Peralatan, Sewa Tempat, atau Konsumsi.</span>
                         </div>
                       </FormControl>
@@ -186,9 +186,9 @@ export const FormCreateExpenses = ({setIsOpen}: FormCreateExpensesProps) => {
                   name="note"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Catatan tambahan (Opsional) </FormLabel>
+                      <FormLabel className='dark:text-gnrWhite'>Catatan tambahan (Opsional) </FormLabel>
                       <FormControl>
-                        <Textarea {...field} placeholder="Keterangan tambahan" className="resize-none" />
+                        <Textarea {...field} placeholder="Keterangan tambahan" className="resize-none dark:border-white/20 dark:text-gnrWhite" />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -197,7 +197,7 @@ export const FormCreateExpenses = ({setIsOpen}: FormCreateExpensesProps) => {
               </div>
               <div className="flex items-center justify-end gap-2">
                 <DialogClose asChild>
-                  <Button variant={'outline'}>Batal</Button>
+                  <Button variant={'outline'} className='dark:border-white/20 dark:text-gnrWhite dark:hover:text-gnrWhite/80 cursor-pointer'>Batal</Button>
                 </DialogClose>
                 <ButtonSubmit type="submit" style="bg-gnrPrimary text-gnrWhite hover:bg-gnrPrimary/70" title="Simpan" isLoading={mutationCreate.isPending} />
               </div>

@@ -55,7 +55,7 @@ export const ExpensesTable = () => {
   return (
     <>
       <CardContent>
-        <DataTable title="Daftar Akun" description="Semua akun keuangan yang dikelola dalam sistem" columns={columns} data={queryIncomes.data.data} />
+        <DataTable columns={columns} data={queryIncomes.data.data} />
       </CardContent>
       <CardFooter>
         <div className="w-full flex items-center justify-between">
@@ -64,15 +64,15 @@ export const ExpensesTable = () => {
               Menampilkan 1 - {pagination.limit} dari {data.count}
             </span>
             <Select onValueChange={(value) => handleLimit(value)} defaultValue={pagination.limit < 5 ? '5' : pagination.limit.toString()}>
-              <SelectTrigger>
+              <SelectTrigger className='dark:border-white/20 dark:text-gnrWhite cursor-pointer'>
                 <SelectValue placeholder="5" />
               </SelectTrigger>
-              <SelectContent>
+              <SelectContent className='dark:bg-black dark:border-white/20'>
                 <SelectGroup>
-                  <SelectItem value="5">5</SelectItem>
-                  <SelectItem value="10">10</SelectItem>
-                  <SelectItem value="15">15</SelectItem>
-                  <SelectItem value="20">20</SelectItem>
+                  <SelectItem value="5" className='dark:text-gnrWhite'>5</SelectItem>
+                  <SelectItem value="10" className='dark:text-gnrWhite'>10</SelectItem>
+                  <SelectItem value="15" className='dark:text-gnrWhite'>15</SelectItem>
+                  <SelectItem value="20" className='dark:text-gnrWhite'>20</SelectItem>
                 </SelectGroup>
               </SelectContent>
             </Select>
@@ -90,7 +90,7 @@ export const ExpensesTable = () => {
                 const isActive: boolean = page === pagination.currentPage;
                 return (
                   <PaginationItem key={page}>
-                    <PaginationLink onClick={() => handlePagination(page.toString())} isActive={isActive} className={`${isActive ? 'pointer-events-none opacity-50 cursor-not-allowed' : ''}`}>
+                    <PaginationLink onClick={() => handlePagination(page.toString())} isActive={isActive} className={`${isActive ? 'pointer-events-none opacity-50 cursor-not-allowed' : ''} dark:text-gnrWhite`}>
                       {page}
                     </PaginationLink>
                   </PaginationItem>

@@ -8,9 +8,9 @@ export const FinancialSummaryChartCard = () => {
 
     return (
         <section className="col-span-1 lg:col-span-4">
-            <Card>
+            <Card className="dark:bg-black dark:border-white/20">
                 <CardHeader>
-                    <CardTitle>Tren Cash Flow</CardTitle>
+                    <CardTitle className="text-gnrDarkBlue dark:text-white">Tren Cash Flow</CardTitle>
                     <CardDescription>Perkembangan arus kas 1 tahun terakhir</CardDescription>
                 </CardHeader>
 

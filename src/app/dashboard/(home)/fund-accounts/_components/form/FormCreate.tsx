@@ -62,11 +62,11 @@ export const FormCreate = () => {
                 <span>Tambah Akun</span>
             </Button>
         </DialogTrigger>
-        <DialogContent>
+        <DialogContent className="dark:bg-black dark:border-white/30">
             <Form {...form}>
                 <form onSubmit={handleForm} className="space-y-4">
                     <DialogHeader>
-                        <DialogTitle>Tambah Akun Baru</DialogTitle>
+                        <DialogTitle className="dark:text-white">Tambah Akun Baru</DialogTitle>
                         <DialogDescription>Tambahkan akun bank atau kas baru untuk dikelola</DialogDescription>
                     </DialogHeader>
                     <div className="space-y-8">
@@ -76,9 +76,9 @@ export const FormCreate = () => {
                                 name="name"
                                 render={({field}) => (
                                     <FormItem>
-                                        <FormLabel>Nama Akun</FormLabel>
+                                        <FormLabel className="dark:text-gnrWhite">Nama Akun</FormLabel>
                                         <FormControl>
-                                            <Input {...field} type="text" placeholder="Contoh BRI - Tabungan" />
+                                            <Input {...field} type="text" placeholder="Contoh BRI - Tabungan" className="dark:text-gnrWhite dark:border-white/20" />
                                         </FormControl>
                                         <FormMessage />
                                     </FormItem>
@@ -89,13 +89,13 @@ export const FormCreate = () => {
                                 name="type"
                                 render={({field}) => (
                                     <FormItem>
-                                        <FormLabel>Jenis Akun</FormLabel>
+                                        <FormLabel className="dark:text-gnrWhite">Jenis Akun</FormLabel>
                                         <FormControl>
                                             <Select value={field.value} onValueChange={field.onChange}>
-                                                <SelectTrigger className="w-full">
+                                                <SelectTrigger className="dark:text-gnrWhite dark:border-white/20 w-full">
                                                     <SelectValue placeholder="Jenis Akun" />
                                                 </SelectTrigger>
-                                                <SelectContent>
+                                                <SelectContent className="dark:bg-black dark:text-gnrWhite dark:border-white/20">
                                                     <SelectItem value="BANK">BANK</SelectItem>
                                                     <SelectItem value="CASH">CASH</SelectItem>
                                                     <SelectItem value="EWALLET">EWALLET</SelectItem>
@@ -111,9 +111,9 @@ export const FormCreate = () => {
                                 name="holder_name"
                                 render={({field}) => (
                                     <FormItem>
-                                        <FormLabel>Nama Pemilik Akun</FormLabel>
+                                        <FormLabel className="dark:text-gnrWhite">Nama Pemilik Akun</FormLabel>
                                         <FormControl>
-                                            <Input {...field} type="text" placeholder="Contoh Jhon doe" />
+                                            <Input {...field} type="text" placeholder="Contoh Jhon doe" className="dark:text-gnrWhite dark:border-white/20" />
                                         </FormControl>
                                         <FormMessage />
                                     </FormItem>
@@ -124,13 +124,13 @@ export const FormCreate = () => {
                                 name="is_active"
                                 render={({field}) => (
                                     <FormItem>
-                                        <FormLabel>Status Akun</FormLabel>
+                                        <FormLabel className="dark:text-gnrWhite">Status Akun</FormLabel>
                                         <FormControl>
                                             <Select value={field.value} onValueChange={field.onChange}>
-                                                <SelectTrigger className="w-full">
+                                                <SelectTrigger className="dark:text-gnrWhite dark:border-white/20 w-full">
                                                     <SelectValue placeholder="Status Akun" />
                                                 </SelectTrigger>
-                                                <SelectContent>
+                                                <SelectContent className="dark:bg-black dark:text-gnrWhite dark:border-white/20">
                                                     <SelectItem value="1">AKTIF</SelectItem>
                                                     <SelectItem value="0">NON AKTIF</SelectItem>
                                                 </SelectContent>
@@ -145,9 +145,9 @@ export const FormCreate = () => {
                                 name="provider_name"
                                 render={({field}) => (
                                     <FormItem>
-                                        <FormLabel>Nama Penyedia (opsional)</FormLabel>
+                                        <FormLabel className="dark:text-gnrWhite">Nama Penyedia (opsional)</FormLabel>
                                         <FormControl>
-                                            <Input {...field} type="text" placeholder="Contoh Mandiri / Dana" />
+                                            <Input {...field} type="text" placeholder="Contoh Mandiri / Dana" className="dark:text-gnrWhite dark:border-white/20" />
                                         </FormControl>
                                         <FormMessage />
                                     </FormItem>
@@ -158,9 +158,9 @@ export const FormCreate = () => {
                                 name="account_number"
                                 render={({field}) => (
                                     <FormItem>
-                                        <FormLabel>No Rekening / Ewallet (opsional)</FormLabel>
+                                        <FormLabel className="dark:text-gnrWhite">No Rekening / Ewallet (opsional)</FormLabel>
                                         <FormControl>
-                                            <Input {...field} type="number" placeholder="123456789" />
+                                            <Input {...field} type="number" placeholder="123456789" className="dark:text-gnrWhite dark:border-white/20" />
                                         </FormControl>
                                         <FormMessage />
                                     </FormItem>
@@ -169,7 +169,7 @@ export const FormCreate = () => {
                         </div>
                         <div className="flex items-center justify-end gap-2">
                             <DialogClose asChild>
-                                <Button variant={"outline"}>Batal</Button>
+                                <Button variant={"outline"} className="dark:text-gnrWhite dark:hover:text-gnrWhite/80 dark:border-white/20" >Batal</Button>
                             </DialogClose>
                             <ButtonSubmit type="submit" style="bg-gnrPrimary text-gnrWhite hover:bg-gnrPrimary/70" title="Simpan" isLoading={mutationCreate.isPending} />
                         </div>

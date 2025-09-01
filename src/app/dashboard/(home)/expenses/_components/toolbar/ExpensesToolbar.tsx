@@ -117,7 +117,7 @@ export const ExpensesToolbar = () => {
           defaultValue={defaultQueryKeyword}
           placeholder="Cari sumber pendapatan..."
           type="text"
-          className="w-full pl-8 font-normal"
+          className="dark:border-white/20 dark:text-gnrWhite w-full pl-8 font-normal"
         />
       </Label>
 
@@ -131,12 +131,12 @@ export const ExpensesToolbar = () => {
       />
 
       <Select onValueChange={(value) => handleFilter('event', value)} defaultValue={defaultQueryEvent}>
-        <SelectTrigger className="w-full md:w-1/2">
+        <SelectTrigger className="dark:text-gnrWhite dark:border-white/20 w-full md:w-1/2">
           <SelectValue placeholder="Semua Jenis" />
         </SelectTrigger>
-        <SelectContent>
+        <SelectContent className='dark:bg-black dark:text-gnrWhite dark:border-white/20'>
           <SelectGroup>
-            <SelectItem value="default">Semua Event</SelectItem>
+            <SelectItem value="default" className='dark:text-gnrWhite'>Semua Event</SelectItem>
             {querySelectEvents.isLoading ? (
               <SelectItem value="loading">Loading...</SelectItem>
             ) : querySelectEvents.isError ? (
@@ -144,7 +144,7 @@ export const ExpensesToolbar = () => {
             ) : (
               querySelectEvents.data &&
               querySelectEvents.data.map((event: events) => (
-                <SelectItem key={event.id} value={event.code}>
+                <SelectItem key={event.id} value={event.code} className='dark:text-gnrWhite'>
                   {event.name}
                 </SelectItem>
               ))
@@ -154,12 +154,12 @@ export const ExpensesToolbar = () => {
       </Select>
 
       <Select onValueChange={(value) => handleFilter('account', value)} defaultValue={defaultQueryAccount}>
-        <SelectTrigger className="w-full md:w-1/2">
+        <SelectTrigger className="dark:text-gnrWhite dark:border-white/20 w-full md:w-1/2">
           <SelectValue placeholder="Semua Status" />
         </SelectTrigger>
-        <SelectContent>
+        <SelectContent className='dark:bg-black dark:text-gnrWhite dark:border-white/20'>
           <SelectGroup>
-            <SelectItem value="default">Semua Akun</SelectItem>
+            <SelectItem value="default" className='dark:text-gnrWhite'>Semua Akun</SelectItem>
             {querySelectFundAccounts.isLoading ? (
               <SelectItem value="loading">Loading...</SelectItem>
             ) : querySelectFundAccounts.isError ? (
@@ -167,7 +167,7 @@ export const ExpensesToolbar = () => {
             ) : (
               querySelectFundAccounts.data &&
               querySelectFundAccounts.data.map((event: events) => (
-                <SelectItem key={event.id} value={event.name}>
+                <SelectItem key={event.id} value={event.name} className='dark:text-gnrWhite'>
                   {event.name}
                 </SelectItem>
               ))
@@ -177,10 +177,10 @@ export const ExpensesToolbar = () => {
       </Select>
 
       <Select onValueChange={(value) => handleFilter('sort', value)} defaultValue={defaultQuerySort}>
-        <SelectTrigger className="w-full md:w-1/2">
+        <SelectTrigger className="dark:text-gnrWhite dark:border-white/20 w-full md:w-1/2">
           <SelectValue placeholder="Urutkan Jumlah" />
         </SelectTrigger>
-        <SelectContent>
+        <SelectContent className='dark:bg-black dark:text-gnrWhite dark:border-white/20'>
           <SelectGroup>
             <SelectItem value="default">Default</SelectItem>
             <SelectItem value="dsc">Tertinggi</SelectItem>

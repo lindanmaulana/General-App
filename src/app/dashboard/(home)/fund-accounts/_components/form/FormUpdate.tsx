@@ -65,11 +65,11 @@ export const FormUpdate = ({ data }: FormUpdateProps) => {
           <Pencil />
         </Button>
       </DialogTrigger>
-      <DialogContent>
+      <DialogContent className='dark:bg-black dark:border-white/30'>
         <Form {...form}>
           <form onSubmit={handleForm} className="space-y-4">
             <DialogHeader>
-              <DialogTitle>Ubah Akun</DialogTitle>
+              <DialogTitle className='dark:text-white'>Ubah Akun</DialogTitle>
               <DialogDescription>Ubah akun bank atau kas baru untuk dikelola</DialogDescription>
             </DialogHeader>
             <div className="space-y-8">
@@ -79,9 +79,9 @@ export const FormUpdate = ({ data }: FormUpdateProps) => {
                   name="name"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Nama Akun</FormLabel>
+                      <FormLabel className='dark:text-gnrWhite'>Nama Akun</FormLabel>
                       <FormControl>
-                        <Input {...field} type="text" placeholder="Contoh BRI - Tabungan" />
+                        <Input {...field} type="text" placeholder="Contoh BRI - Tabungan" className='dark:text-gnrWhite dark:border-white/20' />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -92,13 +92,13 @@ export const FormUpdate = ({ data }: FormUpdateProps) => {
                   name="type"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Jenis Akun</FormLabel>
+                      <FormLabel className='dark:text-gnrWhite'>Jenis Akun</FormLabel>
                       <FormControl>
                         <Select value={field.value} onValueChange={field.onChange}>
-                          <SelectTrigger className="w-full">
+                          <SelectTrigger className="dark:text-gnrWhite dark:border-white/20 w-full">
                             <SelectValue placeholder="Jenis Akun" />
                           </SelectTrigger>
-                          <SelectContent>
+                          <SelectContent className='dark:bg-black dark:text-gnrWhite dark:border-white/20'>
                             <SelectItem value="BANK">BANK</SelectItem>
                             <SelectItem value="CASH">CASH</SelectItem>
                             <SelectItem value="EWALLET">EWALLET</SelectItem>
@@ -114,9 +114,9 @@ export const FormUpdate = ({ data }: FormUpdateProps) => {
                   name="holder_name"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Nama Pemilik Akun</FormLabel>
+                      <FormLabel className='dark:text-gnrWhite'>Nama Pemilik Akun</FormLabel>
                       <FormControl>
-                        <Input {...field} type="text" placeholder="Contoh Jhon doe" />
+                        <Input {...field} type="text" placeholder="Contoh Jhon doe" className='dark:text-gnrWhite dark:border-white/20' />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -127,13 +127,13 @@ export const FormUpdate = ({ data }: FormUpdateProps) => {
                   name="is_active"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Status Akun</FormLabel>
+                      <FormLabel className='dark:text-gnrWhite'>Status Akun</FormLabel>
                       <FormControl>
                         <Select value={field.value} onValueChange={field.onChange}>
-                          <SelectTrigger className="w-full">
+                          <SelectTrigger className="dark:text-gnrWhite dark:border-white/20 w-full">
                             <SelectValue placeholder="Jenis Akun" />
                           </SelectTrigger>
-                          <SelectContent>
+                          <SelectContent className='dark:bg-black dark:text-gnrWhite dark:border-white/20'>
                             <SelectItem value="1">AKTIF</SelectItem>
                             <SelectItem value="0">NON AKTIF</SelectItem>
                           </SelectContent>
@@ -148,9 +148,9 @@ export const FormUpdate = ({ data }: FormUpdateProps) => {
                   name="provider_name"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Nama Penyedia (opsional)</FormLabel>
+                      <FormLabel className='dark:text-gnrWhite'>Nama Penyedia (opsional)</FormLabel>
                       <FormControl>
-                        <Input {...field} type="text" placeholder="Contoh Mandiri / Dana" />
+                        <Input {...field} type="text" placeholder="Contoh Mandiri / Dana" className='dark:text-gnrWhite dark:border-white/20' />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -161,9 +161,9 @@ export const FormUpdate = ({ data }: FormUpdateProps) => {
                   name="account_number"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>No Rekening (opsional)</FormLabel>
+                      <FormLabel className='dark:text-gnrWhite'>No Rekening (opsional)</FormLabel>
                       <FormControl>
-                        <Input {...field} type="number" placeholder="123456789" />
+                        <Input {...field} type="number" placeholder="123456789" className='dark:text-gnrWhite dark:border-white/20' />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -172,7 +172,7 @@ export const FormUpdate = ({ data }: FormUpdateProps) => {
               </div>
               <div className="flex items-center justify-end gap-2">
                 <DialogClose asChild>
-                  <Button variant={'outline'}>Batal</Button>
+                  <Button variant={'outline'} className='dark:text-gnrWhite dark:hover:text-gnrWhite/80 dark:border-white/20'>Batal</Button>
                 </DialogClose>
                 <ButtonSubmit type="submit" style="bg-gnrPrimary text-gnrWhite hover:bg-gnrPrimary/70" title="Simpan" isLoading={mutationUpdate.isPending} />
               </div>

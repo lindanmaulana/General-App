@@ -8,7 +8,7 @@ const PageSettings = async () => {
     <div className="space-y-5">
       <div className="flex flex-col items-center justify-between gap-3">
         <div className="w-full">
-          <h3 className="text-3xl font-bold text-gnrDark">Pengaturan</h3>
+          <h3 className="dark:text-white text-3xl font-bold text-gnrDark">Pengaturan</h3>
           <p className="text-gnrGray">Konfigurasi sistem dan preferensi akun</p>
         </div>
       </div>

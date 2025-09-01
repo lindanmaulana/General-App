@@ -20,9 +20,9 @@ export const ProfileCard = ({ data }: ProfileCardProps) => {
   const queryUser = useQuery(options)
 
   return (
-    <Card>
+    <Card className='dark:bg-black dark:border-white/20'>
       <CardHeader>
-        <CardTitle className="flex items-center gap-1">
+        <CardTitle className="dark:text-gnrWhite flex items-center gap-1">
           {' '}
           <User className="size-5" /> <span className="text-xl mt-px">Profile Pengguna</span>
         </CardTitle>

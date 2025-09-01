@@ -46,18 +46,18 @@ export const FormDelete = ({ data }: FormDeleteProps) => {
           <Trash className="text-gnrRed" />
         </Button>
       </DialogTrigger>
-      <DialogContent>
+      <DialogContent className='dark:bg-black dark:text-gnrWhite dark:border-white/20'>
         <form onSubmit={handleForm} className="space-y-4">
           <DialogHeader>
-            <DialogTitle>Hapus Akun</DialogTitle>
+            <DialogTitle className='dark:text-white'>Hapus Akun</DialogTitle>
             <DialogDescription>
-              Apakah Anda yakin ingin menghapus akun <span className="font-bold text-gnrDark">{data.name}</span>? Tindakan ini tidak dapat dibatalkan dan semua data terkait akan
+              Apakah Anda yakin ingin menghapus akun <span className="dark:text-white font-bold text-gnrDark">{data.name}</span>? Tindakan ini tidak dapat dibatalkan dan semua data terkait akan
               hilang.
             </DialogDescription>
           </DialogHeader>
           <DialogFooter>
             <DialogClose asChild>
-              <Button variant={'ghost'}>Batal</Button>
+              <Button variant={'ghost'} className='dark:text-gnrWhite dark:hover:text-gnrWhite/80 dark:border-white/20'>Batal</Button>
             </DialogClose>
             <ButtonFormSubmit type="submit" variant="destructive" style="!max-w-1/2" title="Hapus" />
           </DialogFooter>

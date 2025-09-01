@@ -44,13 +44,13 @@ export const PdfExportToolbar = () => {
   return (
     <Dialog key={data.data.id}>
       <DialogTrigger asChild>
-        <Button variant={'outline'} className="w-full md:w-fit cursor-pointer">
+        <Button variant={'outline'} className="dark:border-white/20 dark:text-gnrWhite dark:hover:text-gnrWhite/80 w-full md:w-fit cursor-pointer">
           <FileDown /> Buat Laporan PDF
         </Button>
       </DialogTrigger>
-      <DialogContent>
+      <DialogContent className='dark:bg-black dark:border-white/30'>
         <DialogHeader>
-          <DialogTitle>Laporan Pengeluaran</DialogTitle>
+          <DialogTitle className='dark:text-gnrWhite'>Laporan Pengeluaran</DialogTitle>
           <DialogDescription>Export laporan pengeluaran</DialogDescription>
         </DialogHeader>
 
@@ -64,7 +64,7 @@ export const PdfExportToolbar = () => {
                   <FormItem>
                     <FormLabel>Periode</FormLabel>
                     <FormControl>
-                      <Input {...field} type="text" placeholder="Contoh Agustus - Desember 2025" disabled={pdf ? true : false} />
+                      <Input {...field} type="text" placeholder="Contoh Agustus - Desember 2025" className='dark:text-gnrWhite' disabled={pdf ? true : false} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>

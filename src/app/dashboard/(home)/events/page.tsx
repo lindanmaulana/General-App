@@ -13,7 +13,7 @@ const PageEvents = () => {
     <div className="space-y-5">
       <div className="flex flex-col md:flex-row items-center justify-between gap-3">
         <div className="w-full">
-          <h3 className="text-3xl font-bold text-gnrDark">Event Management</h3>
+          <h3 className="dark:text-white text-3xl font-bold text-gnrDark">Event Management</h3>
           <p className="text-gnrGray">Kelola semua event dan acara kampung</p>
         </div>
 

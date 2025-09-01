@@ -58,9 +58,9 @@ export const ProfileForm = ({defaultValue, id}: ProfileFormProps) => {
                 name="name"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Nama</FormLabel>
+                    <FormLabel className='dark:text-gnrWhite'>Nama</FormLabel>
                     <FormControl>
-                      <Input {...field} type="text" placeholder="Masukan nama anda" />
+                      <Input {...field} type="text" placeholder="Masukan nama anda" className='dark:text-gnrWhite dark:border-white/20' />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -72,9 +72,9 @@ export const ProfileForm = ({defaultValue, id}: ProfileFormProps) => {
                 name='email'
                 render={({field}) => (
                   <FormItem>
-                    <FormLabel>Email</FormLabel>
+                    <FormLabel className='dark:text-gnrWhite'>Email</FormLabel>
                     <FormControl>
-                      <Input {...field} type='email' placeholder='Masukan email anda' />
+                      <Input {...field} type='email' placeholder='Masukan email anda' className='dark:text-gnrWhite dark:border-white/20' />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -86,9 +86,9 @@ export const ProfileForm = ({defaultValue, id}: ProfileFormProps) => {
                 name='password'
                 render={({field}) => (
                   <FormItem>
-                    <FormLabel>Password</FormLabel>
+                    <FormLabel className='dark:text-gnrWhite'>Password</FormLabel>
                     <FormControl>
-                      <Input {...field} type='password' placeholder='Kosongkan jika tidak ingin merubah' />
+                      <Input {...field} type='password' placeholder='Kosongkan jika tidak ingin merubah' className='dark:text-gnrWhite dark:border-white/20' />
                     </FormControl>
                     <FormMessage />
                   </FormItem>

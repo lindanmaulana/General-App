@@ -27,44 +27,44 @@ export const FinancialSummaryCards = () => {
 
   return (
       <section className="grid grid-cols-1 md:grid-cols-4 gap-3">
-        <Card>
+        <Card className='dark:bg-black dark:border-white/20'>
           <CardContent className="space-y-2">
-            <h3 className="text-sm text-gnrGray font-medium">Total Akun (active)</h3>
+            <h3 className="text-gnrGray text-sm font-medium">Total Akun (active)</h3>
             <div className="flex items-center justify-between">
-              <h4 className="font-semibold">{totalAccountActive}</h4>
+              <h4 className="dark:text-gnrWhite font-semibold">{totalAccountActive}</h4>
               <div className="bg-gnrPrimary/20 p-1 rounded">
                 <Wallet className="size-4 text-gnrPrimary" />
               </div>
             </div>
           </CardContent>
         </Card>
-        <Card>
+        <Card className='dark:bg-black dark:border-white/20'>
           <CardContent className="space-y-2">
             <h3 className="text-sm text-gnrGray font-medium">Pemasukan Bulan Ini</h3>
             <div className="flex items-center justify-between">
-              <h4 className="font-semibold">{totalIncomesThisMonth}</h4>
+              <h4 className="dark:text-gnrWhite font-semibold">{totalIncomesThisMonth}</h4>
               <div className="bg-gnrGreen/20 p-1 rounded">
                 <TrendingUp className="size-4 text-gnrGreen" />
               </div>
             </div>
           </CardContent>
         </Card>
-        <Card>
+        <Card className='dark:bg-black dark:border-white/20'>
           <CardContent className="space-y-2">
             <h3 className="text-sm text-gnrGray font-medium">Pengeluaran Bulan Ini</h3>
             <div className="flex items-center justify-between">
-              <h4 className="font-semibold">{totalExpensesThisMonth}</h4>
+              <h4 className="dark:text-gnrWhite font-semibold">{totalExpensesThisMonth}</h4>
               <div className="bg-gnrRed/20 p-1 rounded">
                 <TrendingDown className="size-4 text-gnrRed" />
               </div>
             </div>
           </CardContent>
         </Card>
-        <Card>
+        <Card className='dark:bg-black dark:border-white/20'>
           <CardContent className="space-y-2">
             <h3 className="text-sm text-gnrGray font-medium">Saldo Bersih</h3>
             <div className="flex items-center justify-between">
-              <h4 className="font-semibold">{totalBalance}</h4>
+              <h4 className="dark:text-gnrWhite font-semibold">{totalBalance}</h4>
               <div className="bg-gnrPrimary/20 p-1 rounded">
                 <DollarSign className="size-4 text-gnrPrimary" />
               </div>

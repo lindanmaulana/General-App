@@ -74,14 +74,14 @@ export const EventsToolbar = () => {
           defaultValue={currentParams.get('keyword') ? currentParams.get('keyword')?.toString() : ''}
           placeholder="Cari event..."
           type="text"
-          className="pl-8 font-normal"
+          className="dark:text-gnrWhite dark:border-white/20 pl-8 font-normal"
         />
       </Label>
       <Select onValueChange={(value) => handleFilter('status', value)} defaultValue={currentParams.get('status') ? currentParams.get('status')?.toString() : 'default'}>
-        <SelectTrigger className="w-full">
+        <SelectTrigger className="dark:text-gnrWhite dark:border-white/20 w-full">
           <SelectValue placeholder="Semua Status" />
         </SelectTrigger>
-        <SelectContent>
+        <SelectContent className='dark:bg-black dark:text-gnrWhite dark:border-white/20'>
           <SelectGroup>
             <SelectItem value="default">Semua Status</SelectItem>
             <SelectItem value="SCHEDULED">Scheduled</SelectItem>
@@ -93,10 +93,10 @@ export const EventsToolbar = () => {
       </Select>
 
       <Select onValueChange={(value) => handleFilter('access', value)} defaultValue={currentParams.get('access') ? currentParams.get('access')?.toString() : 'default'}>
-        <SelectTrigger className="w-full">
+        <SelectTrigger className="dark:text-gnrWhite dark:border-white/20 w-full">
           <SelectValue placeholder="Semua Akses" />
         </SelectTrigger>
-        <SelectContent>
+        <SelectContent className='dark:bg-black dark:text-gnrWhite dark:border-white/20'>
           <SelectGroup>
             <SelectItem value="default">Semua Akses</SelectItem>
             <SelectItem value="public">Public</SelectItem>

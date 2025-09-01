@@ -72,11 +72,11 @@ export const FormUpdate = ({ data }: FormUpdateProps) => {
           <Pencil />
         </Button>
       </DialogTrigger>
-      <DialogContent>
+      <DialogContent className='dark:bg-black dark:border-white/30'>
         <Form {...form}>
           <form onSubmit={handleForm} className="space-y-4">
             <DialogHeader>
-              <DialogTitle>Ubah Event</DialogTitle>
+              <DialogTitle className='dark:text-white'>Ubah Event</DialogTitle>
               <DialogDescription>Update informasi event yang dipilih.</DialogDescription>
             </DialogHeader>
             <div className="space-y-8">
@@ -87,9 +87,9 @@ export const FormUpdate = ({ data }: FormUpdateProps) => {
                     name="code"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Kode Event</FormLabel>
+                        <FormLabel className='dark:text-gnrWhite'>Kode Event</FormLabel>
                         <FormControl>
-                          <Input {...field} type="text" placeholder="Contoh - AAA-232" />
+                          <Input {...field} type="text" placeholder="Contoh - AAA-232" className='dark:text-gnrWhite dark:border-white/20' />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -100,9 +100,9 @@ export const FormUpdate = ({ data }: FormUpdateProps) => {
                     name="date"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Tanggal (Opsional)</FormLabel>
+                        <FormLabel className='dark:text-gnrWhite'>Tanggal (Opsional)</FormLabel>
                         <FormControl>
-                          <Input {...field} type="date" />
+                          <Input {...field} type="date" className='dark:text-gnrWhite dark:border-white/20 block' />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -114,9 +114,9 @@ export const FormUpdate = ({ data }: FormUpdateProps) => {
                   name="name"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Nama Event</FormLabel>
+                      <FormLabel className='dark:text-gnrWhite'>Nama Event</FormLabel>
                       <FormControl>
-                        <Input {...field} type="text" placeholder="Nama event" />
+                        <Input {...field} type="text" placeholder="Nama event" className='dark:text-gnrWhite dark:border-white/20' />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -128,9 +128,9 @@ export const FormUpdate = ({ data }: FormUpdateProps) => {
                   name="description"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Deskripsi (Opsional)</FormLabel>
+                      <FormLabel className='dark:text-gnrWhite'>Deskripsi (Opsional)</FormLabel>
                       <FormControl>
-                        <Textarea {...field} placeholder="Deskripsi event" className="resize-none" />
+                        <Textarea {...field} placeholder="Deskripsi event" className="dark:text-gnrWhite dark:border-white/20 resize-none" />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -142,13 +142,13 @@ export const FormUpdate = ({ data }: FormUpdateProps) => {
                     name="status"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Status</FormLabel>
+                        <FormLabel className='dark:text-gnrWhite'>Status</FormLabel>
                         <FormControl>
                           <Select {...field} value={field.value} onValueChange={field.onChange} defaultValue={data.status}>
-                            <SelectTrigger className="w-full cursor-pointer">
+                            <SelectTrigger className="dark:text-gnrWhite dark:border-white/20 w-full cursor-pointer">
                               <SelectValue placeholder="Status" />
                             </SelectTrigger>
-                            <SelectContent>
+                            <SelectContent className='dark:bg-black dark:text-gnrWhite dark:border-white/20'>
                               <SelectItem value="SCHEDULED">Scheduled</SelectItem>
                               <SelectItem value="RUNNING">Ongoing</SelectItem>
                               <SelectItem value="COMPLETED">Completed</SelectItem>
@@ -165,9 +165,9 @@ export const FormUpdate = ({ data }: FormUpdateProps) => {
                     name="budget"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Budget (Opsional)</FormLabel>
+                        <FormLabel className='dark:text-gnrWhite'>Budget (Opsional)</FormLabel>
                         <FormControl>
-                          <Input {...field} type="number" min={0} placeholder="0" />
+                          <Input {...field} type="number" min={0} placeholder="0" className='dark:text-gnrWhite dark:border-white/20' />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -183,7 +183,7 @@ export const FormUpdate = ({ data }: FormUpdateProps) => {
                       <FormControl>
                         <Switch checked={field.value ?? false} onCheckedChange={field.onChange} className="cursor-pointer" />
                       </FormControl>
-                      <FormLabel>Event Publik</FormLabel>
+                      <FormLabel className='dark:text-gnrWhite'>Event Publik</FormLabel>
                       <FormMessage />
                     </FormItem>
                   )}
@@ -191,7 +191,7 @@ export const FormUpdate = ({ data }: FormUpdateProps) => {
               </div>
               <div className="flex items-center justify-end gap-2">
                 <DialogClose asChild>
-                  <Button variant={'outline'}>Batal</Button>
+                  <Button variant={'outline'} className='dark:text-gnrWhite dark:hover:text-gnrWhite/80 dark:border-white/20'>Batal</Button>
                 </DialogClose>
                 <ButtonFormSubmit type="submit" style="bg-gnrPrimary text-gnrWhite hover:bg-gnrPrimary/70" title="Update" />
               </div>

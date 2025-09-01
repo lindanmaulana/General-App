@@ -7,9 +7,9 @@ import { ToolbarCreateExpenses } from "./ToolbarCreateExpenses"
 export const ToolbarCard = () => {
     return (
         <section className="w-full col-span-1 lg:col-span-2">
-            <Card>
+            <Card className="dark:bg-black dark:border-white/20">
                 <CardHeader>
-                    <CardTitle>Aksi Cepat</CardTitle>
+                    <CardTitle className="text-black dark:text-white">Aksi Cepat</CardTitle>
                     <CardDescription>Tindakan yang sering di gunakan</CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-3">

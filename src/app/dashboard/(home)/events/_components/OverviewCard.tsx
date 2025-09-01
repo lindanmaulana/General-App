@@ -7,10 +7,6 @@ import { useShow } from '@/lib/zustand/useShow';
 import { useQuery } from '@tanstack/react-query';
 import { Calendar, DollarSign } from 'lucide-react';
 
-interface OverviewCardProps {
-  fundAccountsIsActive: number;
-}
-
 export const OverviewCard = () => {
   const queryCount = useQuery(queryGetCountEventsOptions());
   const queryPublicCount = useQuery(queryGetCountIsPublicEventsOptions());
@@ -27,40 +23,40 @@ export const OverviewCard = () => {
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
-      <Card className="w-full">
+      <Card className="dark:bg-black dark:border-white/20 w-full">
         <CardContent className="space-y-2">
           <div className="flex items-center justify-between">
-            <h4 className="text-gnrDark font-semibold">Total Events</h4>
+            <h4 className="dark:text-gnrWhite text-gnrDark font-semibold">Total Events</h4>
             <Calendar className="size-4 text-gnrDark" />
           </div>
           <div className="t">
-            <strong className="text-2xl text-gnrDark">{totalEvent}</strong>
+            <strong className="dark:text-gnrWhite text-2xl text-gnrDark">{totalEvent}</strong>
             <span className="block text-xs text-gnrGray">Total event aktif</span>
           </div>
         </CardContent>
       </Card>
 
-      <Card className="w-full">
+      <Card className="dark:bg-black dark:border-white/20 w-full">
         <CardContent className="space-y-2">
           <div className="flex items-center justify-between">
-            <h4 className="text-gnrDark font-semibold">Total Budget</h4>
+            <h4 className="dark:text-gnrWhite text-gnrDark font-semibold">Total Budget</h4>
             <DollarSign className="size-4 text-gnrDark" />
           </div>
           <div className="t">
-            <strong className="text-2xl text-gnrDark">{isShow ? totalBudget : '........'}</strong>
+            <strong className="dark:text-gnrWhite text-2xl text-gnrDark">{isShow ? totalBudget : '........'}</strong>
             <span className="block text-xs text-gnrGray">Semua Event</span>
           </div>
         </CardContent>
       </Card>
 
-      <Card className="w-full">
+      <Card className="dark:bg-black dark:border-white/20 w-full">
         <CardContent className="space-y-2">
           <div className="flex items-center justify-between">
-            <h4 className="text-gnrDark font-semibold">Event Publik</h4>
+            <h4 className="dark:text-gnrWhite text-gnrDark font-semibold">Event Publik</h4>
             <Calendar className="size-4 text-gnrDark" />
           </div>
           <div className="t">
-            <strong className="text-2xl text-gnrDark">{totalEventPublic}</strong>
+            <strong className="dark:text-gnrWhite text-2xl text-gnrDark">{totalEventPublic}</strong>
             <span className="block text-xs text-gnrGray">Dari {totalEvent} total event</span>
           </div>
         </CardContent>
