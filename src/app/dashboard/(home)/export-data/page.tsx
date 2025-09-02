@@ -1,0 +1,71 @@
+import { BaseCard } from '@/components/base-card/BaseCard';
+import { BaseCardContent } from '@/components/base-card/BaseCardContent';
+import { BaseCardHeader } from '@/components/base-card/BaseCardHeader';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Database, Download, FileSpreadsheet, FileText } from 'lucide-react';
+import { CategoryDataConfig } from './_components/export/config/CategoryDataConfig';
+import { EventConfig } from './_components/export/config/EventConfig';
+import { FormatFileConfig } from './_components/export/config/FormatFileConfig';
+import { RentangDateConfig } from './_components/export/config/RentangDateConfig';
+
+const ExportDataPage = () => {
+  return (
+    <div className="space-y-5">
+      <div className="flex flex-col items-center justify-between gap-3">
+        <div className="w-full">
+          <h3 className="dark:text-white text-3xl font-bold text-gnrDark">Export Data</h3>
+          <p className="text-gnrGray">Unduh data keuangan dalam berbagai format</p>
+        </div>
+      </div>
+      <div className="flex items-start justify-between gap-6">
+        <Card className="flex-1">
+          <CardHeader>
+            <CardTitle className="text-xl">Konfigurasi Export</CardTitle>
+            <CardDescription>Pilih format, rentang tanggal, dan kategori data yang akan diexport</CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-5">
+            <FormatFileConfig />
+
+            <hr className="mt-6 border-1" />
+
+            <RentangDateConfig />
+
+            <hr className="mt-6 border-1" />
+
+            <CategoryDataConfig />
+
+            <hr className="mt-6 border-1" />
+
+            <EventConfig />
+          </CardContent>
+        </Card>
+
+        <div className='w-[30%] space-y-6'>
+            <BaseCard key={'export-cepat'} style="w-full">
+                <BaseCardHeader title="Export Cepat" description="Template export yang sudah dikonfigurasi"></BaseCardHeader>
+                <BaseCardContent style="space-y-3">
+                    <Button variant={'outline'} className="w-full flex items-center justify-start py-5 cursor-pointer">
+                    <FileSpreadsheet /> Laporan Bulana (Excel)
+                    </Button>
+                    <Button variant={'outline'} className="w-full flex items-center justify-start py-5 cursor-pointer">
+                    <FileText /> Ringkasan PDF
+                    </Button>
+                    <Button variant={'outline'} className="w-full flex items-center justify-start py-5 cursor-pointer">
+                    <Database /> Backup Lengkap JSON
+                    </Button>
+                </BaseCardContent>
+            </BaseCard>
+            <BaseCard>
+                <BaseCardHeader title='Export Custom' description='Export dengan konfigurasi di atas' ></BaseCardHeader>
+                <BaseCardContent>
+                    <Button className='w-full'><Download /> Mulai Export</Button>
+                </BaseCardContent>
+            </BaseCard>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default ExportDataPage;

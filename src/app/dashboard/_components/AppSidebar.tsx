@@ -2,7 +2,7 @@
 
 import { Sidebar, SidebarContent, SidebarFooter, SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui/sidebar';
 import { DEFAULT_QUERY_PARAMS, DEFAULT_ROUTE } from '@/lib/constants/default-route';
-import { Calendar, LayoutDashboard, LogOutIcon, Settings, TrendingDown, TrendingUp, Wallet, type LucideIcon } from 'lucide-react';
+import { Calendar, Download, LayoutDashboard, LogOutIcon, Settings, TrendingDown, TrendingUp, Wallet, type LucideIcon } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -92,6 +92,14 @@ export const AppSidebar = () => {
                   <Link href={"/dashboard/settings"} className='dark:text-white font-medium flex items-center gap-3 py-5'>
                     <Settings />
                     <h3>Pengaturan</h3>
+                  </Link>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+              <SidebarMenuItem>
+                <SidebarMenuButton className={`${getActiveRoute('/dashboard/export-data')} hover:bg-gnrPrimary/40`} asChild>
+                  <Link href={"/dashboard/export-data"} className='dark:text-white font-medium flex items-center gap-3 py-5'>
+                    <Download />
+                    <h3>Export Data</h3>
                   </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
