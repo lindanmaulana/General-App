@@ -22,6 +22,24 @@ export const EventConfig = () => {
                         </div>
                     </BaseCardContent>
                 </BaseCard>
+                <BaseCard style='p-2 rounded-md'>
+                    <BaseCardContent style='flex gap-3 p-2'>
+                        <Checkbox className='size-5 active:bg-gnrPrimary/20' />
+                        <div className='space-y-1'>
+                            <h5 className='text-sm font-medium'>Cash Mushola</h5>
+                            <p className='flex items-center gap-1 text-xs text-gnrGray'><Calendar className='size-2.5' /> 1/12/2025</p>
+                        </div>
+                    </BaseCardContent>
+                </BaseCard>
+                <BaseCard style='p-2 rounded-md'>
+                    <BaseCardContent style='flex gap-3 p-2'>
+                        <Checkbox className='size-5 active:bg-gnrPrimary/20' />
+                        <div className='space-y-1'>
+                            <h5 className='text-sm font-medium'>Cash Mushola</h5>
+                            <p className='flex items-center gap-1 text-xs text-gnrGray'><Calendar className='size-2.5' /> 1/12/2025</p>
+                        </div>
+                    </BaseCardContent>
+                </BaseCard>
             </div>
         </div>
     )
