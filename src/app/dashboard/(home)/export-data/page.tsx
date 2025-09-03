@@ -8,6 +8,7 @@ import { CategoryDataConfig } from './_components/export/config/CategoryDataConf
 import { EventConfig } from './_components/export/config/EventConfig';
 import { FormatFileConfig } from './_components/export/config/FormatFileConfig';
 import { RentangDateConfig } from './_components/export/config/RentangDateConfig';
+import { CustomExportToolbar } from './_components/export/toolbar/CustomExportToolbar';
 
 const ExportDataPage = () => {
   return (
@@ -59,7 +60,7 @@ const ExportDataPage = () => {
             <BaseCard>
                 <BaseCardHeader title='Export Custom' description='Export dengan konfigurasi di atas' ></BaseCardHeader>
                 <BaseCardContent>
-                    <Button className='w-full'><Download /> Mulai Export</Button>
+                    <CustomExportToolbar />
                 </BaseCardContent>
             </BaseCard>
         </div>

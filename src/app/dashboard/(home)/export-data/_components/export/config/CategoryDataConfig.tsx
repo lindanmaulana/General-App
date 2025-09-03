@@ -8,7 +8,7 @@ import { useExportData } from '@/lib/zustand/useExportData';
 export const CategoryDataConfig = () => {
     const isDataInclude = useExportData((state) => state.category_data)
     const handleSetConfig = useExportData((state) => state.setConfig)
-    
+
     return (
         <div className='space-y-2'>
             <h4 className="text-lg font-medium">Kategori Data</h4>

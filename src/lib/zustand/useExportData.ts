@@ -1,14 +1,16 @@
 import { create } from "zustand"
-import { persist } from "zustand/middleware"
 
 type State = {
     format: string
-    start_date: string
-    end_date: string
+    date: {
+        start_date?: string
+        end_date?: string
+    }
     category_data: {
         incomes: boolean
         expenses: boolean
-    }
+    },
+    events: string[]
 }
 
 type Action = {
@@ -18,39 +20,28 @@ type Action = {
 
 type ExportConfig = State & Action
 
-
-export const useExportData = create<ExportConfig>()(
-    persist((set) => ({
-        format: "",
+export const useExportData = create<ExportConfig>((set) => ({
+    format: "",
+    date: {
         start_date: "",
         end_date: "",
+    },
+    category_data: {
+        incomes: false,
+        expenses: false
+    },
+    events: [],
+    setConfig: (data: Partial<State>) => set((state) => ({...state, ...data})),
+    resetConfig: () => set({
+        format: "",
+        date: {
+            start_date: "",
+            end_date: "",
+        },
         category_data: {
             incomes: false,
             expenses: false
         },
-        setConfig: (data: Partial<State>) => set((state) => ({...state, ...data})),
-        resetConfig: () => set({
-            format: "",
-            start_date: "",
-            end_date: "",
-            category_data: {
-                incomes: false,
-                expenses: false
-            }
-        })
-    }),
-    {
-        name: "export-data",
-        storage: {
-            getItem: (name) => {
-                const items = sessionStorage.getItem(name)
-
-                return items ? JSON.parse(items) : null
-            },
-
-            setItem: (name, value) => sessionStorage.setItem(name, JSON.stringify(value)),
-            removeItem: (name) => sessionStorage.removeItem(name)
-        }
-    }
-    )
-)
+        events: []
+    })
+}))

@@ -17,8 +17,6 @@ export const DatePickerMultipleMonth = ({ title, date, onDateChange }: DatePicke
   const startDate = date?.from ? handleParseDate(date.from, 'YYYY-MM-DD') : undefined;
   const endDate = date?.to ? handleParseDate(date.to, 'YYYY-MM-DD') : undefined;
 
-  console.log({date})
-
   return (
     <Popover>
       <PopoverTrigger className="dark:border-white/20 w-full" asChild>

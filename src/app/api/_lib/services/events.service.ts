@@ -122,9 +122,8 @@ export class eventsService {
   }
 
   static async getAllOptions() {
-    const result = await supabase.from(this.table).select('id, name, code').neq('status', 'CANCELLED');
+    const result = await supabase.from(this.table).select('id, name, code, date').neq('status', 'CANCELLED');
 
-    console.log({ result });
     if (result.error) throw new customAPIError(`${RESPONSE_MESSAGE.error.read} event`, result.status);
 
     return result.data;
