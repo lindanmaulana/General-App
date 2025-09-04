@@ -31,7 +31,7 @@ export const EventConfig = () => {
                     return (
                     <BaseCard key={event.id} style='p-2 rounded-md'>
                         <BaseCardContent style='flex gap-3 p-2'>
-                            <Checkbox onCheckedChange={(check) => handleSetConfig(check ? {events: [...events, event.code]} : {events: events.filter(e => e !== event.code)})} className='size-5 active:bg-gnrPrimary/20' />
+                            <Checkbox onCheckedChange={(check) => handleSetConfig(check ? {events: [...events, event.code]} : {events: events.filter(e => e !== event.code)})} className='size-5 active:bg-gnrPrimary/20' checked={events.includes(event.code)} />
                             <div className='space-y-1'>
                                 <h5 className='text-sm font-medium'>{event.name}</h5>
                                 <p className='flex items-center gap-1 text-xs text-gnrGray'><Calendar className='size-2.5' />{date}</p>

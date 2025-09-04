@@ -37,7 +37,7 @@ export const useColumnsExpenses = () => {
       },
       {
         accessorKey: 'source',
-        header: 'Sumber Pendapatan',
+        header: 'Kategori Pengeluaran',
       },
       {
         accessorKey: 'note',

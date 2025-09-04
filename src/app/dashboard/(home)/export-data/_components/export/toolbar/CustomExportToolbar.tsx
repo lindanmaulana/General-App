@@ -21,6 +21,7 @@ import { Input } from "@/components/ui/input"
 
 export const CustomExportToolbar = () => {
     const [fileName, setFileName] = useState<string | null>(null)
+    const [isOpen, setIsOpen] = useState<boolean>(false)
 
     const formatFile = useExportData((state) => state.format)
     const dateFile = useExportData((state) => state.date)
@@ -30,10 +31,10 @@ export const CustomExportToolbar = () => {
     const mutationExportDataCustom = useMutation({
         mutationKey: ["exportDataCustom"],
         mutationFn: (data: typeExportDataCustomSchema) => apiExportDataCustom(data),
-        
     })
 
     const handleGetData = () => {
+        setIsOpen(true)
         const data: typeExportDataCustomSchema = {
             category_data: categoryDataFile,
             date_file: {
@@ -44,12 +45,8 @@ export const CustomExportToolbar = () => {
         }
 
         if(formatFile) mutationExportDataCustom.mutate(data, {
-            onSuccess: (data) => {
-                // if(formatFile === "csv") {
-                //     const dataCsv = CreateInitialCsv(data)
-
-                //     console.log({dataCsv})
-                // }
+            onSuccess: () => {
+                toast.success("Data selesai di muat...")
             },
 
             onError: (err) => {
@@ -70,24 +67,26 @@ export const CustomExportToolbar = () => {
     const handleForm = form.handleSubmit((value) => {
         const date = handleParseDate(new Date(), "YYYY-MM-DD")
         
-        setFileName(`${value}-${date}`)
+        setFileName(`${value.filename}-${date}`)
     })
 
     const handleDownloadFile = () => {
         const data = mutationExportDataCustom.data
 
+        setIsOpen(false)
+        setFileName(null)
+        form.reset()
+
         switch(formatFile) {
             case "csv":
-                handleExportCsv({dataIncomes: data.incomesData, dataExpenses: data.expensesData, fileName: fileName ?? ""})
-            break
+                const dataCsv = CreateInitialCsv({incomes: data.incomes, expenses: data.expenses})
+                return handleExportCsv({dataIncomes: dataCsv.incomesData, dataExpenses: dataCsv.expensesData, fileName: fileName ?? ""})
         }
     }
 
-    console.log({categoryDataFile})
-
 
     return (
-        <Dialog key={"custom-export-toolbar"}>
+        <Dialog key={"custom-export-toolbar"} onOpenChange={() => setIsOpen(!isOpen)} open={isOpen}>
             <DialogTrigger asChild>
                 <Button onClick={handleGetData} className='w-full'><Download /> Mulai Export</Button>
             </DialogTrigger>
@@ -105,7 +104,7 @@ export const CustomExportToolbar = () => {
 
                 {mutationExportDataCustom.data && formatFile && (
                     <Form {...form}>
-                        <form onSubmit={handleForm}>
+                        <form onSubmit={handleForm} className="space-y-4">
                             <FormField 
                                 control={form.control}
                                 name="filename"

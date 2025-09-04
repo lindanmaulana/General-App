@@ -3,12 +3,13 @@ import { BaseCardContent } from '@/components/base-card/BaseCardContent';
 import { BaseCardHeader } from '@/components/base-card/BaseCardHeader';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Database, Download, FileSpreadsheet, FileText } from 'lucide-react';
+import { Database, FileSpreadsheet, FileText } from 'lucide-react';
 import { CategoryDataConfig } from './_components/export/config/CategoryDataConfig';
 import { EventConfig } from './_components/export/config/EventConfig';
 import { FormatFileConfig } from './_components/export/config/FormatFileConfig';
 import { RentangDateConfig } from './_components/export/config/RentangDateConfig';
 import { CustomExportToolbar } from './_components/export/toolbar/CustomExportToolbar';
+import { ResetConfigurationExportToolbar } from './_components/toolbar/ResetConfigurationExportToolbar';
 
 const ExportDataPage = () => {
   return (
@@ -22,8 +23,13 @@ const ExportDataPage = () => {
       <div className="flex items-start justify-between gap-6">
         <Card className="flex-1">
           <CardHeader>
-            <CardTitle className="text-xl">Konfigurasi Export</CardTitle>
-            <CardDescription>Pilih format, rentang tanggal, dan kategori data yang akan diexport</CardDescription>
+            <div className='flex items-start justify-between'>
+              <div>
+                <CardTitle className="text-xl">Konfigurasi Export</CardTitle>
+                <CardDescription>Pilih format, rentang tanggal, dan kategori data yang akan diexport</CardDescription>
+              </div>
+              <ResetConfigurationExportToolbar />
+            </div>
           </CardHeader>
           <CardContent className="space-y-5">
             <FormatFileConfig />

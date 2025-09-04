@@ -6,26 +6,31 @@ import Papa from "papaparse"
 
 
 interface handleExportCsvProps {
-  dataIncomes?: unknown[] | Papa.UnparseObject<csvData[]>
-  dataExpenses?: unknown[] | Papa.UnparseObject<csvData[]>
+  dataIncomes: unknown[] | Papa.UnparseObject<unknown>
+  dataExpenses: unknown[] | Papa.UnparseObject<unknown>
   fileName: string
 }
 
 export const handleExportCsv = ({dataIncomes, dataExpenses, fileName}: handleExportCsvProps) => {
-  // const csv = Papa.unparse(data, {
-  //   header: true,
-  //   delimiter: ';',
-  // });
 
-  const csv = Papa.unparse({
-    fields: [dataIncomes ? "Pemasukan" : "", dataExpenses ? "Pengeluaran" : "" ],
-    data: [
-      dataIncomes && dataIncomes,
-      dataExpenses && dataExpenses
-    ]
-  });
+  
+  console.log({dataIncomes, dataExpenses})
+  const csvIncomes = Papa.unparse(dataIncomes, {
+    delimiter: ";"
+  })
 
-  const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+  const csvExpenses = Papa.unparse(dataExpenses, {
+    delimiter: ";"
+  })
+
+  const separator = "\n\n"
+  const header = "Laporan Keuangan\n\n"
+  const incomesTitle = "Pemasukan\n"
+  const expensesTitle = "Pengeluaran\n"
+
+  const finalCsv = header + incomesTitle + csvIncomes + separator + expensesTitle + csvExpenses
+  
+  const blob = new Blob([finalCsv], { type: 'text/csv;charset=utf-8;' });
 
   const url = URL.createObjectURL(blob);
   const link = document.createElement('a');
@@ -50,6 +55,8 @@ export const CreateInitialCsv = ({incomes, expenses}: initialData) => {
                     Sumber_Pendapatan: expenses.source,
                     Deskripsi: expenses.note ?? "-",
                     Akun: expenses.fund_accounts ? expenses.fund_accounts.name : "-",
+                    Acara: expenses.events?.name ?? "-",
+                    Kode_Acara: expenses.events?.code ?? "-",
                     Jumlah: clean(amount)
                 })
     })
@@ -62,9 +69,11 @@ export const CreateInitialCsv = ({incomes, expenses}: initialData) => {
                 return ({
                     No: index + 1,
                     Tanggal: incomesDate,
-                    Sumber_Pendapatan: incomes.source,
+                    Kategori_Pengeluaran: incomes.source,
                     Deskripsi: incomes.note ?? "-",
                     Akun: incomes.fund_accounts ? incomes.fund_accounts.name : "-",
+                    Acara: incomes.events?.name ?? "-",
+                    Kode_Acara: incomes.events?.code ?? "-",
                     Jumlah: clean(amount)
                 })
     })

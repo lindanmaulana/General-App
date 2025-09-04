@@ -1,7 +1,9 @@
+import { RefreshCw } from "lucide-react"
+
 const LoadingDashboardPage = () => {
     return (
-        <div>
-            <p>Loading please wait...</p>
+        <div className="w-full h-screen flex items-center justify-center">
+            <RefreshCw className="animate-spin" />
         </div>
     )
 }
