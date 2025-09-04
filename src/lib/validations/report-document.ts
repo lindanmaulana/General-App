@@ -10,3 +10,9 @@ export const csvReportDocumentSchema = z.object({
     filename: z.string().min(1, "Nama file harus di isi")
 })
 export type typeCsvReportDocumentSchema = z.infer<typeof csvReportDocumentSchema>
+
+
+export const reportDocumentSchema = z.object({
+    filename: z.string().min(1, "Nama file harus di isi")
+})
+export type typeReportDocumentSchema = z.infer<typeof reportDocumentSchema>

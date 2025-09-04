@@ -21,9 +21,6 @@ export const CsvExportToolbar = () => {
     const [fileName, setFileName] = useState<{name: string} | null>(null)
     const currentParams = useSearchParams()
 
-    // const fileName = `Laporan `
-
-
     const form = useForm<typeCsvReportDocumentSchema>({
         resolver: zodResolver(csvReportDocumentSchema),
         defaultValues: {
@@ -52,7 +49,6 @@ export const CsvExportToolbar = () => {
             const clean = (val: string) => val.replace(/\u00A0/g, " ");
             const expensesDate = expenses.date ? handleParseDate(expenses.date, "YYYY-MM-DD"): ""
             const amount = handleParsePrice(expenses.amount)
-            console.log({expenses})
 
             return ({
                 No: index + 1,

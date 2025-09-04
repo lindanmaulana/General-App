@@ -7,7 +7,7 @@ import { usePathname } from "next/navigation"
 export const Footer = () => {
     const pathname = usePathname()
 
-    if(pathname.startsWith("/dashboard") || pathname === "/session/expire") return null
+    if(pathname.startsWith("/dashboard") || pathname === "/session-expire") return null
     
     return (
         <footer className="relative py-20 bg-gnrDarkBlue -z-10">
