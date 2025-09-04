@@ -18,6 +18,7 @@ import { useState } from "react"
 import { handleParseDate } from "@/lib/helpers/parsing"
 import { Form, FormControl, FormField, FormItem, FormLabel } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
+import { handleExportJson } from "../helpers/exportJson"
 
 export const CustomExportToolbar = () => {
     const [fileName, setFileName] = useState<string | null>(null)
@@ -81,6 +82,8 @@ export const CustomExportToolbar = () => {
             case "csv":
                 const dataCsv = CreateInitialCsv({incomes: data.incomes, expenses: data.expenses})
                 return handleExportCsv({dataIncomes: dataCsv.incomesData, dataExpenses: dataCsv.expensesData, fileName: fileName ?? ""})
+            case "json":
+                return handleExportJson({dataIncomes: data.incomes, dataExpenses: data.expenses, fileName: fileName ?? ""})
         }
     }
 
