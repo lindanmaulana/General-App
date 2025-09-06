@@ -1,8 +1,8 @@
 import { expenses } from "@/app/api/_lib/models/expenses";
 import { incomes } from "@/app/api/_lib/models/incomes";
 import { handleParseDate, handleParsePrice } from "@/lib/helpers/parsing";
-import { csvData, initialData } from "../types/initial-data";
-import Papa from "papaparse"
+import Papa from "papaparse";
+import { initialData } from "../types/initial-data";
 
 
 interface handleExportCsvProps {
@@ -12,8 +12,6 @@ interface handleExportCsvProps {
 }
 
 export const handleExportCsv = ({dataIncomes, dataExpenses, fileName}: handleExportCsvProps) => {
-
-  
   console.log({dataIncomes, dataExpenses})
   const csvIncomes = Papa.unparse(dataIncomes, {
     delimiter: ";"
@@ -43,7 +41,7 @@ export const handleExportCsv = ({dataIncomes, dataExpenses, fileName}: handleExp
   document.body.removeChild(link);
 };
 
-export const CreateInitialCsv = ({incomes, expenses}: initialData) => {
+export const createInitialCsv = ({incomes, expenses}: initialData) => {
      const expensesData = expenses.map((expenses: expenses, index: number) => {
                 const clean = (val: string) => val.replace(/\u00A0/g, " ");
                 const expensesDate = expenses.date ? handleParseDate(expenses.date, "YYYY-MM-DD"): ""

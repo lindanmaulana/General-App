@@ -21,7 +21,7 @@ export const EventConfig = () => {
 
     return (
         <div className='space-y-2'>
-            <h4 className="text-lg font-medium">Filter berdasarkan Event</h4>
+            <h4 className="dark:text-gnrWhite text-lg font-medium">Filter berdasarkan Event</h4>
             <p className='text-sm text-gnrGray'>Pilih event tertentu untuk export data (opsional)</p>
 
             <div className='h-60 overflow-y-scroll space-y-2'>
@@ -33,7 +33,7 @@ export const EventConfig = () => {
                         <BaseCardContent style='flex gap-3 p-2'>
                             <Checkbox onCheckedChange={(check) => handleSetConfig(check ? {events: [...events, event.code]} : {events: events.filter(e => e !== event.code)})} className='size-5 active:bg-gnrPrimary/20' checked={events.includes(event.code)} />
                             <div className='space-y-1'>
-                                <h5 className='text-sm font-medium'>{event.name}</h5>
+                                <h5 className='dark:text-gnrWhite text-sm font-medium'>{event.name}</h5>
                                 <p className='flex items-center gap-1 text-xs text-gnrGray'><Calendar className='size-2.5' />{date}</p>
                             </div>
                         </BaseCardContent>

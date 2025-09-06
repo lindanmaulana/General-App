@@ -8,7 +8,7 @@ import { CategoryDataConfig } from './_components/export/config/CategoryDataConf
 import { EventConfig } from './_components/export/config/EventConfig';
 import { FormatFileConfig } from './_components/export/config/FormatFileConfig';
 import { RentangDateConfig } from './_components/export/config/RentangDateConfig';
-import { CustomExportToolbar } from './_components/export/toolbar/CustomExportToolbar';
+import { CustomExportToolbar } from './_components/toolbar/CustomExportToolbar';
 import { ResetConfigurationExportToolbar } from './_components/toolbar/ResetConfigurationExportToolbar';
 
 const ExportDataPage = () => {
@@ -20,12 +20,12 @@ const ExportDataPage = () => {
           <p className="text-gnrGray">Unduh data keuangan dalam berbagai format</p>
         </div>
       </div>
-      <div className="flex items-start justify-between gap-6">
-        <Card className="flex-1">
+      <div className="flex flex-col md:flex-row items-start justify-between gap-6">
+        <Card className="dark:bg-black dark:border-white/20 w-full md:flex-1">
           <CardHeader>
-            <div className='flex items-start justify-between'>
+            <div className="flex items-start justify-between">
               <div>
-                <CardTitle className="text-xl">Konfigurasi Export</CardTitle>
+                <CardTitle className="dark:text-gnrWhite text-xl">Konfigurasi Export</CardTitle>
                 <CardDescription>Pilih format, rentang tanggal, dan kategori data yang akan diexport</CardDescription>
               </div>
               <ResetConfigurationExportToolbar />
@@ -33,42 +33,36 @@ const ExportDataPage = () => {
           </CardHeader>
           <CardContent className="space-y-5">
             <FormatFileConfig />
-
             <hr className="mt-6 border-1" />
-
             <RentangDateConfig />
-
             <hr className="mt-6 border-1" />
-
             <CategoryDataConfig />
-
             <hr className="mt-6 border-1" />
-
             <EventConfig />
           </CardContent>
         </Card>
 
-        <div className='w-[30%] space-y-6'>
-            <BaseCard key={'export-cepat'} style="w-full">
-                <BaseCardHeader title="Export Cepat" description="Template export yang sudah dikonfigurasi"></BaseCardHeader>
-                <BaseCardContent style="space-y-3">
-                    <Button variant={'outline'} className="w-full flex items-center justify-start py-5 cursor-pointer">
-                    <FileSpreadsheet /> Laporan Bulana (Excel)
-                    </Button>
-                    <Button variant={'outline'} className="w-full flex items-center justify-start py-5 cursor-pointer">
-                    <FileText /> Ringkasan PDF
-                    </Button>
-                    <Button variant={'outline'} className="w-full flex items-center justify-start py-5 cursor-pointer">
-                    <Database /> Backup Lengkap JSON
-                    </Button>
-                </BaseCardContent>
-            </BaseCard>
-            <BaseCard>
-                <BaseCardHeader title='Export Custom' description='Export dengan konfigurasi di atas' ></BaseCardHeader>
-                <BaseCardContent>
-                    <CustomExportToolbar />
-                </BaseCardContent>
-            </BaseCard>
+        <div className="w-full md:w-[30%] space-y-6">
+          <BaseCard key={'export-cepat'} style="w-full">
+            <BaseCardHeader title="Export Cepat" description="Template export yang sudah dikonfigurasi"></BaseCardHeader>
+            <BaseCardContent style="space-y-3">
+              <Button variant={'outline'} className="dark:text-gnrWhite w-full flex items-center justify-start py-5 cursor-pointer">
+                <FileSpreadsheet /> Laporan Bulana (Excel)
+              </Button>
+              <Button variant={'outline'} className="dark:text-gnrWhite w-full flex items-center justify-start py-5 cursor-pointer">
+                <FileText /> Ringkasan PDF
+              </Button>
+              <Button variant={'outline'} className="dark:text-gnrWhite w-full flex items-center justify-start py-5 cursor-pointer">
+                <Database /> Backup Lengkap JSON
+              </Button>
+            </BaseCardContent>
+          </BaseCard>
+          <BaseCard>
+            <BaseCardHeader title="Export Custom" description="Export dengan konfigurasi di atas"></BaseCardHeader>
+            <BaseCardContent>
+              <CustomExportToolbar />
+            </BaseCardContent>
+          </BaseCard>
         </div>
       </div>
     </div>

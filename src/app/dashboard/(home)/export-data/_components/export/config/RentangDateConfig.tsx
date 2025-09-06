@@ -19,7 +19,7 @@ export const RentangDateConfig = () => {
 
     return (
         <div className='space-y-2'>
-            <h4 className="text-lg font-medium">Rentang Tanggal</h4>
+            <h4 className="dark:text-gnrWhite text-lg font-medium">Rentang Tanggal</h4>
             <DatePickerMultipleMonth title="Bulan - Bulan" date={date} onDateChange={(e) => handleDatePicker(e)}  />
         </div>
     )
