@@ -13,7 +13,7 @@ export const handleExportJson = ({dataIncomes, dataExpenses, fileName}: handleEx
         Pengeluaran: dataExpenses
     }
 
-    const jsonString = JSON.stringify(allData, null, 2)
+  const jsonString = JSON.stringify(allData, null, 2)
   
   const blob = new Blob([jsonString], { type: 'application/json' });
 

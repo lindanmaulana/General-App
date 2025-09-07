@@ -2,7 +2,7 @@
 
 import { handleParsePrice } from '@/lib/helpers/parsing';
 import { Document, Font, Page, StyleSheet, Text, View } from '@react-pdf/renderer';
-import { createInitialPdf } from '../helpers/exportPdf';
+import { formatDataForExport } from '../helpers/formatDataForExport';
 import { initialData } from '../types/initial-data';
 
 Font.register({
@@ -104,7 +104,7 @@ const styles = StyleSheet.create({
 });
 
 export const FinancialReportPdf = ({ incomes, expenses, totalBalance }: initialData) => {
-  const data = createInitialPdf({ incomes, expenses });
+  const data = formatDataForExport({ incomes, expenses });
 
   const totalBalanceNumber: number = totalBalance ?? 0
   const totalIncomesNumber: number = incomes.length > 0 ? incomes.reduce((acc, call) => acc += call.amount, 0) : 0
@@ -177,7 +177,7 @@ export const FinancialReportPdf = ({ incomes, expenses, totalBalance }: initialD
                   </Text>
 
                   <Text style={[styles.tableCol, { width: '22%' }]}>
-                    {incomes.Jumlah}
+                    {incomes.Jumlah_Rupiah}
                   </Text>
                 </View>
               ))}
@@ -214,7 +214,7 @@ export const FinancialReportPdf = ({ incomes, expenses, totalBalance }: initialD
                   <Text style={[styles.tableCol, { width: '6%' }, styles.number]}>{expense.No}</Text>
                   <Text style={[styles.tableCol, { width: '30%' }]}>{expense.Tanggal}</Text>
                   <Text style={[styles.tableCol, { width: '54%' }]}>{expense.Kategori_Pengeluaran}</Text>
-                  <Text style={[styles.tableCol, { width: '20%' }]}>{expense.Jumlah}</Text>
+                  <Text style={[styles.tableCol, { width: '20%' }]}>{expense.Jumlah_Rupiah}</Text>
                 </View>
               ))}
 

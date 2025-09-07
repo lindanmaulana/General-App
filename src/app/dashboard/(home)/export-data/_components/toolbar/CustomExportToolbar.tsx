@@ -20,6 +20,8 @@ import { toast } from 'sonner';
 import { createInitialCsv, handleExportCsv } from '../export/helpers/exportCsv';
 import { handleExportJson } from '../export/helpers/exportJson';
 import { PdfExportToolbar } from './PdfExportToolbar';
+import { formatDataForExport } from '../export/helpers/formatDataForExport';
+import { handleExportExcel } from '../export/helpers/exportExcel';
 
 export const CustomExportToolbar = () => {
   const [fileName, setFileName] = useState<string | null>(null);
@@ -51,6 +53,7 @@ export const CustomExportToolbar = () => {
     if (formatFile)
       mutationExportDataCustom.mutate(data, {
         onSuccess: () => {
+          setFileName(null)
           toast.success('Data selesai di muat...');
         },
 
@@ -78,6 +81,8 @@ export const CustomExportToolbar = () => {
   const handleDownloadFile = () => {
     const data = mutationExportDataCustom.data;
 
+    const formattedData = formatDataForExport(data)
+
     setIsOpen(false);
     setFileName(null);
     form.reset();
@@ -86,6 +91,10 @@ export const CustomExportToolbar = () => {
       case 'csv':
         const dataCsv = createInitialCsv({ incomes: data.incomes, expenses: data.expenses });
         return handleExportCsv({ dataIncomes: dataCsv.incomesData, dataExpenses: dataCsv.expensesData, fileName: fileName ?? '' });
+
+      case "excel":
+        return handleExportExcel({data: {incomes: formattedData.incomesData, expenses: formattedData.expensesData}, fileName: fileName ?? ""})
+
       case 'json':
         return handleExportJson({ dataIncomes: data.incomes, dataExpenses: data.expenses, fileName: fileName ?? '' });
     }
@@ -134,7 +143,7 @@ export const CustomExportToolbar = () => {
                     Download
                   </Button>
                 ) : (
-                  <Button type="submit" disabled={fileName ? true : false}>Simpan</Button>
+                  <Button type="submit" disabled={!!fileName}>Simpan</Button>
                 )}
               </div>
             </form>

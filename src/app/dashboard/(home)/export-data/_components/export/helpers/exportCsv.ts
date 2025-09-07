@@ -12,7 +12,6 @@ interface handleExportCsvProps {
 }
 
 export const handleExportCsv = ({dataIncomes, dataExpenses, fileName}: handleExportCsvProps) => {
-  console.log({dataIncomes, dataExpenses})
   const csvIncomes = Papa.unparse(dataIncomes, {
     delimiter: ";"
   })
