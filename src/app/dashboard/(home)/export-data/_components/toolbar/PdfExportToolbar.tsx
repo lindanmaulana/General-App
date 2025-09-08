@@ -8,21 +8,25 @@ import { FileDown } from "lucide-react"
 import { FinancialReportPdf } from "../export/report/FinancialReportPdf"
 import { useExportData } from "@/lib/zustand/useExportData"
 import { saveAs } from "file-saver"
+import { useMemo } from "react"
 
 interface PdfExportToolbarProps {
     incomes: incomes[]
     expenses: expenses[]
     fileName: string
     totalBalance: number
+    handleResetDialog: () => void
 }
-export const PdfExportToolbar = ({incomes, expenses, fileName, totalBalance}: PdfExportToolbarProps) => {
+export const PdfExportToolbar = ({incomes, expenses, fileName, totalBalance, handleResetDialog}: PdfExportToolbarProps) => {
     const hanldeResetConfig = useExportData((state) => state.resetConfig)
     const [instance, updateInstance] = usePDF({document: <FinancialReportPdf totalBalance={totalBalance} incomes={incomes} expenses={expenses} />})
+
 
     const handleDownloadFile = () => {
         if(instance.url) {
             saveAs(instance.url, fileName)
             hanldeResetConfig()
+            handleResetDialog()
         }
     }
 

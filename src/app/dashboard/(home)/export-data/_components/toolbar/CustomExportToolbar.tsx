@@ -136,7 +136,7 @@ export const CustomExportToolbar = () => {
               />
 
               <div className='flex items-center gap-2 flex-row-reverse'>
-                {fileName && formatFile === "pdf" && <PdfExportToolbar totalBalance={queryTotalBalance.data ?? 0} fileName={fileName} incomes={mutationExportDataCustom.data.incomes} expenses={mutationExportDataCustom.data.expenses} />}
+                {fileName && formatFile === "pdf" && <PdfExportToolbar handleResetDialog={() => setIsOpen(!isOpen)} totalBalance={queryTotalBalance.data ?? 0} fileName={fileName} incomes={mutationExportDataCustom.data.incomes} expenses={mutationExportDataCustom.data.expenses} />}
 
                 {fileName && formatFile !== "pdf" ? (
                   <Button type="button" onClick={handleDownloadFile}>
