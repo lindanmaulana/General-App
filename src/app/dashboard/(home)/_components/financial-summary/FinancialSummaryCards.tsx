@@ -21,7 +21,7 @@ export const FinancialSummaryCards = () => {
 
   const totalAccountActive = queryTotalAccountActive.data ?? 0;
 
-  const totalBalance = handleParsePrice(queryTotalBalance.data) ?? 0;
+  const totalBalance = handleParsePrice(queryTotalBalance.data ?? 0) ?? 0;
   const totalIncomesThisMonth = handleParsePrice(queryTotalIncomesThisMonth.data) ?? 0;
   const totalExpensesThisMonth = handleParsePrice(queryTotalExpensesThisMonth.data) ?? 0;
 
