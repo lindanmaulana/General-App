@@ -1,0 +1,1 @@
+export type FORMAT_FILE = "excel" | "csv" | "json"

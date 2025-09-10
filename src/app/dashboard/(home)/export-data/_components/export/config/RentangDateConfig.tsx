@@ -2,7 +2,7 @@
 
 import { DatePickerMultipleMonth } from "@/components/date-picker/DatePicketMultipleMonth"
 import { useExportData } from "@/lib/zustand/useExportData"
-import { useEffect, useState } from "react"
+import { useCallback, useEffect, useState } from "react"
 import { DateRange } from "react-day-picker"
 
 export const RentangDateConfig = () => {
@@ -27,13 +27,14 @@ export const RentangDateConfig = () => {
         const toDate = e?.to?.toISOString()
 
         handleSetConfig({date: {start_date: fromDate, end_date: toDate}})
+        
         setDate(e)
     }
 
     return (
         <div className='space-y-2'>
             <h4 className="dark:text-gnrWhite text-lg font-medium">Rentang Tanggal</h4>
-            <DatePickerMultipleMonth title="Bulan - Bulan" date={date} onDateChange={(e) => handleDatePicker(e)}  />
+            <DatePickerMultipleMonth title="Bulan - Bulan" date={date} onDateChange={handleDatePicker}  />
         </div>
     )
 }
