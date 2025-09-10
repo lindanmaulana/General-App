@@ -16,7 +16,7 @@ import { queryGetAllEventsOnlyOptions } from '@/lib/queries/events';
 import { queryGetAllFundAccountsOnlyOptions } from '@/lib/queries/fund-accounts';
 import { expensesSchema, TypeExpensesSchema } from '@/lib/validations/expenses';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useMutation, useQueries, useQueryClient } from '@tanstack/react-query';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 
@@ -26,8 +26,13 @@ interface FormCreateExpensesProps {
 
 export const FormCreateExpenses = ({setIsOpen}: FormCreateExpensesProps) => {
     const queryClient = useQueryClient();
-    const queryEvents = useQuery(queryGetAllEventsOnlyOptions());
-    const queryFundAccounts = useQuery(queryGetAllFundAccountsOnlyOptions());
+
+    const queries = useQueries({
+      queries: [queryGetAllEventsOnlyOptions(), queryGetAllFundAccountsOnlyOptions()]
+    })
+
+    const isLoading = queries.some(query => query.isLoading)
+    const isError = queries.some(query => query.isError)
 
     const dateNow = handleParseDate(new Date(), 'YYYY-MM-DDTHH:mm');
     const form = useForm<TypeExpensesSchema>({
@@ -101,12 +106,12 @@ export const FormCreateExpenses = ({setIsOpen}: FormCreateExpensesProps) => {
                             <SelectValue placeholder="Pilih acara" />
                           </SelectTrigger>
                           <SelectContent>
-                            {queryEvents.isLoading ? (
+                            {isLoading ? (
                               <SelectItem value="loading...">Loading...</SelectItem>
-                            ) : queryEvents.isError ? (
+                            ) : isError ? (
                               <SelectItem value="error">Error</SelectItem>
                             ) : (
-                              queryEvents.data.map((event: events) => (
+                              queries[0].data.map((event: events) => (
                                 <SelectItem key={event.id} value={event.id}>
                                   {event.name}
                                 </SelectItem>
@@ -131,12 +136,12 @@ export const FormCreateExpenses = ({setIsOpen}: FormCreateExpensesProps) => {
                             <SelectValue placeholder="Pilih akun" />
                           </SelectTrigger>
                           <SelectContent>
-                            {queryFundAccounts.isLoading ? (
+                            {isLoading ? (
                               <SelectItem value="loading...">Loading...</SelectItem>
-                            ) : queryFundAccounts.isError ? (
+                            ) : isError ? (
                               <SelectItem value="error">Error</SelectItem>
                             ) : (
-                              queryFundAccounts.data.map((fundAccount: fundAccounts) => (
+                              queries[1].data.map((fundAccount: fundAccounts) => (
                                 <SelectItem key={fundAccount.id} value={fundAccount.id}>
                                   {fundAccount.name}
                                 </SelectItem>

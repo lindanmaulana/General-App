@@ -52,6 +52,7 @@ export const IncomesTable = () => {
 
   const data = queryIncomes.data;
   const pagination = queryIncomes.data.pagination;
+  
   return (
     <>
       <CardContent>

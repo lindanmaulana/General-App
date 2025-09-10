@@ -1,111 +1,33 @@
 'use client';
 
+import { events } from '@/app/api/_lib/models/events';
 import { DatePickerMultiple } from '@/components/date-picker/DatePicketMultiple';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { events } from '@/app/api/_lib/models/events';
 import { queryGetAllEventsOnlyOptions } from '@/lib/queries/events';
 import { queryGetAllFundAccountsOnlyOptions } from '@/lib/queries/fund-accounts';
-import { queryGetAllIncomesOptions } from '@/lib/queries/incomes';
-import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { useQueries } from '@tanstack/react-query';
 import { Search } from 'lucide-react';
-import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import { ChangeEvent, useState } from 'react';
+import { useState } from 'react';
 import { DateRange } from 'react-day-picker';
-import { useDebouncedCallback } from 'use-debounce';
+import { useActionToolbar } from '../../_hooks/useActionToolbar';
+import { useGetQueryParams } from '../../_hooks/useGetQueryParams';
 
 export const IncomesToolbar = () => {
-  const currentParams = useSearchParams();
-  const pathname = usePathname();
-  const queryClient = useQueryClient();
-  const router = useRouter();
+  const queries = useQueries({
+    queries: [queryGetAllEventsOnlyOptions(), queryGetAllFundAccountsOnlyOptions()]
+  })
 
-  const querySelectEvents = useQuery(queryGetAllEventsOnlyOptions());
-  const querySelectFundAccounts = useQuery(queryGetAllFundAccountsOnlyOptions());
+  const isLoading = queries.some(query => query.isLoading)
+  const isError = queries.some(query => query.isError)
 
   // GET DEFAULT QUERY from URL
-  const defaultQueryKeyword = currentParams.get('keyword') ? currentParams.get('keyword')?.toString() : '';
-  const defaultQueryEvent = currentParams.get('event') ? currentParams.get('event')?.toString() : 'default';
-  const defaultQueryAccount = currentParams.get('account') ? currentParams.get('account')?.toString() : 'default';
-  const defaultQuerySort = currentParams.get('sort') ? currentParams.get('sort')?.toString() : 'default';
-  const defaultQueryStartDate = currentParams.get('start-date') ? new Date(currentParams.get('start-date') ?? '') : undefined;
-  const defaultQueryEndDate = currentParams.get('end-date') ? new Date(currentParams.get('end-date') ?? '') : undefined;
-
+  const {defaultQueryKeyword, defaultQueryEvent, defaultQueryAccount, defaultQuerySort, defaultQueryStartDate, defaultQueryEndDate} = useGetQueryParams()
+  
   const [date, setDate] = useState<DateRange | undefined>(defaultQueryStartDate && defaultQueryEndDate ? { from: defaultQueryStartDate, to: defaultQueryEndDate } : undefined);
 
-  const handleDebounceSearch = useDebouncedCallback((params: string) => {
-    const url = new URLSearchParams(currentParams.toString());
-
-    switch (params) {
-      case '':
-        url.delete('keyword');
-        break;
-      default:
-        url.set('keyword', params);
-        url.set('page', '1');
-        break;
-    }
-
-    queryClient.prefetchQuery(queryGetAllIncomesOptions(url.toString()));
-    router.replace(`${pathname}?${url.toString()}`);
-  }, 1000);
-
-  const handleDebounceDate = useDebouncedCallback((paramsRange?: DateRange) => {
-    const url = new URLSearchParams(currentParams.toString());
-
-    if (paramsRange && paramsRange.from && paramsRange.to) {
-      url.set('start-date', paramsRange.from.toISOString());
-      url.set('end-date', paramsRange.to.toISOString());
-      url.set('page', '1');
-    } else {
-      url.delete('start-date');
-      url.delete('end-date');
-    }
-
-    queryClient.prefetchQuery(queryGetAllIncomesOptions(url.toString()));
-    router.replace(`${pathname}?${url.toString()}`);
-  }, 1200);
-
-  const handleFilter = (filter: 'event' | 'account' | 'sort', params: string) => {
-    const url = new URLSearchParams(currentParams.toString());
-
-    if (filter === 'sort') {
-      if (params !== 'default') {
-        url.set('sort', params);
-        url.set('page', '1');
-      } else {
-        url.delete('sort');
-      }
-    }
-
-    if (filter === 'event') {
-      if (params !== 'default') {
-        url.set('event', params);
-        url.set('page', '1');
-      } else {
-        url.delete('event');
-      }
-    }
-
-    if (filter === 'account') {
-      if (params !== 'default') {
-        url.set('account', params);
-        url.set('page', '1');
-      } else {
-        url.delete('account');
-      }
-    }
-
-    queryClient.prefetchQuery(queryGetAllIncomesOptions(url.toString()));
-    router.replace(`${pathname}?${url.toString()}`);
-  };
-
-  const handleSearch = (e: ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
-
-    handleDebounceSearch(value);
-  };
+  const {handleSearch, handleDebounceDate, handleFilter} = useActionToolbar()
 
   return (
     <div className="w-full flex flex-col md:flex-row items-center gap-3">
@@ -139,13 +61,13 @@ export const IncomesToolbar = () => {
             <SelectItem value="default" className="dark:text-gnrWhite">
               Semua Event
             </SelectItem>
-            {querySelectEvents.isLoading ? (
+            {isLoading ? (
               <SelectItem value="loading">Loading...</SelectItem>
-            ) : querySelectEvents.isError ? (
+            ) : isError ? (
               <SelectItem value="error">Error...</SelectItem>
             ) : (
-              querySelectEvents.data &&
-              querySelectEvents.data.map((event: events) => (
+              queries[0].data &&
+              queries[0].data.map((event: events) => (
                 <SelectItem key={event.id} value={event.code}>
                   {event.name}
                 </SelectItem>
@@ -164,13 +86,13 @@ export const IncomesToolbar = () => {
             <SelectItem value="default" className="dark:text-gnrWhite">
               Semua Akun
             </SelectItem>
-            {querySelectFundAccounts.isLoading ? (
+            {isLoading ? (
               <SelectItem value="loading">Loading...</SelectItem>
-            ) : querySelectFundAccounts.isError ? (
+            ) : isError ? (
               <SelectItem value="error">Error...</SelectItem>
             ) : (
-              querySelectFundAccounts.data &&
-              querySelectFundAccounts.data.map((event: events) => (
+              queries[1].data &&
+              queries[1].data.map((event: events) => (
                 <SelectItem key={event.id} value={event.name}>
                   {event.name}
                 </SelectItem>

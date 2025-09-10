@@ -1,11 +1,12 @@
 "use client"
 
+import { expenses } from "@/app/api/_lib/models/expenses"
 import { Button } from "@/components/ui/button"
 import { Dialog, DialogContent, DialogDescription, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
 import { Form, FormControl, FormField, FormItem, FormLabel } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { handleParseDate, handleParsePrice } from "@/lib/helpers/parsing"
-import { queryGetAllExpensesOptions } from "@/lib/queries/expenses"
+import { queryGetAllIncomesOptions } from "@/lib/queries/incomes"
 import { csvReportDocumentSchema, typeCsvReportDocumentSchema } from "@/lib/validations/report-document"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useQuery } from "@tanstack/react-query"
@@ -15,8 +16,7 @@ import Papa from "papaparse"
 import { useMemo, useState } from "react"
 import { useForm } from "react-hook-form"
 import { SkeletonButton } from "../../../_components/skeleton/SkeletonButton"
-import { expenses } from "@/app/api/_lib/models/expenses"
-import { queryGetAllIncomesOptions } from "@/lib/queries/incomes"
+import { saveAs } from "file-saver"
 
 export const CsvExportToolbar = () => {
     const [fileName, setFileName] = useState<{name: string} | null>(null)
@@ -69,14 +69,8 @@ export const CsvExportToolbar = () => {
         const blob = new Blob([csv], {type: "text/csv;charset=utf-8;"})
 
         const url = URL.createObjectURL(blob)
-        const link = document.createElement('a')
-        link.setAttribute('href', url)
-        link.setAttribute('download', fileName ? fileName.name : "Laporan" )
-        link.style.display = "none"
 
-        document.body.appendChild(link)
-        link.click()
-        document.body.removeChild(link)
+        saveAs(url, fileName?.name ?? "Laporan")
         setFileName(null)
         form.reset()
     }

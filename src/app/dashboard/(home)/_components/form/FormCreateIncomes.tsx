@@ -16,7 +16,7 @@ import { queryGetAllEventsOnlyOptions } from '@/lib/queries/events';
 import { queryGetAllFundAccountsOnlyOptions } from '@/lib/queries/fund-accounts';
 import { incomesShcema, TypeIncomesSchema } from '@/lib/validations/incomes';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useMutation, useQueries, useQueryClient } from '@tanstack/react-query';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 
@@ -27,8 +27,12 @@ interface FormCreateIncomesProps {
 export const FormCreateIncomes = ({setIsOpen}: FormCreateIncomesProps) => {
   const queryClient = useQueryClient();
 
-  const queryEvents = useQuery(queryGetAllEventsOnlyOptions());
-  const queryFundAccounts = useQuery(queryGetAllFundAccountsOnlyOptions());
+  const queries = useQueries({
+    queries: [queryGetAllEventsOnlyOptions(), queryGetAllFundAccountsOnlyOptions()]
+  })
+
+  const isLoading = queries.some((query) => query.isLoading)
+  const isError = queries.some((query) => query.isError)
 
   const dateNow = handleParseDate(new Date(), 'YYYY-MM-DDTHH:mm');
   const form = useForm<TypeIncomesSchema>({
@@ -53,7 +57,9 @@ export const FormCreateIncomes = ({setIsOpen}: FormCreateIncomesProps) => {
       onSuccess: () => {
         setIsOpen(false);
         toast.success('Pemasukan berhasil di simpan');
+
         form.reset();
+
         queryClient.invalidateQueries({ queryKey: ['getTotalAmountThisMonthIncomes'] });
         queryClient.invalidateQueries({ queryKey: ['getAllIncomes'] });
         queryClient.invalidateQueries({ queryKey: ['getTotalBalanceFundAccounts'] });
@@ -68,8 +74,9 @@ export const FormCreateIncomes = ({setIsOpen}: FormCreateIncomesProps) => {
       },
     });
   });
+
     return (
-         <Form {...form}>
+        <Form {...form}>
           <form onSubmit={handleForm} className="space-y-4">
             <DialogHeader>
               <DialogTitle className='dark:text-white'>Tambah Pemasukan Baru</DialogTitle>
@@ -102,12 +109,12 @@ export const FormCreateIncomes = ({setIsOpen}: FormCreateIncomesProps) => {
                             <SelectValue placeholder="Pilih acara" />
                           </SelectTrigger>
                           <SelectContent>
-                            {queryEvents.isLoading ? (
+                            {isLoading ? (
                               <SelectItem value="loading...">Loading...</SelectItem>
-                            ) : queryEvents.isError ? (
+                            ) : isError ? (
                               <SelectItem value="error">Error</SelectItem>
                             ) : (
-                              queryEvents.data.map((event: events) => (
+                              queries[0].data.map((event: events) => (
                                 <SelectItem key={event.id} value={event.id}>
                                   {event.name}
                                 </SelectItem>
@@ -132,12 +139,12 @@ export const FormCreateIncomes = ({setIsOpen}: FormCreateIncomesProps) => {
                             <SelectValue placeholder="Pilih akun" />
                           </SelectTrigger>
                           <SelectContent>
-                            {queryFundAccounts.isLoading ? (
+                            {isLoading ? (
                               <SelectItem value="loading...">Loading...</SelectItem>
-                            ) : queryFundAccounts.isError ? (
+                            ) : isError ? (
                               <SelectItem value="error">Error</SelectItem>
                             ) : (
-                              queryFundAccounts.data.map((fundAccount: fundAccounts) => (
+                              queries[1].data.map((fundAccount: fundAccounts) => (
                                 <SelectItem key={fundAccount.id} value={fundAccount.id}>
                                   {fundAccount.name}
                                 </SelectItem>
