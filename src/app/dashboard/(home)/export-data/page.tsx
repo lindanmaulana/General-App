@@ -20,7 +20,7 @@ const ExportDataPage = () => {
           <p className="text-gnrGray">Unduh data keuangan dalam berbagai format</p>
         </div>
       </div>
-      <div className="flex flex-col md:flex-row items-start justify-between gap-6">
+      <div className="flex flex-col lg:flex-row items-start justify-between gap-6">
         <Card className="dark:bg-black dark:border-white/20 w-full md:flex-1">
           <CardHeader>
             <div className="flex items-start justify-between">
@@ -42,7 +42,7 @@ const ExportDataPage = () => {
           </CardContent>
         </Card>
 
-        <div className="w-full md:w-[30%] space-y-6">
+        <div className="w-full lg:w-[30%] space-y-6">
           <BaseCard key={'export-cepat'} style="w-full">
             <BaseCardHeader title="Export Cepat" description="Template export yang sudah dikonfigurasi"></BaseCardHeader>
             <BaseCardContent style="space-y-3">

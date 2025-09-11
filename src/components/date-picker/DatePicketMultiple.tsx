@@ -19,8 +19,8 @@ export const DatePickerMultiple = ({ title, date, onDateChange }: DatePickerMult
 
   return (
     <Popover>
-      <PopoverTrigger className="dark:border-white/20 w-full md:w-1/5" asChild>
-        <Button variant={'outline'} className={cn('dark:text-gnrWhite min-w-[140px] justify-start text-left font-normal', !date && 'text-muted-foreground')}>
+      <PopoverTrigger className="dark:border-white/20 w-full" asChild>
+        <Button variant={'outline'} className={cn('dark:text-gnrWhite min-w-[140px] justify-start text-left font-normal truncate', !date && 'text-muted-foreground')}>
           <ChevronDownIcon className="w-4 h-4" />
           {date ? `${startDate} - ${endDate}` : <span>{title}</span>}
         </Button>

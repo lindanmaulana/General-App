@@ -26,8 +26,8 @@ export const ExpensesToolbar = () => {
   const {handleDebounceDate, handleFilter, handleSearch} = useActionToolbar()
 
   return (
-    <div className="w-full flex flex-col md:flex-row items-center gap-3">
-      <Label className="relative flex w-full">
+    <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-3">
+      <Label className="relative flex w-full md:col-span-2">
         <Search className="absolute left-2 size-4 text-gnrGray" />
         <Input
           id="filter-search"
@@ -40,7 +40,7 @@ export const ExpensesToolbar = () => {
       </Label>
 
       <DatePickerMultiple
-        title="Periode Uang Masuk"
+        title="Periode"
         date={date}
         onDateChange={(e) => {
           setDate(e);
@@ -49,7 +49,7 @@ export const ExpensesToolbar = () => {
       />
 
       <Select onValueChange={(value) => handleFilter('event', value)} defaultValue={defaultQueryEvent}>
-        <SelectTrigger className="dark:text-gnrWhite dark:border-white/20 w-full md:w-1/2">
+        <SelectTrigger className="dark:text-gnrWhite dark:border-white/20 w-full">
           <SelectValue placeholder="Semua Jenis" />
         </SelectTrigger>
         <SelectContent className="dark:bg-black dark:text-gnrWhite dark:border-white/20">
@@ -74,7 +74,7 @@ export const ExpensesToolbar = () => {
       </Select>
 
       <Select onValueChange={(value) => handleFilter('account', value)} defaultValue={defaultQueryAccount}>
-        <SelectTrigger className="dark:text-gnrWhite dark:border-white/20 w-full md:w-1/2">
+        <SelectTrigger className="dark:text-gnrWhite dark:border-white/20 w-full">
           <SelectValue placeholder="Semua Status" />
         </SelectTrigger>
         <SelectContent className="dark:bg-black dark:text-gnrWhite dark:border-white/20">
@@ -99,7 +99,7 @@ export const ExpensesToolbar = () => {
       </Select>
 
       <Select onValueChange={(value) => handleFilter('sort', value)} defaultValue={defaultQuerySort}>
-        <SelectTrigger className="dark:text-gnrWhite dark:border-white/20 w-full md:w-1/2">
+        <SelectTrigger className="dark:text-gnrWhite dark:border-white/20 w-full">
           <SelectValue placeholder="Urutkan Jumlah" />
         </SelectTrigger>
         <SelectContent className="dark:bg-black dark:text-gnrWhite dark:border-white/20">

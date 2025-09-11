@@ -12,7 +12,7 @@ export const CategoryDataConfig = () => {
     return (
         <div className='space-y-2'>
             <h4 className="dark:text-gnrWhite text-lg font-medium">Kategori Data</h4>
-            <div className='grid grid-cols-2 g gap-4'>
+            <div className='grid grid-cols-1 lg:grid-cols-2 g gap-4'>
                 <BaseCard>
                     <BaseCardContent style='flex gap-3'>
                         <Checkbox onCheckedChange={(checked: boolean) => handleSetConfig({category_data: {...isDataInclude, incomes: checked}})} className='size-5 active:bg-gnrPrimary/20' checked={isDataInclude.incomes} />
