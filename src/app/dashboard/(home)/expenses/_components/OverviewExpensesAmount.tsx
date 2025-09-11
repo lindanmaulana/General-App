@@ -8,12 +8,12 @@ import { TrendingUp } from 'lucide-react';
 import { SkeletonOverviewCardPrice } from '../../_components/skeleton/SkeletonOverviewCardPrice';
 
 export const OverviewExpensesAmount = () => {
-  const queryTotalAmount = useQuery(queryGetTotalAmountThisMonthExpensesOptions());
+  const {data, isLoading, isError} = useQuery(queryGetTotalAmountThisMonthExpensesOptions());
 
-  if (queryTotalAmount.isLoading) return <SkeletonOverviewCardPrice />;
-  if (queryTotalAmount.isError) return <></>;
+  if (isLoading) return <SkeletonOverviewCardPrice />;
+  if (isError) return <></>;
 
-  const totalAmount = handleParsePrice(queryTotalAmount.data);
+  const totalAmount = handleParsePrice(data);
 
   return (
     <Card className="w-full bg-gnrRed/10 border border-gnrRed/30">

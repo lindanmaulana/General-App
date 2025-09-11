@@ -105,7 +105,7 @@ export const FormCreateExpenses = ({setIsOpen}: FormCreateExpensesProps) => {
                           <SelectTrigger className="w-full dark:border-white/20 dark:text-gnrWhite">
                             <SelectValue placeholder="Pilih acara" />
                           </SelectTrigger>
-                          <SelectContent>
+                          <SelectContent className='dark:bg-black dark:text-gnrWhite dark:border-white/20'>
                             {isLoading ? (
                               <SelectItem value="loading...">Loading...</SelectItem>
                             ) : isError ? (
@@ -135,7 +135,7 @@ export const FormCreateExpenses = ({setIsOpen}: FormCreateExpensesProps) => {
                           <SelectTrigger className="w-full dark:border-white/20 dark:text-gnrWhite">
                             <SelectValue placeholder="Pilih akun" />
                           </SelectTrigger>
-                          <SelectContent>
+                          <SelectContent className='dark:bg-black dark:text-gnrWhite dark:border-white/20'>
                             {isLoading ? (
                               <SelectItem value="loading...">Loading...</SelectItem>
                             ) : isError ? (

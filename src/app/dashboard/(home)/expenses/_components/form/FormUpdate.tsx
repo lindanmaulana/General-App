@@ -1,6 +1,9 @@
 'use client';
 
 import { updateExpenses } from '@/actions/expenses';
+import { events } from '@/app/api/_lib/models/events';
+import { fundAccounts } from '@/app/api/_lib/models/fund-accounts';
+import { incomes } from '@/app/api/_lib/models/incomes';
 import { ButtonSubmit } from '@/components/ButtonSubmit';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogClose, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
@@ -10,14 +13,11 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Textarea } from '@/components/ui/textarea';
 import { errorHandler } from '@/lib/helpers/errorHandler';
 import { handleParseDate } from '@/lib/helpers/parsing';
-import { events } from '@/app/api/_lib/models/events';
-import { fundAccounts } from '@/app/api/_lib/models/fund-accounts';
-import { incomes } from '@/app/api/_lib/models/incomes';
 import { queryGetAllEventsOnlyOptions } from '@/lib/queries/events';
 import { queryGetAllFundAccountsOnlyOptions } from '@/lib/queries/fund-accounts';
 import { expensesSchema, TypeExpensesSchema } from '@/lib/validations/expenses';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useMutation, useQueries, useQueryClient } from '@tanstack/react-query';
 import { Pencil } from 'lucide-react';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
@@ -30,9 +30,13 @@ interface FormUpdateProps {
 export const FormUpdate = ({ data }: FormUpdateProps) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const queryClient = useQueryClient();
+  
+  const queries = useQueries({
+    queries: [queryGetAllEventsOnlyOptions(), queryGetAllFundAccountsOnlyOptions()]
+  })
 
-  const queryEvents = useQuery(queryGetAllEventsOnlyOptions());
-  const queryFundAccounts = useQuery(queryGetAllFundAccountsOnlyOptions());
+  const isLoading = queries.some(query => query.isLoading)
+  const isError = queries.some(query => query.isError)
 
   const incomeDate = handleParseDate(data.date ?? '', 'YYYY-MM-DDTHH:mm');
   const dateNow = handleParseDate(new Date(), 'YYYY-MM-DDTHH:mm');
@@ -115,12 +119,12 @@ export const FormUpdate = ({ data }: FormUpdateProps) => {
                             <SelectValue placeholder="Pilih acara" />
                           </SelectTrigger>
                           <SelectContent className='dark:bg-black dark:text-gnrWhite dark:border-white/20'>
-                            {queryEvents.isLoading ? (
+                            {isLoading ? (
                               <SelectItem value="loading...">Loading...</SelectItem>
-                            ) : queryEvents.isError ? (
+                            ) : isError ? (
                               <SelectItem value="error">Error</SelectItem>
                             ) : (
-                              queryEvents.data.map((event: events) => (
+                              queries[0] && queries[0].data.map((event: events) => (
                                 <SelectItem key={event.id} value={event.id}>
                                   {event.name}
                                 </SelectItem>
@@ -145,12 +149,12 @@ export const FormUpdate = ({ data }: FormUpdateProps) => {
                             <SelectValue placeholder="Pilih akun" />
                           </SelectTrigger>
                           <SelectContent className='dark:bg-black dark:text-gnrWhite dark:border-white/20'>
-                            {queryFundAccounts.isLoading ? (
+                            {isLoading ? (
                               <SelectItem value="loading...">Loading...</SelectItem>
-                            ) : queryFundAccounts.isError ? (
+                            ) : isError ? (
                               <SelectItem value="error">Error</SelectItem>
                             ) : (
-                              queryFundAccounts.data.map((fundAccount: fundAccounts) => (
+                              queries[1] && queries[1].data.map((fundAccount: fundAccounts) => (
                                 <SelectItem key={fundAccount.id} value={fundAccount.id}>
                                   {fundAccount.name}
                                 </SelectItem>

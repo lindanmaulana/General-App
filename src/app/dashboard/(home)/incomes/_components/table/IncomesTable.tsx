@@ -25,7 +25,7 @@ export const IncomesTable = () => {
     return queryGetAllIncomesOptions(currentParams.toString());
   }, [currentParams]);
 
-  const queryIncomes = useQuery(queryOption);
+  const {data, isLoading, isError} = useQuery(queryOption);
 
   const handlePagination = (page: string) => {
     const url = new URLSearchParams(currentParams.toString());
@@ -46,17 +46,16 @@ export const IncomesTable = () => {
     router.replace(`${pathname}?${url.toString()}`);
   };
 
-  if (queryIncomes.isLoading) return <SkeletonTable />;
+  if (isLoading) return <SkeletonTable />;
 
-  if (queryIncomes.isError) return <ErrorTable />;
-
-  const data = queryIncomes.data;
-  const pagination = queryIncomes.data.pagination;
+  if (isError) return <ErrorTable />;
+  
+  const pagination = data.pagination;
   
   return (
     <>
       <CardContent>
-        <DataTable columns={columns} data={queryIncomes.data.data} />
+        <DataTable columns={columns} data={data.data} />
       </CardContent>
       <CardFooter>
         <div className="w-full flex items-center justify-between">

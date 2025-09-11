@@ -11,8 +11,8 @@ import { useQueries } from '@tanstack/react-query';
 import { Search } from 'lucide-react';
 import { useState } from 'react';
 import { DateRange } from 'react-day-picker';
-import { useActionToolbar } from '../../_hooks/useActionToolbar';
-import { useGetQueryParams } from '../../_hooks/useGetQueryParams';
+import { useGetQueryParams } from '@/app/dashboard/(home)/_hooks/useGetQueryParams';
+import { useActionToolbar } from '@/app/dashboard/(home)/_hooks/useActionToolbar';
 
 export const IncomesToolbar = () => {
   const queries = useQueries({
