@@ -1,24 +1,29 @@
 "use client"
 
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
-import { ReactNode } from "react"
+import { ReactNode, useState } from "react"
+import {ReactQueryDevtools} from "@tanstack/react-query-devtools"
 
 interface AppProps {
     children: ReactNode
 }
-const queryClient = new QueryClient({
-    defaultOptions: {
-        queries: {
-            refetchOnWindowFocus: false
-        }
-    }
-})
 
 const App = ({children}: AppProps) => {
+    const [client] = useState(() => new QueryClient({
+        defaultOptions: {
+            queries: {
+                refetchOnWindowFocus: false
+            }
+        }
+    }))
 
     return (
-        <QueryClientProvider client={queryClient}>
+        <QueryClientProvider client={client}>
             {children}
+
+            {process.env.NODE_ENV === "development" && (
+                <ReactQueryDevtools initialIsOpen={false} position="bottom" />
+            )}
         </QueryClientProvider>
     )
 }

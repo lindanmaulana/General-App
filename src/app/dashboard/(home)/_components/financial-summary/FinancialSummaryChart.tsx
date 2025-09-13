@@ -2,13 +2,13 @@
 
 import { ChartConfig, ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart"
 import { handleParsePrice } from "@/lib/helpers/parsing"
-import { queryGetFinancialSummaryMonthlyOptions } from "@/lib/queries/financial-summary"
+import { financialSummaryMonthlyOptions } from "@/lib/queries/financial-summary/financialSummaryMonthlyOptions"
 import { useQuery } from "@tanstack/react-query"
 import { CartesianGrid, Line, LineChart, ResponsiveContainer, XAxis, YAxis } from "recharts"
 
 
 export const FinancialSummaryChart = () => {
-    const {data, isLoading, isError} = useQuery(queryGetFinancialSummaryMonthlyOptions())
+    const {data, isLoading, isError} = useQuery(financialSummaryMonthlyOptions())
 
     if(isLoading) return <p>Loading...</p>
     if(isError) return <p>Error...</p>
