@@ -10,6 +10,7 @@ import { FormatFileConfig } from './_components/export/config/FormatFileConfig';
 import { RentangDateConfig } from './_components/export/config/RentangDateConfig';
 import { CustomExportToolbar } from './_components/toolbar/CustomExportToolbar';
 import { ResetConfigurationExportToolbar } from './_components/toolbar/ResetConfigurationExportToolbar';
+import { ExportPdfToolbar } from './_components/fast-export/toolbar/ExportPdfToolbar';
 
 const ExportDataPage = () => {
   return (
@@ -49,9 +50,7 @@ const ExportDataPage = () => {
               <Button variant={'outline'} className="dark:text-gnrWhite w-full flex items-center justify-start py-5 cursor-pointer">
                 <FileSpreadsheet /> Laporan Bulana (Excel)
               </Button>
-              <Button variant={'outline'} className="dark:text-gnrWhite w-full flex items-center justify-start py-5 cursor-pointer">
-                <FileText /> Ringkasan PDF
-              </Button>
+              <ExportPdfToolbar></ExportPdfToolbar>
               <Button variant={'outline'} className="dark:text-gnrWhite w-full flex items-center justify-start py-5 cursor-pointer">
                 <Database /> Backup Lengkap JSON
               </Button>

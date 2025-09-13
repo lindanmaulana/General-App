@@ -15,7 +15,6 @@ interface useCustomExportDataProps {
 }
 
 export const useCustomExportData = ({isOpen}: useCustomExportDataProps) => {
-
     const formatFile = useExportData((state) => state.format)
     const dateFile = useExportData((state) => state.date);
     const categoryDataFile = useExportData((state) => state.category_data);
@@ -41,6 +40,7 @@ export const useCustomExportData = ({isOpen}: useCustomExportDataProps) => {
         };
 
         if(formatFile) mutationFn.mutate(data)
+            
     }, [formatFile, dateFile, categoryDataFile, eventsFile, mutationFn])
 
     return {formatFile, queryTotalBalance, mutationFn, fetchData}
