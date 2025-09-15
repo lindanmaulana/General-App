@@ -8,6 +8,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { errorHandler } from "@/lib/helpers/errorHandler";
+import { fundAccountsKeys } from "@/lib/queries/fund-accounts/queryKeys";
 import { fundAccountsCreateSchema, TypeFundAccountsCreateSchema } from "@/lib/validations/fund-accounts";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
@@ -43,8 +44,9 @@ export const FormCreate = () => {
                 setIsOpen(false)
                 toast.success("Akun berhasil di buat")
                 form.reset()
-                queryClient.invalidateQueries({queryKey: ['getAllFundAccounts']})
-                queryClient.invalidateQueries({queryKey: ['getAllFundAccountsOptions']})
+
+                queryClient.invalidateQueries({queryKey: fundAccountsKeys.lists()})
+                queryClient.invalidateQueries({queryKey: fundAccountsKeys.options()})
             },
 
             onError: (err) => {

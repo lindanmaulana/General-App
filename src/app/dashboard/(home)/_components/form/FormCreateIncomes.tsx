@@ -12,8 +12,8 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Textarea } from '@/components/ui/textarea';
 import { errorHandler } from '@/lib/helpers/errorHandler';
 import { handleParseDate } from '@/lib/helpers/parsing';
-import { queryGetAllEventsOnlyOptions } from '@/lib/queries/events';
-import { queryGetAllFundAccountsOnlyOptions } from '@/lib/queries/fund-accounts';
+import { eventOptions } from '@/lib/queries/events/eventOptions';
+import { fundAccountOptions } from '@/lib/queries/fund-accounts/fundAccountOptions';
 import { incomesShcema, TypeIncomesSchema } from '@/lib/validations/incomes';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation, useQueries, useQueryClient } from '@tanstack/react-query';
@@ -28,7 +28,7 @@ export const FormCreateIncomes = ({setIsOpen}: FormCreateIncomesProps) => {
   const queryClient = useQueryClient();
 
   const queries = useQueries({
-    queries: [queryGetAllEventsOnlyOptions(), queryGetAllFundAccountsOnlyOptions()]
+    queries: [eventOptions(), fundAccountOptions()]
   })
 
   const isLoading = queries.some((query) => query.isLoading)

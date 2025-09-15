@@ -2,24 +2,32 @@
 import { SkeletonOverviewCard } from '@/app/dashboard/(home)/_components/skeleton/SkeletonOverviewCard';
 import { Card, CardContent } from '@/components/ui/card';
 import { handleParsePrice } from '@/lib/helpers/parsing';
-import { queryGetCountEventsOptions, queryGetCountIsPublicEventsOptions, queryGetTotalBudgetEventsOptions } from '@/lib/queries/events';
+import { eventCountOptions } from '@/lib/queries/events/eventCountOptions';
+import { eventPublicCountOptions } from '@/lib/queries/events/eventPublicCountOptions';
+import { eventTotalBudgetOptions } from '@/lib/queries/events/eventTotalBudgetOptions';
 import { useShow } from '@/lib/zustand/useShow';
-import { useQuery } from '@tanstack/react-query';
+import { useQueries } from '@tanstack/react-query';
 import { Calendar, DollarSign } from 'lucide-react';
+import { useMemo } from 'react';
 
 export const OverviewCard = () => {
-  const queryCount = useQuery(queryGetCountEventsOptions());
-  const queryPublicCount = useQuery(queryGetCountIsPublicEventsOptions());
-  const queryTotalBudget = useQuery(queryGetTotalBudgetEventsOptions());
-
   const isShow = useShow((state) => state.isShow);
+  const queries = useQueries({
+    queries: [eventCountOptions(), eventPublicCountOptions(), eventTotalBudgetOptions()]
+  })
+  const [allCount, publicCount, totalBudget] = queries
 
-  if (queryPublicCount.isLoading || queryCount.isLoading || queryTotalBudget.isLoading) return <SkeletonOverviewCard totalCard={3} />;
-  if (queryPublicCount.isError || queryCount.isError || queryTotalBudget.isError) return <></>;
+  const isLoading = queries.some(query => query.isLoading)
+  const isError = queries.some(query => query.isError)
 
-  const totalBudget = queryTotalBudget.data !== null ? handleParsePrice(queryTotalBudget.data) : 0;
-  const totalEvent = queryCount.data ?? 0;
-  const totalEventPublic = queryPublicCount.data ?? 0;
+  const {budget} = useMemo(() => {
+    const budget = handleParsePrice(totalBudget.data)
+
+    return {budget}
+  }, [totalBudget.data])
+
+  if (isLoading) return <SkeletonOverviewCard totalCard={3} />;
+  if (isError) return <></>;
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
@@ -30,7 +38,7 @@ export const OverviewCard = () => {
             <Calendar className="size-4 text-gnrDark" />
           </div>
           <div className="t">
-            <strong className="dark:text-gnrWhite text-2xl text-gnrDark">{totalEvent}</strong>
+            <strong className="dark:text-gnrWhite text-2xl text-gnrDark">{allCount.data}</strong>
             <span className="block text-xs text-gnrGray">Total event aktif</span>
           </div>
         </CardContent>
@@ -43,7 +51,7 @@ export const OverviewCard = () => {
             <DollarSign className="size-4 text-gnrDark" />
           </div>
           <div className="t">
-            <strong className="dark:text-gnrWhite text-2xl text-gnrDark">{isShow ? totalBudget : '........'}</strong>
+            <strong className="dark:text-gnrWhite text-2xl text-gnrDark">{isShow ? budget : '........'}</strong>
             <span className="block text-xs text-gnrGray">Semua Event</span>
           </div>
         </CardContent>
@@ -56,8 +64,8 @@ export const OverviewCard = () => {
             <Calendar className="size-4 text-gnrDark" />
           </div>
           <div className="t">
-            <strong className="dark:text-gnrWhite text-2xl text-gnrDark">{totalEventPublic}</strong>
-            <span className="block text-xs text-gnrGray">Dari {totalEvent} total event</span>
+            <strong className="dark:text-gnrWhite text-2xl text-gnrDark">{publicCount.data}</strong>
+            <span className="block text-xs text-gnrGray">Dari {allCount.data} total event</span>
           </div>
         </CardContent>
       </Card>

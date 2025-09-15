@@ -3,66 +3,14 @@
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { queryGetAllFundAccountsOptions } from "@/lib/queries/fund-accounts";
-import { useQueryClient } from "@tanstack/react-query";
 import { Search } from 'lucide-react';
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { ChangeEvent } from "react";
-import { useDebouncedCallback } from "use-debounce";
+import { useSearchParams } from "next/navigation";
+import { useActionToolbar } from '../../_hooks/useActionToolbar';
 
 export const FundAccountsToolbar = () => {
     const currentParams = useSearchParams()
-    const router = useRouter()
-    const pathname = usePathname()
-    const queryClient = useQueryClient()
-    
-    const handleDebounceSearch = useDebouncedCallback((params: string) => {
-        const url = new URLSearchParams(currentParams.toString())
 
-        switch(params) {
-            case "":
-                url.delete("keyword")
-            break
-            default:
-                url.set("keyword", params)
-                url.set("page", '1')
-            break
-        }
-
-        queryClient.prefetchQuery(queryGetAllFundAccountsOptions(url.toString()))
-        router.replace(`${pathname}?${url.toString()}`)
-    }, 1000)
-
-    const handleFilter = (filter: "type" | "status", params: string) => {
-        const url = new URLSearchParams(currentParams.toString())
-
-        if(filter === "type") {
-            if(params !== "default") {
-                url.set("type", params)
-                url.set("page", "1")
-            } else {
-                url.delete("type")
-            }
-        }
-
-        if(filter === "status") {
-            if(params !== "default") {
-                url.set("status", params)
-                url.set("page", "1")
-            } else {
-                url.delete("status")
-            }
-        }
-
-        queryClient.prefetchQuery(queryGetAllFundAccountsOptions(url.toString()))
-        router.replace(`${pathname}?${url.toString()}`)
-    }
-
-    const handleSearch = (e: ChangeEvent<HTMLInputElement>) => {
-        const value = e.target.value
-
-        handleDebounceSearch(value)
-    }
+    const {handleSearch, handleFilter} = useActionToolbar()
 
   return (
     <div className="w-full md:w-fit flex flex-col md:flex-row items-center gap-3">

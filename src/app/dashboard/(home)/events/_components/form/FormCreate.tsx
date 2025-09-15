@@ -11,6 +11,7 @@ import { Switch } from '@/components/ui/switch';
 import { Textarea } from '@/components/ui/textarea';
 import { STATUS_EVENT } from '@/lib/constants/status-events';
 import { errorHandler } from '@/lib/helpers/errorHandler';
+import { eventsKeys } from '@/lib/queries/events/queryKeys';
 import { eventsSchema, TypeEventsSchema } from '@/lib/validations/events';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
@@ -45,10 +46,12 @@ export const FormCreate = () => {
     mutationCreate.mutate(value, {
       onSuccess: () => {
         setIsOpen(false);
+        
         toast.success('Event berhasil di buat');
         form.reset();
-        queryClient.invalidateQueries({ queryKey: ['getAllEvents'] });
-        queryClient.invalidateQueries({ queryKey: ['getAllEventsOptions'] });
+
+        queryClient.invalidateQueries({ queryKey: eventsKeys.lists() });
+        queryClient.invalidateQueries({ queryKey: eventsKeys.options() });
       },
 
       onError: (err) => {

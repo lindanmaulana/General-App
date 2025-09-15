@@ -7,6 +7,7 @@ import { getAllEvents } from "@/lib/services/events.service"
 export const eventListOptions = (params: string) => {
     return queryOptions({
         queryKey: eventsKeys.list(params),
-        queryFn: () => getAllEvents({params})
+        queryFn: () => getAllEvents({params}),
+        staleTime: 1 * 60 * 60 * 1000
     })
 }

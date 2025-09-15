@@ -4,64 +4,42 @@ import { CardContent, CardFooter } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
 import { Pagination, PaginationContent, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from '@/components/ui/pagination';
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { queryGetAllFundAccountsOptions } from '@/lib/queries/fund-accounts';
-import { useQuery, useQueryClient } from '@tanstack/react-query';
-import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { fundAccountListOptions } from '@/lib/queries/fund-accounts/fundAccountListOptions';
+import { useQuery } from '@tanstack/react-query';
+import { useSearchParams } from 'next/navigation';
 import { useMemo } from 'react';
-import { SkeletonTable } from '../../../_components/skeleton/SkeletonTable';
 import { ErrorTable } from '../../../_components/error/ErrorTable';
+import { SkeletonTable } from '../../../_components/skeleton/SkeletonTable';
+import { useActionTable } from '../../_hooks/useActionTable';
 import { useColumnsFundAccounts } from '../../_hooks/useColumnsFundAccounts';
 
 export const FundAccountsTable = () => {
   const currentParams = useSearchParams();
   const columns = useColumnsFundAccounts();
-  const router = useRouter();
-  const pathname = usePathname();
-  const queryClient = useQueryClient();
+  const {handlePagination, handleLimit} = useActionTable()
 
   const queryOption = useMemo(() => {
-    return queryGetAllFundAccountsOptions(currentParams.toString());
+    return fundAccountListOptions(currentParams.toString());
   }, [currentParams]);
 
-  const queryFundAccounts = useQuery(queryOption);
+  const {data, isLoading, isError} = useQuery(queryOption);
 
-  if (queryFundAccounts.isLoading) return <SkeletonTable />;
+  if (isLoading) return <SkeletonTable />;
 
-  if (queryFundAccounts.isError) return <ErrorTable />;
+  if (isError) return <ErrorTable />;
 
-  const data = queryFundAccounts.data;
-  const pagination = queryFundAccounts.data.pagination;
-
-  const handlePagination = (page: string) => {
-    const url = new URLSearchParams(currentParams.toString());
-
-    url.set('page', page);
-
-    queryClient.prefetchQuery(queryGetAllFundAccountsOptions(url.toString()));
-    router.replace(`${pathname}?${url.toString()}`);
-  };
-
-  const handleLimit = (limit: string) => {
-    const url = new URLSearchParams(currentParams.toString());
-
-    url.set('limit', limit);
-    url.set('page', '1');
-
-    queryClient.prefetchQuery(queryGetAllFundAccountsOptions(url.toString()));
-    router.replace(`${pathname}?${url.toString()}`);
-  };
   return (
     <>
       <CardContent>
-        <DataTable columns={columns} data={queryFundAccounts.data.data} />
+        <DataTable columns={columns} data={data.data} />
       </CardContent>
       <CardFooter>
         <div className="w-full flex items-center justify-between">
           <Label className="w-full text-gnrGray font-normal">
             <span className="hidden md:block">
-              Menampilkan 1 - {pagination.limit} dari {data.count}
+              Menampilkan 1 - {data.pagination.limit} dari {data.count}
             </span>
-            <Select onValueChange={(value) => handleLimit(value)} defaultValue={pagination.limit < 5 ? '5' : pagination.limit.toString()}>
+            <Select onValueChange={(value) => handleLimit(value)} defaultValue={data.pagination.limit < 5 ? '5' : data.pagination.limit.toString()}>
               <SelectTrigger className='dark:text-gnrWhite dark:border-white/20'>
                 <SelectValue placeholder="5" />
               </SelectTrigger>
@@ -80,12 +58,12 @@ export const FundAccountsTable = () => {
           <Pagination className="w-full text-gnrGray font-normal ">
             <PaginationContent>
               <PaginationItem>
-                <PaginationPrevious onClick={() => handlePagination(pagination.prevPage)} className={`${!pagination.prevPage ? 'pointer-events-none opacity-50 cursor-not-allowed' : ''}`}>
+                <PaginationPrevious onClick={() => handlePagination(data.pagination.prevPage)} className={`${!data.pagination.prevPage ? 'pointer-events-none opacity-50 cursor-not-allowed' : ''}`}>
                   Prev
                 </PaginationPrevious>
               </PaginationItem>
-              {pagination.links.map((page: number) => {
-                const isActive: boolean = page === pagination.currentPage;
+              {data.pagination.links.map((page: number) => {
+                const isActive: boolean = page === data.pagination.currentPage;
                 return (
                   <PaginationItem key={page}>
                     <PaginationLink onClick={() => handlePagination(page.toString())} isActive={isActive} className={`${isActive ? 'pointer-events-none opacity-50 cursor-not-allowed' : ''} dark:text-gnrWhite dark:border-white/20`}>
@@ -95,7 +73,7 @@ export const FundAccountsTable = () => {
                 );
               })}
               <PaginationItem>
-                <PaginationNext onClick={() => handlePagination(pagination.nextPage)} className={`${!pagination.nextPage ? 'pointer-events-none opacity-50 cursor-not-allowed' : ''}`}>
+                <PaginationNext onClick={() => handlePagination(data.pagination.nextPage)} className={`${!data.pagination.nextPage ? 'pointer-events-none opacity-50 cursor-not-allowed' : ''}`}>
                   Next
                 </PaginationNext>
               </PaginationItem>

@@ -10,6 +10,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { Trash } from 'lucide-react';
 import { useState } from 'react';
 import { toast } from 'sonner';
+import { fundAccountsKeys } from '@/lib/queries/fund-accounts/queryKeys';
 
 interface FormDeleteProps {
   data: fundAccounts;
@@ -28,8 +29,8 @@ export const FormDelete = ({ data }: FormDeleteProps) => {
     mutationDelete.mutate(data.id, {
       onSuccess: () => {
         toast.success('Akun berhasil di hapus');
-        queryClient.invalidateQueries({ queryKey: ['getAllFundAccounts'] });
-        queryClient.invalidateQueries({ queryKey: ['getAllFundAccountsOptions'] });
+        queryClient.invalidateQueries({queryKey: fundAccountsKeys.lists()})
+        queryClient.invalidateQueries({queryKey: fundAccountsKeys.options()})
       },
 
       onError: (err) => {

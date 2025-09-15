@@ -6,7 +6,7 @@ import { ChangeEvent, useCallback } from "react";
 import { DateRange } from "react-day-picker";
 import { useDebouncedCallback } from "use-debounce";
 
-export const useActionToolbar = () => {
+export const useActionFinancialToolbar = () => {
     const currentParams = useSearchParams();
     const pathname = usePathname();
     const queryClient = useQueryClient();

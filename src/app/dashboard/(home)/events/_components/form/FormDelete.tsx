@@ -10,6 +10,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { Trash } from 'lucide-react';
 import { useState } from 'react';
 import { toast } from 'sonner';
+import { eventsKeys } from '@/lib/queries/events/queryKeys';
 
 interface FormDeleteProps {
   data: events;
@@ -28,8 +29,9 @@ export const FormDelete = ({ data }: FormDeleteProps) => {
     mutationDelete.mutate(data.id, {
       onSuccess: () => {
         toast.success('Event berhasil di hapus');
-        queryClient.invalidateQueries({ queryKey: ['getAllEvents'] });
-        queryClient.invalidateQueries({ queryKey: ['getAllEventsOptions'] });
+
+        queryClient.invalidateQueries({ queryKey: eventsKeys.lists() });
+        queryClient.invalidateQueries({ queryKey: eventsKeys.options() });
       },
 
       onError: (err) => {

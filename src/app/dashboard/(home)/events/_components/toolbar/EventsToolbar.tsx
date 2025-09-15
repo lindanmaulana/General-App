@@ -3,66 +3,14 @@
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { queryGetAllEventsOptions } from "@/lib/queries/events";
-import { useQueryClient } from "@tanstack/react-query";
 import { Search } from "lucide-react";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { ChangeEvent } from "react";
-import { useDebouncedCallback } from "use-debounce";
+import { useSearchParams } from "next/navigation";
+import { useActionToolbar } from '@/app/dashboard/(home)/events/_hooks/useActionToolbar';
 
 export const EventsToolbar = () => {
     const currentParams = useSearchParams()
-    const router = useRouter()
-    const pathname = usePathname()
-    const queryClient = useQueryClient()
 
-    const handleDebounceSearch = useDebouncedCallback((params: string) => {
-        const url = new URLSearchParams(currentParams.toString())
-
-        switch(params) {
-            case "":
-                url.delete("keyword")
-            break
-            default:
-                url.set("keyword", params)
-                url.set("page", '1')
-            break
-        }
-
-        queryClient.prefetchQuery(queryGetAllEventsOptions(url.toString()))
-        router.replace(`${pathname}?${url.toString()}`)
-    }, 1000)
-
-    const handleFilter = (filter: "access" | "status", params: string) => {
-        const url = new URLSearchParams(currentParams.toString())
-
-        if(filter === "access") {
-            if(params !== "default") {
-                url.set("access", params)
-                url.set("page", "1")
-            } else {
-                url.delete("access")
-            }
-        }
-
-        if(filter === "status") {
-            if(params !== "default") {
-                url.set("status", params)
-                url.set("page", "1")
-            } else {
-                url.delete("status")
-            }
-        }
-
-        queryClient.prefetchQuery(queryGetAllEventsOptions(url.toString()))
-        router.replace(`${pathname}?${url.toString()}`)
-    }
-
-    const handleSearch = (e: ChangeEvent<HTMLInputElement>) => {
-        const value = e.target.value
-
-        handleDebounceSearch(value)
-    }
+    const {handleSearch, handleFilter} = useActionToolbar()
     
   return (
     <div className="w-full md:w-fit flex flex-col md:flex-row items-center gap-3">

@@ -20,6 +20,7 @@ import { Pencil } from 'lucide-react';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
+import { eventsKeys } from '@/lib/queries/events/queryKeys';
 
 interface FormUpdateProps {
   data: events;
@@ -54,8 +55,9 @@ export const FormUpdate = ({ data }: FormUpdateProps) => {
       onSuccess: () => {
         setIsOpen(false);
         toast.success('Event berhasil di perbarui');
-        queryClient.invalidateQueries({ queryKey: ['getAllEvents'] });
-        queryClient.invalidateQueries({ queryKey: ['getAllEventsOptions'] });
+        
+        queryClient.invalidateQueries({ queryKey: eventsKeys.lists() });
+        queryClient.invalidateQueries({ queryKey: eventsKeys.options() });
       },
 
       onError: (err) => {

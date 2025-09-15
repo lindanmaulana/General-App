@@ -16,6 +16,7 @@ import { Pencil } from 'lucide-react';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
+import { fundAccountsKeys } from '@/lib/queries/fund-accounts/queryKeys';
 
 interface FormUpdateProps {
   data: fundAccounts;
@@ -47,8 +48,8 @@ export const FormUpdate = ({ data }: FormUpdateProps) => {
       onSuccess: () => {
         setIsOpen(false);
         toast.success('Akun berhasil di perbarui');
-        queryClient.invalidateQueries({ queryKey: ['getAllFundAccounts'] });
-        queryClient.invalidateQueries({ queryKey: ['getAllFundAccountsOptions'] });
+        queryClient.invalidateQueries({queryKey: fundAccountsKeys.lists()})
+        queryClient.invalidateQueries({queryKey: fundAccountsKeys.options()})
       },
 
       onError: (err) => {
