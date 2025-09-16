@@ -5,15 +5,16 @@ import { handleParsePrice } from '@/lib/helpers/parsing';
 import { queryGetTotalAmountThisMonthExpensesOptions } from '@/lib/queries/expenses';
 import { fundAccountActiveCountOptions } from '@/lib/queries/fund-accounts/fundAccountActiveCountOptions';
 import { fundAccountTotalBalanceOptions } from '@/lib/queries/fund-accounts/fundAccountTotalBalanceOptions';
-import { queryGetTotalAmountThisMonthIncomesOptions } from '@/lib/queries/incomes';
+import { incomeTotalAmountThisMonthOptions } from '@/lib/queries/incomes/incomeTotalAmountThisMonthOptions';
 import { useQueries } from '@tanstack/react-query';
 import { DollarSign, TrendingDown, TrendingUp, Wallet } from 'lucide-react';
 import { useMemo } from 'react';
 import { SkeletonOverviewCard } from '../skeleton/SkeletonOverviewCard';
 
 export const FinancialSummaryCards = () => {
+  
   const queries = useQueries({
-    queries: [fundAccountActiveCountOptions(), fundAccountTotalBalanceOptions(), queryGetTotalAmountThisMonthIncomesOptions(), queryGetTotalAmountThisMonthExpensesOptions()],
+    queries: [fundAccountActiveCountOptions(), fundAccountTotalBalanceOptions(), incomeTotalAmountThisMonthOptions(), queryGetTotalAmountThisMonthExpensesOptions()],
   })
 
   const [fundAccountActiveCount, fundAccountTotalBalance, totalAmountThisMonthIncomes, totalAmountThisMonthExpenses] = queries

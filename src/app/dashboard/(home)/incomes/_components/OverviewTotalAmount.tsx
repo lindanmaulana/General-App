@@ -2,13 +2,13 @@
 
 import { Card, CardContent } from '@/components/ui/card';
 import { handleParsePrice } from '@/lib/helpers/parsing';
-import { queryGetTotalAmountThisMonthIncomesOptions } from '@/lib/queries/incomes';
+import { incomeTotalAmountThisMonthOptions } from '@/lib/queries/incomes/incomeTotalAmountThisMonthOptions';
 import { useQuery } from '@tanstack/react-query';
 import { TrendingUp } from 'lucide-react';
 import { SkeletonOverviewCardPrice } from '../../_components/skeleton/SkeletonOverviewCardPrice';
 
 export const OverviewTotalAmount = () => {
-  const queryTotalAmount = useQuery(queryGetTotalAmountThisMonthIncomesOptions());
+  const queryTotalAmount = useQuery(incomeTotalAmountThisMonthOptions());
 
   if (queryTotalAmount.isLoading) return <SkeletonOverviewCardPrice />;
   if (queryTotalAmount.isError) return <></>;

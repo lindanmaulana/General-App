@@ -11,6 +11,9 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { Trash } from 'lucide-react';
 import { useState } from 'react';
 import { toast } from 'sonner';
+import { incomesKeys } from '@/lib/queries/incomes/queryKeys';
+import { fundAccountsKeys } from '@/lib/queries/fund-accounts/queryKeys';
+import { financialSummaryKeys } from '@/lib/queries/financial-summary/queryKeys';
 
 interface FormDeleteProps {
   data: incomes;
@@ -31,12 +34,12 @@ export const FormDelete = ({ data }: FormDeleteProps) => {
     mutationDelete.mutate(data.id, {
       onSuccess: () => {
         toast.success('Pemasukan berhasil di hapus');
-        queryClient.invalidateQueries({ queryKey: ['getTotalAmountThisMonthIncomes'] });
-        queryClient.invalidateQueries({ queryKey: ['getAllIncomes'] });
-        queryClient.invalidateQueries({ queryKey: ['getTotalBalanceFundAccounts'] });
-        queryClient.invalidateQueries({ queryKey: ['getTotalBalanceNonCashFundAccounts'] });
-        queryClient.invalidateQueries({ queryKey: ['getTotalBalanceCashFundAccounts'] });
-        queryClient.invalidateQueries({ queryKey: ['getFinancialSummaryMonthly'] });
+
+        
+        queryClient.invalidateQueries({queryKey: incomesKeys.total.amount.month()})
+        queryClient.invalidateQueries({queryKey: incomesKeys.lists()})
+        queryClient.invalidateQueries({queryKey: fundAccountsKeys.totals.balances.all()})
+        queryClient.invalidateQueries({queryKey: financialSummaryKeys.monthly()})
       },
 
       onError: (err) => {

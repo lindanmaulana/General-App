@@ -13,8 +13,11 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Textarea } from '@/components/ui/textarea';
 import { errorHandler } from '@/lib/helpers/errorHandler';
 import { handleParseDate } from '@/lib/helpers/parsing';
-import { queryGetAllEventsOnlyOptions } from '@/lib/queries/events';
-import { queryGetAllFundAccountsOnlyOptions } from '@/lib/queries/fund-accounts';
+import { eventOptions } from '@/lib/queries/events/eventOptions';
+import { financialSummaryKeys } from '@/lib/queries/financial-summary/queryKeys';
+import { fundAccountOptions } from '@/lib/queries/fund-accounts/fundAccountOptions';
+import { fundAccountsKeys } from '@/lib/queries/fund-accounts/queryKeys';
+import { incomesKeys } from '@/lib/queries/incomes/queryKeys';
 import { incomesShcema, TypeIncomesSchema } from '@/lib/validations/incomes';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation, useQueries, useQueryClient } from '@tanstack/react-query';
@@ -32,8 +35,10 @@ export const FormUpdate = ({ data }: FormUpdateProps) => {
   const queryClient = useQueryClient();
 
   const queries = useQueries({
-    queries: [queryGetAllEventsOnlyOptions(), queryGetAllFundAccountsOnlyOptions()]
+    queries: [eventOptions(), fundAccountOptions()]
   })
+
+  const [allEventOptions, allFundAccountOptions] = queries
 
   const isLoading = queries.some(query => query.isLoading)
   const isError = queries.some(query => query.isError)
@@ -63,12 +68,11 @@ export const FormUpdate = ({ data }: FormUpdateProps) => {
       onSuccess: () => {
         setIsOpen(false);
         toast.success('Pemasukan berhasil di perbarui');
-        queryClient.invalidateQueries({ queryKey: ['getTotalAmountThisMonthIncomes'] });
-        queryClient.invalidateQueries({ queryKey: ['getAllIncomes'] });
-        queryClient.invalidateQueries({ queryKey: ['getTotalBalanceFundAccounts'] });
-        queryClient.invalidateQueries({ queryKey: ['getTotalBalanceNonCashFundAccounts'] });
-        queryClient.invalidateQueries({ queryKey: ['getTotalBalanceCashFundAccounts'] });
-        queryClient.invalidateQueries({ queryKey: ['getFinancialSummaryMonthly'] });
+        
+        queryClient.invalidateQueries({queryKey: incomesKeys.total.amount.month()})
+        queryClient.invalidateQueries({queryKey: incomesKeys.lists()})
+        queryClient.invalidateQueries({queryKey: fundAccountsKeys.totals.balances.all()})
+        queryClient.invalidateQueries({queryKey: financialSummaryKeys.monthly()})
       },
 
       onError: (err) => {
@@ -124,7 +128,7 @@ export const FormUpdate = ({ data }: FormUpdateProps) => {
                             ) : isError ? (
                               <SelectItem value="error">Error</SelectItem>
                             ) : (
-                              queries[0] && queries[0].data.map((event: events) => (
+                              allEventOptions && allEventOptions.data.map((event: events) => (
                                 <SelectItem key={event.id} value={event.id} className='dark:text-gnrWhite'>
                                   {event.name}
                                 </SelectItem>
@@ -154,7 +158,7 @@ export const FormUpdate = ({ data }: FormUpdateProps) => {
                             ) : isError ? (
                               <SelectItem value="error">Error</SelectItem>
                             ) : (
-                              queries[1] && queries[1].data.map((fundAccount: fundAccounts) => (
+                              allFundAccountOptions && allFundAccountOptions.data.map((fundAccount: fundAccounts) => (
                                 <SelectItem key={fundAccount.id} value={fundAccount.id} className='dark:text-gnrWhite'>
                                   {fundAccount.name}
                                 </SelectItem>

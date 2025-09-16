@@ -16,7 +16,7 @@ export const fundAccountsKeys = {
     totals: {
         all: () => [...all, 'total'],
         balances: {
-            all: () => [...all, 'total', 'balance', 'all'],
+            all: () => [...all, 'total', 'balance'],
             nonCash: () => [...all, 'total', 'balance', 'nonCash'],
             cash: () => [...all, 'total', 'balance', 'cash']
         }

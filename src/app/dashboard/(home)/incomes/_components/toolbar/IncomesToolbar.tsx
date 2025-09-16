@@ -6,8 +6,8 @@ import { DatePickerMultiple } from "@/components/date-picker/DatePicketMultiple"
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { queryGetAllEventsOnlyOptions } from "@/lib/queries/events";
-import { queryGetAllFundAccountsOnlyOptions } from "@/lib/queries/fund-accounts";
+import { eventOptions } from "@/lib/queries/events/eventOptions";
+import { fundAccountOptions } from "@/lib/queries/fund-accounts/fundAccountOptions";
 import { useQueries } from "@tanstack/react-query";
 import { Search } from "lucide-react";
 import { useState } from "react";
@@ -16,7 +16,7 @@ import { useActionFinancialToolbar } from "../../../_hooks/useActionFinancialToo
 
 export const IncomesToolbar = () => {
     const queries = useQueries({
-        queries: [queryGetAllEventsOnlyOptions(), queryGetAllFundAccountsOnlyOptions()],
+        queries: [eventOptions(), fundAccountOptions()],
     });
 
     const isLoading = queries.some((query) => query.isLoading);

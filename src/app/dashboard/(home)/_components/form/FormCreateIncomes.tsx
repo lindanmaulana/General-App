@@ -13,7 +13,10 @@ import { Textarea } from '@/components/ui/textarea';
 import { errorHandler } from '@/lib/helpers/errorHandler';
 import { handleParseDate } from '@/lib/helpers/parsing';
 import { eventOptions } from '@/lib/queries/events/eventOptions';
+import { financialSummaryKeys } from '@/lib/queries/financial-summary/queryKeys';
 import { fundAccountOptions } from '@/lib/queries/fund-accounts/fundAccountOptions';
+import { fundAccountsKeys } from '@/lib/queries/fund-accounts/queryKeys';
+import { incomesKeys } from '@/lib/queries/incomes/queryKeys';
 import { incomesShcema, TypeIncomesSchema } from '@/lib/validations/incomes';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation, useQueries, useQueryClient } from '@tanstack/react-query';
@@ -60,12 +63,10 @@ export const FormCreateIncomes = ({setIsOpen}: FormCreateIncomesProps) => {
 
         form.reset();
 
-        queryClient.invalidateQueries({ queryKey: ['getTotalAmountThisMonthIncomes'] });
-        queryClient.invalidateQueries({ queryKey: ['getAllIncomes'] });
-        queryClient.invalidateQueries({ queryKey: ['getTotalBalanceFundAccounts'] });
-        queryClient.invalidateQueries({ queryKey: ['getTotalBalanceNonCashFundAccounts'] });
-        queryClient.invalidateQueries({ queryKey: ['getTotalBalanceCashFundAccounts'] });
-        queryClient.invalidateQueries({ queryKey: ['getFinancialSummaryMonthly'] });
+        queryClient.invalidateQueries({queryKey: incomesKeys.total.amount.month()})
+        queryClient.invalidateQueries({queryKey: incomesKeys.lists()})
+        queryClient.invalidateQueries({queryKey: fundAccountsKeys.totals.balances.all()})
+        queryClient.invalidateQueries({queryKey: financialSummaryKeys.monthly()})
       },
 
       onError: (err) => {
