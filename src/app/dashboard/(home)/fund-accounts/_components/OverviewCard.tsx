@@ -31,7 +31,7 @@ export const OverviewCard = () => {
 
   if (isError) return <></>;
 
-  const totalBalanceIdr: string = handleParsePrice(totalBalance);
+  const totalBalanceIdr: string = handleParsePrice(totalBalance ?? 0);
   const totalBalanceNonCashIdr: string = handleParsePrice(totalBalanceNonCash);
   const totalBalanceCashIdr: string = handleParsePrice(totalBalanceCash)
 
