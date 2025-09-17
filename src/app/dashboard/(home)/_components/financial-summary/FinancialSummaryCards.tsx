@@ -14,7 +14,7 @@ import { SkeletonOverviewCard } from '../skeleton/SkeletonOverviewCard';
 export const FinancialSummaryCards = () => {
   
   const queries = useQueries({
-    queries: [fundAccountActiveCountOptions(), fundAccountTotalBalanceOptions(), incomeTotalAmountThisMonthOptions(), expenseTotalAmountThisMonthOptions()],
+    queries: [fundAccountActiveCountOptions(), fundAccountTotalBalanceOptions({}), incomeTotalAmountThisMonthOptions(), expenseTotalAmountThisMonthOptions()],
   })
 
   const [fundAccountActiveCount, fundAccountTotalBalance, totalAmountThisMonthIncomes, totalAmountThisMonthExpenses] = queries
