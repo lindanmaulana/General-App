@@ -1,7 +1,7 @@
 'use client';
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { queryGetProfileUsersOptions } from '@/lib/queries/users';
+import { userProfileOptions } from '@/lib/queries/users/userProfileOptions';
 import { useQuery } from '@tanstack/react-query';
 import { User } from 'lucide-react';
 import { useMemo } from 'react';
@@ -14,7 +14,7 @@ interface ProfileCardProps {
 }
 export const ProfileCard = ({ data }: ProfileCardProps) => {
   const options = useMemo(() => {
-    return queryGetProfileUsersOptions(data ? data.id : "")
+    return userProfileOptions(data ? data.id : "")
   }, [data])
 
   const queryUser = useQuery(options)

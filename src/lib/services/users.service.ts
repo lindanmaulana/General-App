@@ -1,9 +1,9 @@
 import { api } from "../axios-instance"
 import { errorHandler } from "../helpers/errorHandler"
 
-export const apiGetFinancialSummaryMonthly = async () => {
+export const getProfileUser = async (id: string) => {
     try {
-        const response = await api.get('/financial-summary/monthly')
+        const response = await api.get(`/users/profile/${id}`)
 
         if(response.data.error) throw new Error(response.data.error)
 

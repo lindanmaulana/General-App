@@ -3,7 +3,7 @@ import { errorHandler } from "../helpers/errorHandler";
 import { typeExportDataCustomSchema } from "../validations/export-data";
 
 
-export const apiExportDataCustom = async (req: typeExportDataCustomSchema) => {
+export const PostExportDataCustom = async (req: typeExportDataCustomSchema) => {
     try {
         const response = await api.post(`/export-data/custom`, req)
 

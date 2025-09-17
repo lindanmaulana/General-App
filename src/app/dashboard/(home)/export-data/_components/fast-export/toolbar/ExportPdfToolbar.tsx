@@ -9,10 +9,6 @@ import { useFormattedReportData } from "../hooks/useFormattedReportData"
 export const ExportPdfToolbar = () => {
     const {fetchData, mutationFn, queryTotalBalance} = useFormattedReportData()
 
-    console.log(mutationFn.isPending)
-    console.log(mutationFn.isError)
-    console.log(mutationFn.data)
-
     const handleTriggerPdf = () => {
         fetchData()
     }

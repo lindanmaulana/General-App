@@ -1,18 +1,18 @@
 "use client"
 
-import { apiExportDataCustom } from "@/lib/api/export-data"
+import { fundAccountTotalBalanceOptions } from "@/lib/queries/fund-accounts/fundAccountTotalBalanceOptions"
+import { PostExportDataCustom } from "@/lib/services/export-data.service"
 import { typeExportDataCustomSchema } from "@/lib/validations/export-data"
 import { useMutation, useQuery } from "@tanstack/react-query"
 import { useCallback } from "react"
 import { useGetStartEndOfCurrentMonth } from "./useGetStartEndOfCurrentMonth"
-import { fundAccountTotalBalanceOptions } from "@/lib/queries/fund-accounts/fundAccountTotalBalanceOptions"
 
 export const useFormattedReportData = () => {
     const {startDate, endDate} = useGetStartEndOfCurrentMonth()
 
     const mutationFn = useMutation({
         mutationKey: ['exportDataFast'],
-        mutationFn: (data: typeExportDataCustomSchema) => apiExportDataCustom(data),
+        mutationFn: (data: typeExportDataCustomSchema) => PostExportDataCustom(data),
     })
 
     const queryTotalBalance = useQuery(fundAccountTotalBalanceOptions({enabled: mutationFn.isSuccess}))
