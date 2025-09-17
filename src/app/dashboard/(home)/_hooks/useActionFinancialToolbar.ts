@@ -1,6 +1,4 @@
 "use client";
-import { queryGetAllIncomesOptions } from "@/lib/queries/incomes";
-import { useQueryClient } from "@tanstack/react-query";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { ChangeEvent, useCallback } from "react";
 import { DateRange } from "react-day-picker";
@@ -9,7 +7,6 @@ import { useDebouncedCallback } from "use-debounce";
 export const useActionFinancialToolbar = () => {
     const currentParams = useSearchParams();
     const pathname = usePathname();
-    const queryClient = useQueryClient();
     const router = useRouter();
 
     const handleDebounceSearch = useDebouncedCallback((params: string) => {
@@ -25,7 +22,6 @@ export const useActionFinancialToolbar = () => {
                 break;
         }
 
-        queryClient.prefetchQuery(queryGetAllIncomesOptions(url.toString()));
         router.replace(`${pathname}?${url.toString()}`);
     }, 1000);
 
@@ -41,7 +37,6 @@ export const useActionFinancialToolbar = () => {
             url.delete("end-date");
         }
 
-        queryClient.prefetchQuery(queryGetAllIncomesOptions(url.toString()));
         router.replace(`${pathname}?${url.toString()}`);
     }, 1200);
 
@@ -76,10 +71,9 @@ export const useActionFinancialToolbar = () => {
                 }
             }
 
-            queryClient.prefetchQuery(queryGetAllIncomesOptions(url.toString()));
             router.replace(`${pathname}?${url.toString()}`);
         },
-        [currentParams, pathname, queryClient, router]
+        [currentParams, pathname, router]
     );
 
     const handleSearch = useCallback(

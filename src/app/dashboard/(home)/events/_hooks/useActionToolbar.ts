@@ -1,5 +1,3 @@
-import { queryGetAllEventsOptions } from "@/lib/queries/events";
-import { useQueryClient } from "@tanstack/react-query";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { ChangeEvent, useCallback } from "react";
 import { useDebouncedCallback } from "use-debounce";
@@ -8,7 +6,6 @@ export const useActionToolbar = () => {
     const currentParams = useSearchParams();
     const router = useRouter();
     const pathname = usePathname();
-    const queryClient = useQueryClient();
 
     const handleDebounceSearch = useDebouncedCallback((params: string) => {
         const url = new URLSearchParams(currentParams.toString());
@@ -23,7 +20,6 @@ export const useActionToolbar = () => {
                 break;
         }
 
-        queryClient.prefetchQuery(queryGetAllEventsOptions(url.toString()));
         router.replace(`${pathname}?${url.toString()}`);
     }, 1000);
 
@@ -49,10 +45,9 @@ export const useActionToolbar = () => {
                 }
             }
 
-            queryClient.prefetchQuery(queryGetAllEventsOptions(url.toString()));
             router.replace(`${pathname}?${url.toString()}`);
         },
-        [currentParams, pathname, queryClient, router]
+        [currentParams, pathname, router]
     );
 
     const handleSearch = useCallback(
