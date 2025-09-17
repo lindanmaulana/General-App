@@ -5,7 +5,7 @@ import { typeExportDataCustomSchema } from "@/lib/validations/export-data"
 import { useMutation, useQuery } from "@tanstack/react-query"
 import { useCallback } from "react"
 import { useGetStartEndOfCurrentMonth } from "./useGetStartEndOfCurrentMonth"
-import { queryGetTotalBalanceFundAccountsOptions } from "@/lib/queries/fund-accounts"
+import { fundAccountTotalBalanceOptions } from "@/lib/queries/fund-accounts/fundAccountTotalBalanceOptions"
 
 export const useFormattedReportData = () => {
     const {startDate, endDate} = useGetStartEndOfCurrentMonth()
@@ -15,7 +15,7 @@ export const useFormattedReportData = () => {
         mutationFn: (data: typeExportDataCustomSchema) => apiExportDataCustom(data),
     })
 
-    const queryTotalBalance = useQuery(queryGetTotalBalanceFundAccountsOptions({enabled: mutationFn.isSuccess}))
+    const queryTotalBalance = useQuery(fundAccountTotalBalanceOptions({enabled: mutationFn.isSuccess}))
 
     console.log({startDate, endDate})
 

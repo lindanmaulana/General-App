@@ -5,14 +5,14 @@ import { BaseCard } from '@/components/base-card/BaseCard';
 import { BaseCardContent } from '@/components/base-card/BaseCardContent';
 import { Checkbox } from '@/components/ui/checkbox';
 import { handleParseDate } from '@/lib/helpers/parsing';
-import { queryGetAllEventsOnlyOptions } from '@/lib/queries/events';
+import { eventOptions } from '@/lib/queries/events/eventOptions';
 import { useExportData } from '@/lib/zustand/useExportData';
 import { useQuery } from '@tanstack/react-query';
 import { Calendar } from 'lucide-react';
 
 
 export const EventConfig = () => {
-    const {data, isLoading, isError} = useQuery(queryGetAllEventsOnlyOptions())
+    const {data, isLoading, isError} = useQuery(eventOptions())
     const handleSetConfig = useExportData((state) => state.setConfig)
     const events = useExportData((state) => state.events)
 

@@ -5,7 +5,6 @@ import { PDFDownloadLink } from "@react-pdf/renderer"
 import { FileDown, FileText } from "lucide-react"
 import { FinancialReportPdf } from "../../export/report/FinancialReportPdf"
 import { useFormattedReportData } from "../hooks/useFormattedReportData"
-import { useMemo } from "react"
 
 export const ExportPdfToolbar = () => {
     const {fetchData, mutationFn, queryTotalBalance} = useFormattedReportData()
