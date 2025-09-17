@@ -14,7 +14,7 @@ export const OverviewCard = () => {
   const isShow = useShow((state) => state.isShow);
 
   const {isLoading, isError, activeCount, totalBalance, totalBalanceCash, totalBalanceNonCash} = useQueries({
-    queries: [fundAccountActiveCountOptions(), fundAccountTotalBalanceOptions(), fundAccountTotalBalanceCashOptions(), fundAccountTotalBalanceNonCashOptions()],
+    queries: [fundAccountActiveCountOptions(), fundAccountTotalBalanceOptions({}), fundAccountTotalBalanceCashOptions(), fundAccountTotalBalanceNonCashOptions()],
     combine: (results) => {
       return {
         activeCount: results[0].data,

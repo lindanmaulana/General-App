@@ -2,7 +2,7 @@
 
 import { apiExportDataCustom } from "@/lib/api/export-data";
 import { errorHandler } from "@/lib/helpers/errorHandler";
-import { queryGetTotalBalanceFundAccountsOptions } from "@/lib/queries/fund-accounts";
+import { fundAccountTotalBalanceOptions } from "@/lib/queries/fund-accounts/fundAccountTotalBalanceOptions";
 import { typeExportDataCustomSchema } from "@/lib/validations/export-data";
 import { useExportData } from "@/lib/zustand/useExportData"
 import { useMutation, useQuery } from "@tanstack/react-query";
@@ -20,7 +20,7 @@ export const useCustomExportData = ({isOpen}: useCustomExportDataProps) => {
     const categoryDataFile = useExportData((state) => state.category_data);
     const eventsFile = useExportData((state) => state.events);
 
-    const queryTotalBalance = useQuery(queryGetTotalBalanceFundAccountsOptions({enabled: isOpen}))
+    const queryTotalBalance = useQuery(fundAccountTotalBalanceOptions({enabled: isOpen}))
 
     const mutationFn = useMutation({
         mutationKey: ['exportDataCustom'],
