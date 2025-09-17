@@ -7,5 +7,6 @@ export const fundAccountTotalBalanceOptions = (options: Partial<UseQueryOptions<
         queryKey: fundAccountsKeys.totals.balances.all(),
         queryFn: getFundAccountTotalBalance,
         staleTime: 1 * 60 * 60 * 1000,
+        ...options
     });
 };
