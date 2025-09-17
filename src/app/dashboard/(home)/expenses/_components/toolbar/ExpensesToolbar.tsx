@@ -5,9 +5,9 @@ import { DatePickerMultiple } from "@/components/date-picker/DatePicketMultiple"
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { queryGetAllEventsOnlyOptions } from "@/lib/queries/events";
-import { queryGetAllFundAccountsOnlyOptions } from "@/lib/queries/fund-accounts";
-import { useQuery } from "@tanstack/react-query";
+import { eventOptions } from "@/lib/queries/events/eventOptions";
+import { fundAccountOptions } from "@/lib/queries/fund-accounts/fundAccountOptions";
+import { useQueries } from "@tanstack/react-query";
 import { Search } from "lucide-react";
 import { useState } from "react";
 import { DateRange } from "react-day-picker";
@@ -15,8 +15,14 @@ import { useActionFinancialToolbar } from "../../../_hooks/useActionFinancialToo
 import { useGetQueryParams } from "../../../_hooks/useGetQueryParams";
 
 export const ExpensesToolbar = () => {
-    const querySelectEvents = useQuery(queryGetAllEventsOnlyOptions());
-    const querySelectFundAccounts = useQuery(queryGetAllFundAccountsOnlyOptions());
+    const queries = useQueries({
+        queries: [eventOptions(), fundAccountOptions()]
+    })
+
+    const [allEventOptions, allFundAccountOptions] = queries
+
+    const isLoading = queries.some(query => query.isLoading)
+    const isError = queries.some(query => query.isError)
 
     // GET DEFAULT QUERY from URL
     const {
@@ -68,13 +74,13 @@ export const ExpensesToolbar = () => {
                         <SelectItem value="default" className="dark:text-gnrWhite">
                             Semua Event
                         </SelectItem>
-                        {querySelectEvents.isLoading ? (
+                        {isLoading ? (
                             <SelectItem value="loading">Loading...</SelectItem>
-                        ) : querySelectEvents.isError ? (
+                        ) : isError ? (
                             <SelectItem value="error">Error...</SelectItem>
                         ) : (
-                            querySelectEvents.data &&
-                            querySelectEvents.data.map((event: events) => (
+                            allEventOptions.data &&
+                            allEventOptions.data.map((event: events) => (
                                 <SelectItem key={event.id} value={event.code} className="dark:text-gnrWhite">
                                     {event.name}
                                 </SelectItem>
@@ -93,13 +99,13 @@ export const ExpensesToolbar = () => {
                         <SelectItem value="default" className="dark:text-gnrWhite">
                             Semua Akun
                         </SelectItem>
-                        {querySelectFundAccounts.isLoading ? (
+                        {isLoading ? (
                             <SelectItem value="loading">Loading...</SelectItem>
-                        ) : querySelectFundAccounts.isError ? (
+                        ) : isError ? (
                             <SelectItem value="error">Error...</SelectItem>
                         ) : (
-                            querySelectFundAccounts.data &&
-                            querySelectFundAccounts.data.map((event: events) => (
+                            allFundAccountOptions.data &&
+                            allFundAccountOptions.data.map((event: events) => (
                                 <SelectItem key={event.id} value={event.name} className="dark:text-gnrWhite">
                                     {event.name}
                                 </SelectItem>

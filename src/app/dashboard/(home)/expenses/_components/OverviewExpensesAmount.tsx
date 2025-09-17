@@ -2,13 +2,13 @@
 
 import { Card, CardContent } from '@/components/ui/card';
 import { handleParsePrice } from '@/lib/helpers/parsing';
-import { queryGetTotalAmountThisMonthExpensesOptions } from '@/lib/queries/expenses';
+import { expenseTotalAmountThisMonthOptions } from '@/lib/queries/expenses/expenseTotalAmountThisMonthOptions';
 import { useQuery } from '@tanstack/react-query';
 import { TrendingUp } from 'lucide-react';
 import { SkeletonOverviewCardPrice } from '../../_components/skeleton/SkeletonOverviewCardPrice';
 
 export const OverviewExpensesAmount = () => {
-  const {data, isLoading, isError} = useQuery(queryGetTotalAmountThisMonthExpensesOptions());
+  const {data, isLoading, isError} = useQuery(expenseTotalAmountThisMonthOptions());
 
   if (isLoading) return <SkeletonOverviewCardPrice />;
   if (isError) return <></>;

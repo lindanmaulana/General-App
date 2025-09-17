@@ -2,7 +2,7 @@
 
 import { Card, CardContent } from '@/components/ui/card';
 import { handleParsePrice } from '@/lib/helpers/parsing';
-import { queryGetTotalAmountThisMonthExpensesOptions } from '@/lib/queries/expenses';
+import { expenseTotalAmountThisMonthOptions } from '@/lib/queries/expenses/expenseTotalAmountThisMonthOptions';
 import { fundAccountActiveCountOptions } from '@/lib/queries/fund-accounts/fundAccountActiveCountOptions';
 import { fundAccountTotalBalanceOptions } from '@/lib/queries/fund-accounts/fundAccountTotalBalanceOptions';
 import { incomeTotalAmountThisMonthOptions } from '@/lib/queries/incomes/incomeTotalAmountThisMonthOptions';
@@ -14,7 +14,7 @@ import { SkeletonOverviewCard } from '../skeleton/SkeletonOverviewCard';
 export const FinancialSummaryCards = () => {
   
   const queries = useQueries({
-    queries: [fundAccountActiveCountOptions(), fundAccountTotalBalanceOptions(), incomeTotalAmountThisMonthOptions(), queryGetTotalAmountThisMonthExpensesOptions()],
+    queries: [fundAccountActiveCountOptions(), fundAccountTotalBalanceOptions(), incomeTotalAmountThisMonthOptions(), expenseTotalAmountThisMonthOptions()],
   })
 
   const [fundAccountActiveCount, fundAccountTotalBalance, totalAmountThisMonthIncomes, totalAmountThisMonthExpenses] = queries

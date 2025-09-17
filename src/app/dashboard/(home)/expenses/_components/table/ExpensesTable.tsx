@@ -5,46 +5,25 @@ import { CardContent, CardFooter } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
 import { Pagination, PaginationContent, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from '@/components/ui/pagination';
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { queryGetAllExpensesOptions } from '@/lib/queries/expenses';
-import { queryGetAllFundAccountsOptions } from '@/lib/queries/fund-accounts';
-import { useQuery, useQueryClient } from '@tanstack/react-query';
-import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { expenseListOptions } from '@/lib/queries/expenses/expenseListOptions';
+import { useQuery } from '@tanstack/react-query';
+import { useSearchParams } from 'next/navigation';
 import { useMemo } from 'react';
-import { SkeletonTable } from '../../../_components/skeleton/SkeletonTable';
 import { ErrorTable } from '../../../_components/error/ErrorTable';
+import { SkeletonTable } from '../../../_components/skeleton/SkeletonTable';
+import { useActionTable } from '../../_hooks/useActionTable';
 import { useColumnsExpenses } from '../../_hooks/useColumnsExpenses';
 
 export const ExpensesTable = () => {
   const currentParams = useSearchParams();
   const columns = useColumnsExpenses();
-  const router = useRouter();
-  const pathname = usePathname();
-  const queryClient = useQueryClient();
+  const {handlePagination, handleLimit} = useActionTable()
 
   const queryOption = useMemo(() => {
-    return queryGetAllExpensesOptions(currentParams.toString());
+    return expenseListOptions(currentParams.toString());
   }, [currentParams]);
 
   const {data, isLoading, isError} = useQuery(queryOption);
-
-  const handlePagination = (page: string) => {
-    const url = new URLSearchParams(currentParams.toString());
-
-    url.set('page', page);
-
-    queryClient.prefetchQuery(queryGetAllFundAccountsOptions(url.toString()));
-    router.replace(`${pathname}?${url.toString()}`);
-  };
-
-  const handleLimit = (limit: string) => {
-    const url = new URLSearchParams(currentParams.toString());
-
-    url.set('limit', limit);
-    url.set('page', '1');
-
-    queryClient.prefetchQuery(queryGetAllFundAccountsOptions(url.toString()));
-    router.replace(`${pathname}?${url.toString()}`);
-  };
 
   if (isLoading) return <SkeletonTable />;
 

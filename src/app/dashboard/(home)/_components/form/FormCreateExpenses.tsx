@@ -12,8 +12,11 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Textarea } from '@/components/ui/textarea';
 import { errorHandler } from '@/lib/helpers/errorHandler';
 import { handleParseDate } from '@/lib/helpers/parsing';
-import { queryGetAllEventsOnlyOptions } from '@/lib/queries/events';
-import { queryGetAllFundAccountsOnlyOptions } from '@/lib/queries/fund-accounts';
+import { eventOptions } from '@/lib/queries/events/eventOptions';
+import { expensesKeys } from '@/lib/queries/expenses/queryKeys';
+import { financialSummaryKeys } from '@/lib/queries/financial-summary/queryKeys';
+import { fundAccountOptions } from '@/lib/queries/fund-accounts/fundAccountOptions';
+import { fundAccountsKeys } from '@/lib/queries/fund-accounts/queryKeys';
 import { expensesSchema, TypeExpensesSchema } from '@/lib/validations/expenses';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation, useQueries, useQueryClient } from '@tanstack/react-query';
@@ -28,8 +31,10 @@ export const FormCreateExpenses = ({setIsOpen}: FormCreateExpensesProps) => {
     const queryClient = useQueryClient();
 
     const queries = useQueries({
-      queries: [queryGetAllEventsOnlyOptions(), queryGetAllFundAccountsOnlyOptions()]
+      queries: [eventOptions(), fundAccountOptions()]
     })
+
+    const [allEventOptions, allFundAccountOptions] = queries
 
     const isLoading = queries.some(query => query.isLoading)
     const isError = queries.some(query => query.isError)
@@ -58,12 +63,11 @@ export const FormCreateExpenses = ({setIsOpen}: FormCreateExpensesProps) => {
             setIsOpen(false);
             toast.success('Pengeluaran berhasil di simpan');
             form.reset();
-            queryClient.invalidateQueries({ queryKey: ['getTotalAmountThisMonthExpenses'] });
-            queryClient.invalidateQueries({ queryKey: ['getAllExpenses'] });
-            queryClient.invalidateQueries({ queryKey: ['getTotalBalanceFundAccounts'] });
-            queryClient.invalidateQueries({ queryKey: ['getTotalBalanceNonCashFundAccounts'] });
-            queryClient.invalidateQueries({ queryKey: ['getTotalBalanceCashFundAccounts'] });
-            queryClient.invalidateQueries({ queryKey: ['getFinancialSummaryMonthly'] });
+
+            queryClient.invalidateQueries({queryKey: expensesKeys.total.amount.month()})
+            queryClient.invalidateQueries({queryKey: expensesKeys.lists()})
+            queryClient.invalidateQueries({queryKey: fundAccountsKeys.totals.balances.all()})
+            queryClient.invalidateQueries({queryKey: financialSummaryKeys.monthly()})
         },
 
         onError: (err) => {
@@ -73,7 +77,7 @@ export const FormCreateExpenses = ({setIsOpen}: FormCreateExpensesProps) => {
         });
     });
     return (
-         <Form {...form}>
+        <Form {...form}>
           <form onSubmit={handleForm} className="space-y-4">
             <DialogHeader>
               <DialogTitle className='dark:text-white'>Tambah Pengeluaran Baru</DialogTitle>
@@ -111,7 +115,7 @@ export const FormCreateExpenses = ({setIsOpen}: FormCreateExpensesProps) => {
                             ) : isError ? (
                               <SelectItem value="error">Error</SelectItem>
                             ) : (
-                              queries[0].data.map((event: events) => (
+                              allEventOptions && allEventOptions.data.map((event: events) => (
                                 <SelectItem key={event.id} value={event.id}>
                                   {event.name}
                                 </SelectItem>
@@ -141,7 +145,7 @@ export const FormCreateExpenses = ({setIsOpen}: FormCreateExpensesProps) => {
                             ) : isError ? (
                               <SelectItem value="error">Error</SelectItem>
                             ) : (
-                              queries[1].data.map((fundAccount: fundAccounts) => (
+                              allFundAccountOptions && allFundAccountOptions.data.map((fundAccount: fundAccounts) => (
                                 <SelectItem key={fundAccount.id} value={fundAccount.id}>
                                   {fundAccount.name}
                                 </SelectItem>

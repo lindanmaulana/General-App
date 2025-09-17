@@ -22,7 +22,7 @@ const App = ({children}: AppProps) => {
             {children}
 
             {process.env.NODE_ENV === "development" && (
-                <ReactQueryDevtools initialIsOpen={false} position="bottom" />
+                <ReactQueryDevtools initialIsOpen={false} position="right" />
             )}
         </QueryClientProvider>
     )
