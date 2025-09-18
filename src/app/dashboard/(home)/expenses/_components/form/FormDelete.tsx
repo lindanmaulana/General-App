@@ -1,19 +1,19 @@
 'use client';
 
 import { deleteExpenses } from '@/actions/expenses';
+import { incomes } from '@/app/api/_lib/models/incomes';
 import { ButtonFormSubmit } from '@/components/ButtonFormSubmit';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { errorHandler } from '@/lib/helpers/errorHandler';
 import { handleParsePrice } from '@/lib/helpers/parsing';
-import { incomes } from '@/app/api/_lib/models/incomes';
+import { expensesKeys } from '@/lib/queries/expenses/queryKeys';
+import { financialSummaryKeys } from '@/lib/queries/financial-summary/queryKeys';
+import { fundAccountsKeys } from '@/lib/queries/fund-accounts/queryKeys';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { Trash } from 'lucide-react';
 import { useState } from 'react';
 import { toast } from 'sonner';
-import { expensesKeys } from '@/lib/queries/expenses/queryKeys';
-import { fundAccountsKeys } from '@/lib/queries/fund-accounts/queryKeys';
-import { financialSummaryKeys } from '@/lib/queries/financial-summary/queryKeys';
 
 interface FormDeleteProps {
   data: incomes;

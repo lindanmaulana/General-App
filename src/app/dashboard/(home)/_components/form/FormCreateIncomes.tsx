@@ -30,20 +30,24 @@ interface FormCreateIncomesProps {
 export const FormCreateIncomes = ({setIsOpen}: FormCreateIncomesProps) => {
   const queryClient = useQueryClient();
 
-  const queries = useQueries({
-    queries: [eventOptions(), fundAccountOptions()]
+  const {isLoading, isError, allEventOptions, allFundAccountOptions} = useQueries({
+    queries: [eventOptions(), fundAccountOptions()],
+    combine: (results) => {
+      return {
+        allEventOptions: results[0].data,
+        allFundAccountOptions: results[1].data,
+        isLoading: results.some(result => result.isLoading),
+        isError: results.some(result => result.isError)
+      }
+    }
   })
 
-  const isLoading = queries.some((query) => query.isLoading)
-  const isError = queries.some((query) => query.isError)
-
-  const dateNow = handleParseDate(new Date(), 'YYYY-MM-DDTHH:mm');
   const form = useForm<TypeIncomesSchema>({
     resolver: zodResolver(incomesShcema),
     defaultValues: {
       event_id: '',
       fund_account_id: '',
-      date: dateNow,
+      date: handleParseDate(new Date(), 'YYYY-MM-DDTHH:mm'),
       amount: '',
       source: '',
       note: '',
@@ -115,7 +119,7 @@ export const FormCreateIncomes = ({setIsOpen}: FormCreateIncomesProps) => {
                             ) : isError ? (
                               <SelectItem value="error">Error</SelectItem>
                             ) : (
-                              queries[0].data.map((event: events) => (
+                              allEventOptions && allEventOptions.map((event: events) => (
                                 <SelectItem key={event.id} value={event.id}>
                                   {event.name}
                                 </SelectItem>
@@ -145,7 +149,7 @@ export const FormCreateIncomes = ({setIsOpen}: FormCreateIncomesProps) => {
                             ) : isError ? (
                               <SelectItem value="error">Error</SelectItem>
                             ) : (
-                              queries[1].data.map((fundAccount: fundAccounts) => (
+                              allFundAccountOptions && allFundAccountOptions.data.map((fundAccount: fundAccounts) => (
                                 <SelectItem key={fundAccount.id} value={fundAccount.id}>
                                   {fundAccount.name}
                                 </SelectItem>

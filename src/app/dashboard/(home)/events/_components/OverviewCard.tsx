@@ -8,26 +8,26 @@ import { eventTotalBudgetOptions } from '@/lib/queries/events/eventTotalBudgetOp
 import { useShow } from '@/lib/zustand/useShow';
 import { useQueries } from '@tanstack/react-query';
 import { Calendar, DollarSign } from 'lucide-react';
-import { useMemo } from 'react';
 
 export const OverviewCard = () => {
   const isShow = useShow((state) => state.isShow);
-  const queries = useQueries({
-    queries: [eventCountOptions(), eventPublicCountOptions(), eventTotalBudgetOptions()]
+  const {isLoading, isError, allCount, publicCount, totalBudget} = useQueries({
+    queries: [eventCountOptions(), eventPublicCountOptions(), eventTotalBudgetOptions()],
+    combine: (results) => {
+      return {
+        allCount: results[0].data,
+        publicCount: results[1].data,
+        totalBudget: results[2].data,
+        isLoading: results.some(result => result.isLoading),
+        isError: results.some(result => result.isError)
+      }
+    }
   })
-  const [allCount, publicCount, totalBudget] = queries
-
-  const isLoading = queries.some(query => query.isLoading)
-  const isError = queries.some(query => query.isError)
-
-  const {budget} = useMemo(() => {
-    const budget = handleParsePrice(totalBudget.data)
-
-    return {budget}
-  }, [totalBudget.data])
 
   if (isLoading) return <SkeletonOverviewCard totalCard={3} />;
   if (isError) return <></>;
+
+  const budget = handleParsePrice(totalBudget.data)
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">

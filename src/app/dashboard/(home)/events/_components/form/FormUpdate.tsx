@@ -30,8 +30,6 @@ export const FormUpdate = ({ data }: FormUpdateProps) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const queryClient = useQueryClient();
 
-  const eventDate = handleParseDate(data.date, 'YYYY-MM-DD');
-
   const form = useForm<TypeEventsSchema>({
     resolver: zodResolver(eventsSchema),
     defaultValues: {
@@ -39,7 +37,7 @@ export const FormUpdate = ({ data }: FormUpdateProps) => {
       name: data.name,
       description: data.description,
       status: data.status as STATUS_EVENT,
-      date: eventDate,
+      date: handleParseDate(data.date, 'YYYY-MM-DD'),
       budget: data.budget.toString(),
       is_public: data.is_public,
     },

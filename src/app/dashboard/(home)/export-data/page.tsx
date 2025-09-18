@@ -1,9 +1,7 @@
 import { BaseCard } from '@/components/base-card/BaseCard';
 import { BaseCardContent } from '@/components/base-card/BaseCardContent';
 import { BaseCardHeader } from '@/components/base-card/BaseCardHeader';
-import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Database, FileSpreadsheet } from 'lucide-react';
 import { CategoryDataConfig } from './_components/export/config/CategoryDataConfig';
 import { EventConfig } from './_components/export/config/EventConfig';
 import { FormatFileConfig } from './_components/export/config/FormatFileConfig';
@@ -47,13 +45,7 @@ const ExportDataPage = () => {
           <BaseCard key={'export-cepat'} style="w-full">
             <BaseCardHeader title="Export Cepat" description="Template export yang sudah dikonfigurasi"></BaseCardHeader>
             <BaseCardContent style="space-y-3">
-              <Button variant={'outline'} className="dark:text-gnrWhite w-full flex items-center justify-start py-5 cursor-pointer">
-                <FileSpreadsheet /> Laporan Bulana (Excel)
-              </Button>
               <ExportPdfToolbar></ExportPdfToolbar>
-              <Button variant={'outline'} className="dark:text-gnrWhite w-full flex items-center justify-start py-5 cursor-pointer">
-                <Database /> Backup Lengkap JSON
-              </Button>
             </BaseCardContent>
           </BaseCard>
           <BaseCard>

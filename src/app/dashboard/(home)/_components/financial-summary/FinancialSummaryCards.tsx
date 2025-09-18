@@ -8,31 +8,31 @@ import { fundAccountTotalBalanceOptions } from '@/lib/queries/fund-accounts/fund
 import { incomeTotalAmountThisMonthOptions } from '@/lib/queries/incomes/incomeTotalAmountThisMonthOptions';
 import { useQueries } from '@tanstack/react-query';
 import { DollarSign, TrendingDown, TrendingUp, Wallet } from 'lucide-react';
-import { useMemo } from 'react';
 import { SkeletonOverviewCard } from '../skeleton/SkeletonOverviewCard';
 
 export const FinancialSummaryCards = () => {
   
-  const queries = useQueries({
+  const {isLoading, isError, activeCount, totalBalance, totalAmountIncome, totalAmountExpense} = useQueries({
     queries: [fundAccountActiveCountOptions(), fundAccountTotalBalanceOptions({}), incomeTotalAmountThisMonthOptions(), expenseTotalAmountThisMonthOptions()],
+    combine: (results) => {
+      return {
+        activeCount: results[0].data,
+        totalBalance: results[1].data,
+        totalAmountIncome: results[2].data,
+        totalAmountExpense: results[3].data,
+        isLoading: results.some(result => result.isLoading),
+        isError: results.some(result => result.isError)
+      }
+    }
   })
-
-  const [fundAccountActiveCount, fundAccountTotalBalance, totalAmountThisMonthIncomes, totalAmountThisMonthExpenses] = queries
-
-  const isLoading = queries.some(query => query.isLoading)
-  const isError = queries.some(query => query.isError)
-
-  const {totalBalance, totalIncomesThisMonth, totalExpensesThisMonth} = useMemo(() => {
-      const totalBalance = handleParsePrice(fundAccountTotalBalance.data ?? 0) ?? 0;
-      const totalIncomesThisMonth = handleParsePrice(totalAmountThisMonthIncomes.data) ?? 0;
-      const totalExpensesThisMonth = handleParsePrice(totalAmountThisMonthExpenses.data) ?? 0;
-
-      return {totalBalance, totalIncomesThisMonth, totalExpensesThisMonth}
-  }, [fundAccountTotalBalance.data, totalAmountThisMonthIncomes.data, totalAmountThisMonthExpenses.data])
 
   if (isLoading) return <SkeletonOverviewCard totalCard={4} />;
 
   if (isError) return <></>;
+
+  const totalBalanceIdr = handleParsePrice(totalBalance ?? 0) ?? 0;
+  const totalIncomesIdr = handleParsePrice(totalAmountIncome) ?? 0;
+  const totalExpensesIdr = handleParsePrice(totalAmountExpense) ?? 0;
 
   return (
       <section className="grid grid-cols-1 md:grid-cols-4 gap-3">
@@ -40,7 +40,7 @@ export const FinancialSummaryCards = () => {
           <CardContent className="space-y-2">
             <h3 className="text-gnrGray text-sm font-medium">Total Akun (active)</h3>
             <div className="flex items-center justify-between">
-              <h4 className="dark:text-gnrWhite font-semibold">{fundAccountActiveCount.data}</h4>
+              <h4 className="dark:text-gnrWhite font-semibold">{activeCount}</h4>
               <div className="bg-gnrPrimary/20 p-1 rounded">
                 <Wallet className="size-4 text-gnrPrimary" />
               </div>
@@ -51,7 +51,7 @@ export const FinancialSummaryCards = () => {
           <CardContent className="space-y-2">
             <h3 className="text-sm text-gnrGray font-medium">Pemasukan Bulan Ini</h3>
             <div className="flex items-center justify-between">
-              <h4 className="dark:text-gnrWhite font-semibold">{totalIncomesThisMonth}</h4>
+              <h4 className="dark:text-gnrWhite font-semibold">{totalIncomesIdr}</h4>
               <div className="bg-gnrGreen/20 p-1 rounded">
                 <TrendingUp className="size-4 text-gnrGreen" />
               </div>
@@ -62,7 +62,7 @@ export const FinancialSummaryCards = () => {
           <CardContent className="space-y-2">
             <h3 className="text-sm text-gnrGray font-medium">Pengeluaran Bulan Ini</h3>
             <div className="flex items-center justify-between">
-              <h4 className="dark:text-gnrWhite font-semibold">{totalExpensesThisMonth}</h4>
+              <h4 className="dark:text-gnrWhite font-semibold">{totalExpensesIdr}</h4>
               <div className="bg-gnrRed/20 p-1 rounded">
                 <TrendingDown className="size-4 text-gnrRed" />
               </div>
@@ -73,7 +73,7 @@ export const FinancialSummaryCards = () => {
           <CardContent className="space-y-2">
             <h3 className="text-sm text-gnrGray font-medium">Saldo Bersih</h3>
             <div className="flex items-center justify-between">
-              <h4 className="dark:text-gnrWhite font-semibold">{totalBalance}</h4>
+              <h4 className="dark:text-gnrWhite font-semibold">{totalBalanceIdr}</h4>
               <div className="bg-gnrPrimary/20 p-1 rounded">
                 <DollarSign className="size-4 text-gnrPrimary" />
               </div>

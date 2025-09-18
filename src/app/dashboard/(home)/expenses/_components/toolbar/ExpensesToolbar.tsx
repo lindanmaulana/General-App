@@ -15,14 +15,17 @@ import { useActionFinancialToolbar } from "../../../_hooks/useActionFinancialToo
 import { useGetQueryParams } from "../../../_hooks/useGetQueryParams";
 
 export const ExpensesToolbar = () => {
-    const queries = useQueries({
-        queries: [eventOptions(), fundAccountOptions()]
+    const {isLoading, isError, allEventOptions, allFundAccountOptions} = useQueries({
+        queries: [eventOptions(), fundAccountOptions()],
+        combine: (results) => {
+            return {
+                allEventOptions: results[0].data,
+                allFundAccountOptions: results[1].data,
+                isLoading: results.some(result => result.isLoading),
+                isError: results.some(result => result.isError)
+            }
+        }
     })
-
-    const [allEventOptions, allFundAccountOptions] = queries
-
-    const isLoading = queries.some(query => query.isLoading)
-    const isError = queries.some(query => query.isError)
 
     // GET DEFAULT QUERY from URL
     const {

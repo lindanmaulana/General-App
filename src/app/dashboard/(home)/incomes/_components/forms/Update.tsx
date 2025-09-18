@@ -34,14 +34,17 @@ export const FormUpdate = ({ data }: FormUpdateProps) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const queryClient = useQueryClient();
 
-  const queries = useQueries({
-    queries: [eventOptions(), fundAccountOptions()]
+  const {isLoading, isError, allEventOptions, allFundAccountOptions} = useQueries({
+    queries: [eventOptions(), fundAccountOptions()],
+    combine: (results) => {
+      return {
+        allEventOptions: results[0].data,
+        allFundAccountOptions: results[1].data,
+        isLoading: results.some(result => result.isLoading),
+        isError: results.some(result => result.isError)
+      }
+    }
   })
-
-  const [allEventOptions, allFundAccountOptions] = queries
-
-  const isLoading = queries.some(query => query.isLoading)
-  const isError = queries.some(query => query.isError)
 
   const incomeDate = handleParseDate(data.date ?? '', 'YYYY-MM-DDTHH:mm');
   const dateNow = handleParseDate(new Date(), 'YYYY-MM-DDTHH:mm');

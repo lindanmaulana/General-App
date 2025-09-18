@@ -13,6 +13,7 @@ interface ProfileCardProps {
   data?: Users | null;
 }
 export const ProfileCard = ({ data }: ProfileCardProps) => {
+  
   const options = useMemo(() => {
     return userProfileOptions(data ? data.id : "")
   }, [data])

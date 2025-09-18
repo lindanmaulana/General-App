@@ -30,22 +30,24 @@ interface FormCreateExpensesProps {
 export const FormCreateExpenses = ({setIsOpen}: FormCreateExpensesProps) => {
     const queryClient = useQueryClient();
 
-    const queries = useQueries({
-      queries: [eventOptions(), fundAccountOptions()]
+    const {isLoading, isError, allEventOptions, allFundAccountOptions} = useQueries({
+      queries: [eventOptions(), fundAccountOptions()],
+      combine: (results) => {
+        return {
+          allEventOptions: results[0].data,
+          allFundAccountOptions: results[1].data,
+          isLoading: results.some(result  => result.isLoading),
+          isError: results.some(result => result.isError)
+        }
+      }
     })
 
-    const [allEventOptions, allFundAccountOptions] = queries
-
-    const isLoading = queries.some(query => query.isLoading)
-    const isError = queries.some(query => query.isError)
-
-    const dateNow = handleParseDate(new Date(), 'YYYY-MM-DDTHH:mm');
     const form = useForm<TypeExpensesSchema>({
         resolver: zodResolver(expensesSchema),
         defaultValues: {
         event_id: '',
         fund_account_id: '',
-        date: dateNow,
+        date: handleParseDate(new Date(), 'YYYY-MM-DDTHH:mm'),
         amount: '',
         source: '',
         note: '',

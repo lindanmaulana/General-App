@@ -15,12 +15,17 @@ import { DateRange } from "react-day-picker";
 import { useActionFinancialToolbar } from "../../../_hooks/useActionFinancialToolbar";
 
 export const IncomesToolbar = () => {
-    const queries = useQueries({
+    const {isLoading, isError, allEventOptions, allFundAccountOptions} = useQueries({
         queries: [eventOptions(), fundAccountOptions()],
+        combine: (results) => {
+            return {
+                allEventOptions: results[0].data,
+                allFundAccountOptions: results[1].data,
+                isLoading: results.some(result => result.isLoading),
+                isError: results.some(result => result.isError)
+            }
+        }
     });
-
-    const isLoading = queries.some((query) => query.isLoading);
-    const isError = queries.some((query) => query.isError);
 
     // GET DEFAULT QUERY from URL
     const {
@@ -77,8 +82,8 @@ export const IncomesToolbar = () => {
                         ) : isError ? (
                             <SelectItem value="error">Error...</SelectItem>
                         ) : (
-                            queries[0].data &&
-                            queries[0].data.map((event: events) => (
+                            allEventOptions &&
+                            allEventOptions.map((event: events) => (
                                 <SelectItem key={event.id} value={event.code}>
                                     {event.name}
                                 </SelectItem>
@@ -102,8 +107,8 @@ export const IncomesToolbar = () => {
                         ) : isError ? (
                             <SelectItem value="error">Error...</SelectItem>
                         ) : (
-                            queries[1].data &&
-                            queries[1].data.map((event: events) => (
+                            allFundAccountOptions &&
+                            allFundAccountOptions.map((event: events) => (
                                 <SelectItem key={event.id} value={event.name}>
                                     {event.name}
                                 </SelectItem>
