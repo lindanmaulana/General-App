@@ -34,7 +34,6 @@ export default function RootLayout({
           <SessionApp>
             {children}
           </SessionApp>
-          <Footer />
         </ThemeProvider>
       </body>
     </html>

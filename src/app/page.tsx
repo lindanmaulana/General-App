@@ -1,82 +1,178 @@
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { ArrowRight } from "lucide-react";
-import Image from "next/image";
-import Link from "next/link";
+import { Card, CardContent } from "@/components/ui/card";
+import { ArrowRight, Calendar, ChartColumn, ChartPie, FileText, Globe, Shield, TrendingUp, Wallet } from "lucide-react";
 
 export default async function Home() {
   return (
-    <main>
-      <section className="relative bg-cover bg-no-repeat" style={{backgroundImage: "url('/images/banner/mushola-alhidayah.jpg')"}}>
-        <div className="absolute inset-0 flex items-center justify-center bg-black/40"></div>
-        <div className="relative z-10 h-screen container max-w-5xl mx-auto px-4 lg:px-0">
-            <div className="h-full flex flex-col items-center justify-center gap-3">
-              <strong className="bg-white/10 backdrop-blur-sm text-sm  p-2 rounded-full text-white">Website Resmi General</strong>
-              <h2 className="text-center text-4xl md:text-5xl font-bold text-white leading-12">Selamat Datang di <br /> Kampung Alhidayah(General) <br /> <span className="text-gnrPrimary">Desa Muncangela</span></h2>
-              <p className="max-w-1/2 text-center text-white">Kampung yang indah dengan kerukunan warga dan saling gotong royong, menuju masa depan yang berkelanjutan</p>
-              <div className="space-x-4">
-                <Button className="bg-gnrPrimary rounded-full cursor-pointer text-gnrDarkBlue" asChild>
-                  <Link href={"/"} className="text-sm text-white font-bold px-2 z-10">Tentang Kami <ArrowRight className="mt-px" /></Link>
-                </Button>
-                <Button className="bg-white/20 border border-white/50 rounded-full cursor-pointer text-white" asChild>
-                  <Link href={"/"} className="text-sm font-bold px-2 z-10">Hubungi Kami <ArrowRight className="mt-px" /></Link>
-                </Button>
-              </div>
+    <>
+      <section className="dark:bg-gnrDark py-10 bg-gradient-to-br from-gnrPrimary/5">
+        <div className="container max-w-6xl mx-auto px-4 lg:px-0 h-[520px] lg:h-[564px]">
+          <div className="h-full flex flex-col items-center justify-center gap-8">
+            <div className="text-gray-500 text-sm text-center max-w-[90%] md:max-w-full">Solusi manajemen keuangan terdepan <strong className="text-blue-500">untuk bisnis modern</strong></div>
+            <h1 className="md:flex flex-col items-center justify-center text-4xl lg:text-6xl font-bold text-center">
+              Kelola Keuangan dengan 
+              <span className="bg-gradient-to-r from-blue-600 to-gray-100 text-transparent bg-clip-text">CashFlow</span>
+            </h1>
+            <p className="text-gray-500 text-lg lg:max-w-[58%] text-center">Platform manajemen keuangan yang powerful dan mudah digunakan. Pantau arus kas, buat laporan, dan kelola event dalam satu tempat.</p>
+
+            <div className="flex items-center gap-6 py-4">
+              <Button className="!px-8 py-6 text-white font-semibold shadow-xl bg-gnrPrimary text-lg hover:bg-gnrPrimary/80 hover:scale-105 cursor-pointer transition-global duration-300">Mulai Sekarang <ArrowRight /></Button>
+              <Button variant={"outline"} className="!px-8 py-6 font-semibold shadow-xl bg-transparent text-lg cursor-pointer">Lihat Demo</Button>
             </div>
+          </div>
         </div>
       </section>
 
-      <section className="py-20 bg-gnrWhite dark:bg-black">
-        <div className="container max-w-5xl mx-auto px-4 lg:px-0">
-          <h2 className="text-4xl font-bold text-center text-gnrDark dark:text-gnrWhite">Tentang <span className="text-gnrPrimary">Kami</span></h2>
-          <section className="grid grid-cols-1 md:grid-cols-2 gap-5 py-14">
-            <section className="space-y-4">
-              <h3 className="text-4xl font-bold leading-12 text-black dark:text-gnrWhite">Mewujudkan Perubahan Berkelanjutan</h3>
-              <p className="text-sm text-gnrGray">Organisasi Kami didirikan pada tahun 2013 dengan misi untuk memberdayakan masyarakat melalui pendidikan, pelatihan, dan pengembangan komunitas. Selama lebih dari satu dekade, kami telah menjalankan berbagai program yang berdampak positif bagi ribuan orang.</p>
-              <p className="text-sm text-gnrGray">Visi kami adalah menciptakan masyarakat yang mandiri, sejahtera, dan berkelanjutan, di mana setiap individu memiliki kesempatan untuk berkembang dan mencapai potensi terbaik mereka.</p>
-            </section>
+      <section className="py-10">
+        <div className="container max-w-6xl mx-auto px-4 lg:px-0">
+          <article className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2">
 
-            <section>
-              <Image src={"/images/program/kemerdekaan.jpg"} alt="General | Kemerdekaan Indonesia" width={100} height={100} className="w-full h-full rounded-lg" unoptimized />
-            </section>
-          </section>
+            <article className="flex flex-col items-center justify-center py-8">
+              <div className="bg-gnrPrimary/10 rounded-full p-3 mb-6">
+                <ChartColumn className="text-gnrPrimary" />
+              </div>
+              <div className="text-gnrDark font-bold text-2xl">10K+</div>
+              <h2 className="text-gnrGray text-sm">Data Transaksi Dikelola</h2>
+            </article>
+
+            <article className="flex flex-col items-center justify-center py-8">
+              <div className="bg-gnrPrimary/10 rounded-full p-3 mb-6">
+                <Wallet className="text-gnrPrimary" />
+              </div>
+              <div className="text-gnrDark font-bold text-2xl">40</div>
+              <h2 className="text-gnrGray text-sm">Akun Dikelola</h2>
+            </article>
+
+            <article className="flex flex-col items-center justify-center py-8">
+              <div className="bg-gnrPrimary/10 rounded-full p-3 mb-6">
+                <FileText className="text-gnrPrimary" />
+              </div>
+              <div className="text-gnrDark font-bold text-2xl">20</div>
+              <h2 className="text-gnrGray text-sm">Laporan Dibuat</h2>
+            </article>
+
+            <article className="flex flex-col items-center justify-center py-8">
+              <div className="bg-gnrPrimary/10 rounded-full p-3 mb-6">
+                <Calendar className="text-gnrPrimary" />
+              </div>
+              <div className="text-gnrDark font-bold text-2xl">10</div>
+              <h2 className="text-gnrGray text-sm">Event Dikelola</h2>
+            </article>
+
+          </article>
+        </div>
+      </section>
+
+      <section className="py-24">
+        <div className="container max-w-6xl mx-auto px-4 lg:px-0 space-y-6">
+          <h2 className="text-3xl md:text-4xl font-bold text-center">Fitur Lengkap untuk Kebutuhan Anda</h2>
+          <p className="text-center text-lg text-gnrGray">Semua tools yang Anda butuhkan untuk mengelola keuangan bisnis secara efektif</p>
+
+          <article className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mt-16">
+
+              <article className="border border-gnrPrimary/10 hover:shadow-xl hover:-translate-y-1.5 rounded-lg transition-global p-5 duration-500 space-y-4 group">
+                <h3 className="text-lg font-semibold flex items-center gap-4"><span className="inline-block bg-gnrPrimary/10 group-hover:bg-gnrPrimary/20 transition-global rounded-lg p-2"><TrendingUp className="size-5 text-gnrPrimary" /></span> Kelola Keuangan </h3>
+                <p className="text-gnrGray">Pantau pemasukan dan pengeluaran dengan mudah dan akurat</p>
+              </article>
+
+              <article className="border border-gnrPrimary/10 hover:shadow-xl hover:-translate-y-1.5 rounded-lg transition-global p-5 duration-500 space-y-4 group">
+                <h3 className="text-lg font-semibold flex items-center gap-4"><span className="inline-block bg-gnrPrimary/10 group-hover:bg-gnrPrimary/20 transition-global rounded-lg p-2"><ChartPie className="size-5 text-gnrPrimary" /></span> Analisis Mendalam </h3>
+                <p className="text-gnrGray">Dapatkan insight finansial dengan visualisasi data yang jelas</p>
+              </article>
+
+              <article className="border border-gnrPrimary/10 hover:shadow-xl hover:-translate-y-1.5 rounded-lg transition-global p-5 duration-500 space-y-4 group">
+                <h3 className="text-lg font-semibold flex items-center gap-4"><span className="inline-block bg-gnrPrimary/10 group-hover:bg-gnrPrimary/20 transition-global rounded-lg p-2"><FileText className="size-5 text-gnrPrimary" /></span> Laporan Otomatis </h3>
+                <p className="text-gnrGray">Generate laporan keuangan dalam format PDF secara otomatis</p>
+              </article>
+
+              <article className="border border-gnrPrimary/10 hover:shadow-xl hover:-translate-y-1.5 rounded-lg transition-global p-5 duration-500 space-y-4 group">
+                <h3 className="text-lg font-semibold flex items-center gap-4"><span className="inline-block bg-gnrPrimary/10 group-hover:bg-gnrPrimary/20 transition-global rounded-lg p-2"><Shield className="size-5 text-gnrPrimary" /></span> Keamanan Terjamin </h3>
+                <p className="text-gnrGray">Data keuangan Anda aman dengan enkripsi tingkat medium</p>
+              </article>
+
+              <article className="border border-gnrPrimary/10 hover:shadow-xl hover:-translate-y-1.5 rounded-lg transition-global p-5 duration-500 space-y-4 group">
+                <h3 className="text-lg font-semibold flex items-center gap-4"><span className="inline-block bg-gnrPrimary/10 group-hover:bg-gnrPrimary/20 transition-global rounded-lg p-2"><Calendar className="size-5 text-gnrPrimary" /></span> Manajemen Event </h3>
+                <p className="text-gnrGray">Kelola event dan acara dengan fitur dokumentasi foto yang <Badge className="text-xs bg-gnrGreen">Segera Hadir</Badge> </p>
+              </article>
+
+              <article className="border border-gnrPrimary/10 hover:shadow-xl hover:-translate-y-1.5 rounded-lg transition-global p-5 duration-500 space-y-4 group">
+                <h3 className="text-lg font-semibold flex items-center gap-4"><span className="inline-block bg-gnrPrimary/10 group-hover:bg-gnrPrimary/20 transition-global rounded-lg p-2"><Globe className="size-5 text-gnrPrimary" /></span> Akses Kapan Saja </h3>
+                <p className="text-gnrGray">Akses data keuangan Anda dari mana saja dan kapan saja</p>
+              </article>
+
+          </article>
         </div>
       </section>
       
-      <section className="py-20 bg-[#f8fafc] dark:bg-black">
-        <div className="container max-w-5xl mx-auto px-4 lg:px-0">
-          <h2 className="text-4xl font-bold text-center text-black dark:text-gnrWhite">Program <span className="text-gnrPrimary">Kami</span></h2>
+      <section className="py-24 bg-gnrPrimary/3">
+        <div className="container max-w-6xl mx-auto px-4 lg:px-0 space-y-6">
+          <h2 className="text-3xl md:text-4xl font-bold text-center">Mulai Kelola Keuangan Anda</h2>
+          <p className="text-center text-lg text-gnrGray">Pilih menu yang ingin anda akses untuk memulai</p>
 
-          <section className="py-20 grid grid-cols-1 md:grid-cols-3 gap-7">
-            <article className="bg-white dark:bg-black shadow-lg rounded-lg hover:-translate-y-3 transition-global hover:shadow-2xl hover:shadow-gnrGray/50 dark:shadow-gnrGray/30 group overflow-hidden">
-              <div className="h-56 overflow-hidden">
-                <Image src={"/images/program/kemerdekaan.jpg"} alt="General | Kemerdekaan Indonesia" width={100} height={100} className="w-full h-full object-cover group-hover:scale-125 transition-global rounded-t-md" unoptimized />
-              </div>
-              <div className="p-5 space-y-3">
-                <h3 className="text-xl font-bold text-black dark:text-gnrWhite">General | Karnaval 17 Agustus</h3>
-                <p className="text-base text-gnrGray">General berpartisipasi dalam Karnaval 17 Agustus sebagai bentuk dukungan terhadap perayaan Hari Kemerdekaan Republik Indonesia, sekaligus mempererat kebersamaan dengan masyarakat.</p>
-              </div>
-            </article>
-            <article className="bg-white dark:bg-black shadow-lg rounded-lg hover:-translate-y-3 transition-global hover:shadow-2xl hover:shadow-gnrGray/50 dark:shadow-gnrGray/30 group overflow-hidden">
-              <div className="h-56 overflow-hidden">
-                <Image src={"/images/program/kemerdekaan.jpg"} alt="General | Kemerdekaan Indonesia" width={100} height={100} className="w-full h-full object-cover group-hover:scale-125 transition-global rounded-t-md" unoptimized />
-              </div>
-              <div className="p-5 space-y-3">
-                <h3 className="text-xl font-bold text-black dark:text-gnrWhite">General | Karnaval 17 Agustus</h3>
-                <p className="text-base text-gnrGray">General berpartisipasi dalam Karnaval 17 Agustus sebagai bentuk dukungan terhadap perayaan Hari Kemerdekaan Republik Indonesia, sekaligus mempererat kebersamaan dengan masyarakat.</p>
-              </div>
-            </article>
-            <article className="bg-white dark:bg-black shadow-lg rounded-lg hover:-translate-y-3 transition-global hover:shadow-2xl hover:shadow-gnrGray/50 dark:shadow-gnrGray/30 group overflow-hidden">
-              <div className="h-56 overflow-hidden">
-                <Image src={"/images/program/kemerdekaan.jpg"} alt="General | Kemerdekaan Indonesia" width={100} height={100} className="w-full h-full object-cover group-hover:scale-125 transition-global rounded-t-md" unoptimized />
-              </div>
-              <div className="p-5 space-y-3">
-                <h3 className="text-xl font-bold text-black dark:text-gnrWhite">General | Karnaval 17 Agustus</h3>
-                <p className="text-base text-gnrGray">General berpartisipasi dalam Karnaval 17 Agustus sebagai bentuk dukungan terhadap perayaan Hari Kemerdekaan Republik Indonesia, sekaligus mempererat kebersamaan dengan masyarakat.</p>
-              </div>
-            </article>
-          </section>
+          <article className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-16">
+
+            <Card className="shadow-none hover:shadow-xl hover:-translate-y-3 transition-global duration-500">
+              <CardContent className="">
+                <article className="flex flex-col items-center justify-center text-center gap-2">
+                  <div className="bg-gnrGreen/10 rounded-full p-3">
+                    <TrendingUp className="text-gnrGreen size-6" />
+                  </div>
+                  <h3 className="text-lg font-semibold"> Pemasukan </h3>
+                  <p className="text-gnrGray text-sm">Kelola dan catat semua pemasukan</p>
+                </article>
+              </CardContent>
+            </Card>
+
+            <Card className="shadow-none hover:shadow-xl hover:-translate-y-3 transition-global duration-500">
+              <CardContent className="">
+                <article className="flex flex-col items-center justify-center text-center gap-2">
+                  <div className="bg-gnrRed/10 rounded-full p-3">
+                    <ChartColumn className="text-gnrRed size-6" />
+                  </div>
+                  <h3 className="text-lg font-semibold"> Pengeluaran </h3>
+                  <p className="text-gnrGray text-sm">Pantau dan kontrol pengeluaran</p>
+                </article>
+              </CardContent>
+            </Card>
+
+            <Card className="shadow-none hover:shadow-xl hover:-translate-y-3 transition-global duration-500">
+              <CardContent className="">
+                <article className="flex flex-col items-center justify-center text-center gap-2">
+                  <div className="bg-gnrPrimary/10 rounded-full p-3">
+                    <Wallet className="text-gnrPrimary size-6" />
+                  </div>
+                  <h3 className="text-lg font-semibold"> Kas dan Bank </h3>
+                  <p className="text-gnrGray text-sm">Monitor saldo kas dan bank</p>
+                </article>
+              </CardContent>
+            </Card>
+
+            <Card className="shadow-none hover:shadow-xl hover:-translate-y-3 transition-global duration-500">
+              <CardContent className="">
+                <article className="flex flex-col items-center justify-center text-center gap-2">
+                  <div className="bg-gnrOrange/10 rounded-full p-3">
+                    <Calendar className="text-gnrOrange size-6" />
+                  </div>
+                  <h3 className="text-lg font-semibold"> Events </h3>
+                  <p className="text-gnrGray text-sm">Kelola event dan dokumentasi</p>
+                </article>
+              </CardContent>
+            </Card>
+
+          </article>
         </div>
       </section>
-    </main>
+
+      <section className="py-10">
+        <div className="container max-w-6xl mx-auto px-4 lg:px-0">
+          <div className="flex flex-col items-center justify-center gap-6 bg-gradient-to-r from-gnrPrimary/10 py-14 px-8 rounded-xl">
+              <h2 className="text-2xl md:text-3xl font-bold text-center">Siap untuk mengoptimalkan keuangan Anda?</h2>
+              <p className="text-center text-lg text-gnrGray max-w-[80%] md:max-w-[60%]">Permudah pengelolaan keuangan tim Anda. Gunakan CashFlow untuk mengelola semua transaksi dan laporan dengan mudah.</p>
+              <Button className="!px-12 py-5 text-white text-base font-semibold shadow-xl bg-gnrPrimary hover:bg-gnrPrimary/80 hover:scale-105 cursor-pointer transition-global duration-300">Mulai Sekarang <ArrowRight /></Button>
+          </div>    
+        </div>
+      </section>
+    </>
   );
 }
