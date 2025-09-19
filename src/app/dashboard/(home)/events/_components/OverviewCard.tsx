@@ -27,7 +27,7 @@ export const OverviewCard = () => {
   if (isLoading) return <SkeletonOverviewCard totalCard={3} />;
   if (isError) return <></>;
 
-  const budget = handleParsePrice(totalBudget.data)
+  const budget = handleParsePrice(totalBudget)
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
@@ -38,7 +38,7 @@ export const OverviewCard = () => {
             <Calendar className="size-4 text-gnrDark" />
           </div>
           <div className="t">
-            <strong className="dark:text-gnrWhite text-2xl text-gnrDark">{allCount.data}</strong>
+            <strong className="dark:text-gnrWhite text-2xl text-gnrDark">{allCount}</strong>
             <span className="block text-xs text-gnrGray">Total event aktif</span>
           </div>
         </CardContent>
@@ -64,8 +64,8 @@ export const OverviewCard = () => {
             <Calendar className="size-4 text-gnrDark" />
           </div>
           <div className="t">
-            <strong className="dark:text-gnrWhite text-2xl text-gnrDark">{publicCount.data}</strong>
-            <span className="block text-xs text-gnrGray">Dari {allCount.data} total event</span>
+            <strong className="dark:text-gnrWhite text-2xl text-gnrDark">{publicCount}</strong>
+            <span className="block text-xs text-gnrGray">Dari {allCount} total event</span>
           </div>
         </CardContent>
       </Card>

@@ -2,7 +2,7 @@ const all = ["users"] as const
 
 export const usersKeys = {
     profiles: () => [...all, 'profile'],
-    profile: (id: number) => [...all, 'profile', id]
+    profile: (id: string) => [...all, 'profile', id]
 }
 
 
