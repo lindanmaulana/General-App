@@ -12,7 +12,9 @@
   --gnrLight: #F8FAFC;
   --gnrGray: #6B7280;
   --gnrWhite: #E5E5E5;
-  --gnrDarkBlue: #1B212D;
+  --gnrDarkBlue: #0b1120;
+  --gnrDarkBlueMate: #020817;
+  /* --gnrDarkBlue: #1B212D; */
   --gnrWhiteGray: #929EAE;
   --radius: 0.625rem;
   --background: oklch(1 0 0);
@@ -53,12 +55,13 @@
   --color-foreground: var(--foreground);
   --color-gnrPrimary: var(--gnrPrimary);
   --color-gnrWhite: var(--gnrWhite);
-  --color-gnrDarkBlue: var(--gnrDarkBlue);
   --color-gnrWhiteGray: var(--gnrWhiteGray);
   --color-gnrGreen: var(--gnrGreen);
   --color-gnrOrange: var(--gnrOrange);
   --color-gnrRed: var(--gnrRed);
   --color-gnrDark: var(--gnrDark);
+  --color-gnrDarkBlue: var(--gnrDarkBlue);
+  --color-gnrDarkBlueMate: var(--gnrDarkBlueMate);
   --color-gnrLight: var(--gnrLight);
   --color-gnrGray: var(--gnrGray);
   

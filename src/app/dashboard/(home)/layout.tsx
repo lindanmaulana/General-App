@@ -1,18 +1,18 @@
-import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar"
-import { Metadata } from "next"
-import { ReactNode } from "react"
-import { AppSidebar } from "../_components/AppSidebar"
-import { ThemeToogle } from "@/app/(home)/_components/tooggle/ThemeTooggle"
+import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
+import { Metadata } from "next";
+import { ReactNode } from "react";
+import { AppSidebar } from "../_components/AppSidebar";
+import { ThemeToogle } from "@/app/(home)/_components/ThemeTooggle";
 
 export const metadata: Metadata = {
-    title: "Dashboard"
-}
+    title: "Dashboard",
+};
 
 interface LayoutDashboard {
-    children: ReactNode
+    children: ReactNode;
 }
 
-const LayoutDashboard = ({children}: LayoutDashboard) => {
+const LayoutDashboard = ({ children }: LayoutDashboard) => {
     return (
         <SidebarProvider>
             <AppSidebar />
@@ -24,12 +24,10 @@ const LayoutDashboard = ({children}: LayoutDashboard) => {
                         <h2 className="text-gnrGray text-sm">Selamat Datang di GeneralCashFlow</h2>
                     </div>
                 </div>
-                <section className="p-6">
-                    {children}
-                </section>
+                <section className="p-6">{children}</section>
             </main>
         </SidebarProvider>
-    )
-}
+    );
+};
 
-export default LayoutDashboard
+export default LayoutDashboard;
