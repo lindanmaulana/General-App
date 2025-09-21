@@ -8,7 +8,6 @@ import { CallToAction } from "./(home)/_components/sections/call-to-action";
 export default async function Home() {
   return (
     <>
-
       <HeroBanner />
       <KeyMetrics />
       <Features />
