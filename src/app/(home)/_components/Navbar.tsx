@@ -9,7 +9,7 @@ export const Navbar = () => {
     return (
         <div className="container max-w-5xl mx-auto px-4 lg:px-0">
             <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2">
+                <Link href={"/"} className="flex items-center gap-2">
                     <Image
                         src={"/images/logo/general.png"}
                         alt="General | Muncangela"
@@ -23,7 +23,7 @@ export const Navbar = () => {
                             Desa Muncangela, Kec. Cipicung, Kab. Kuningan
                         </p>
                     </div>
-                </div>
+                </Link>
 
                 <div className="flex items-center gap-2">
                     <ThemeToogle />
