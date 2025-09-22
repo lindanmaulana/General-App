@@ -2,7 +2,7 @@
 
 import { Sidebar, SidebarContent, SidebarFooter, SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui/sidebar';
 import { DEFAULT_QUERY_PARAMS, DEFAULT_ROUTE } from '@/lib/constants/default-route';
-import { Calendar, Download, LayoutDashboard, LogOutIcon, Settings, TrendingDown, TrendingUp, Wallet, type LucideIcon } from 'lucide-react';
+import { Calendar, Download, LayoutDashboard, Settings, TrendingDown, TrendingUp, Wallet, type LucideIcon } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -14,35 +14,36 @@ interface Item {
   icon: LucideIcon;
 }
 
+const items: Item[] = [
+  {
+    title: 'Dashboard',
+    url: '/dashboard',
+    icon: LayoutDashboard,
+  },
+  {
+    title: 'Pemasukan',
+    url: `${DEFAULT_ROUTE.incomes}?${DEFAULT_QUERY_PARAMS}`,
+    icon: TrendingUp,
+  },
+  {
+    title: 'Pengeluaran',
+    url: `${DEFAULT_ROUTE.expenses}?${DEFAULT_QUERY_PARAMS}`,
+    icon: TrendingDown,
+  },
+  {
+    title: 'Kas & Bank',
+    url: `${DEFAULT_ROUTE.fund_accounts}?${DEFAULT_QUERY_PARAMS}`,
+    icon: Wallet,
+  },
+  {
+    title: 'Events',
+    url: `${DEFAULT_ROUTE.events}?${DEFAULT_QUERY_PARAMS}`,
+    icon: Calendar,
+  },
+];
+
 export const AppSidebar = () => {
   const pathname = usePathname();
-  const items: Item[] = [
-    {
-      title: 'Dashboard',
-      url: '/dashboard',
-      icon: LayoutDashboard,
-    },
-    {
-      title: 'Pemasukan',
-      url: `${DEFAULT_ROUTE.incomes}?${DEFAULT_QUERY_PARAMS}`,
-      icon: TrendingUp,
-    },
-    {
-      title: 'Pengeluaran',
-      url: `${DEFAULT_ROUTE.expenses}?${DEFAULT_QUERY_PARAMS}`,
-      icon: TrendingDown,
-    },
-    {
-      title: 'Kas & Bank',
-      url: `${DEFAULT_ROUTE.fund_accounts}?${DEFAULT_QUERY_PARAMS}`,
-      icon: Wallet,
-    },
-    {
-      title: 'Events',
-      url: `${DEFAULT_ROUTE.events}?${DEFAULT_QUERY_PARAMS}`,
-      icon: Calendar,
-    },
-  ];
 
   const getActiveRoute = (route: string) => {
     const cleanPathname = pathname.split('?')[0];
