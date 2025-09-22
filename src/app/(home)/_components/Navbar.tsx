@@ -28,7 +28,7 @@ export const Navbar = () => {
                 <div className="flex items-center gap-2">
                     <ThemeToogle />
                     <Button
-                        className="hidden md:flex py-5 text-white font-semibold shadow-xl bg-gnrPrimary hover:bg-gnrPrimary/80 hover:scale-105 cursor-pointer transition-global duration-300"
+                        className="dark:bg-white dark:hover:bg-white/80 dark:text-black hidden md:flex py-5 text-white font-semibold shadow-xl bg-gnrPrimary hover:bg-gnrPrimary/80 hover:scale-105 cursor-pointer transition-global duration-300"
                         asChild
                     >
                         <Link href={"/dashboard/login"}>Mulai Sekarang</Link>

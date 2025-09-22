@@ -13,7 +13,7 @@ export const REDIRECT_EXPIRE_SESSION = "/session-expire"
  * These routes do not require authentication
  * @type {string[]}
  */
-export const ROUTESPUBLIC = ["/", "/auth/login", "/dashboard/login", "/session-expire"]
+export const ROUTESPUBLIC = ["/", "/demo", "/auth/login", "/dashboard/login", "/session-expire"]
 
 /**
  * The prefix of routes admin

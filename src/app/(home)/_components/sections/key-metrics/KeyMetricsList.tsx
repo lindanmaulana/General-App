@@ -1,4 +1,6 @@
 import { Calendar, ChartColumn, FileText, LucideIcon, Wallet } from "lucide-react"
+import { Article } from "../../motions/Article"
+import { variantsChildrenFadeUp } from "../../motions/variants"
 
 
 interface Metrics {
@@ -38,15 +40,15 @@ const metricsList: Metrics[] = [
 export const KeyMetricsList = () => {
     return (
         <>
-        {metricsList?.map(metric => (
-            <article key={metric.id} className="flex flex-col items-center justify-center py-8">
-                <div className="dark:bg-white/10 dark:hover:bg-white/20 bg-gnrPrimary/10 hover:bg-gnrPrimary/20 rounded-full p-3 mb-6">
-                    <metric.icon className="dark:text-white text-gnrPrimary" />
-                </div>
-                <div className="dark:text-gnrWhite text-gnrDark font-bold text-2xl">{metric.value}+</div>
-                <h2 className="text-gnrGray text-sm">{metric.label}</h2>
-            </article>
-        ))}
+            {metricsList?.map(metric => (
+                <Article variants={variantsChildrenFadeUp} key={metric.id} className="flex flex-col items-center justify-center py-8">
+                    <div className="dark:bg-white/10 dark:hover:bg-white/20 bg-gnrPrimary/10 hover:bg-gnrPrimary/20 rounded-full p-3 mb-6">
+                        <metric.icon className="dark:text-white text-gnrPrimary" />
+                    </div>
+                    <div className="dark:text-gnrWhite text-gnrDark font-bold text-2xl">{metric.value}+</div>
+                    <h2 className="text-gnrGray text-sm">{metric.label}</h2>
+                </Article>
+            ))}
         </>
     )
 }

@@ -1,5 +1,7 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Calendar, ChartColumn, LucideIcon, TrendingUp, Wallet } from "lucide-react";
+import Div from "../../motions/Div";
+import { variantsChildrenFadeUp, variantsFadeUp } from "../../motions/variants";
 
 interface MainFeatures {
     id: number
@@ -49,17 +51,19 @@ export const MainFeaturesList = () => {
     return (
         <>
             {mainFeatures?.map(feature => (
-                <Card key={feature.id} className="dark:bg-gnrDarkBlueMate dark:border-white/10 shadow-none hover:shadow-xl hover:-translate-y-3 transition-global duration-500">
-                    <CardContent>
-                        <article className="flex flex-col items-center justify-center text-center gap-2">
-                            <div className={`${feature.bgColor} rounded-full p-3`}>
-                                <feature.icon className={`${feature.iconColor} size-6`} />
-                            </div>
-                            <h3 className="dark:text-gnrWhite text-lg font-semibold"> {feature.label} </h3>
-                            <p className="text-gnrGray text-sm"> {feature.description} </p>
-                        </article>
-                    </CardContent>
-                </Card>
+                <Div key={feature.id} variants={variantsChildrenFadeUp}>
+                    <Card  className="dark:bg-gnrDarkBlueMate dark:border-white/10 shadow-none hover:shadow-xl hover:-translate-y-3 transition-global duration-500">
+                        <CardContent>
+                            <article className="flex flex-col items-center justify-center text-center gap-2">
+                                <div className={`${feature.bgColor} rounded-full p-3`}>
+                                    <feature.icon className={`${feature.iconColor} size-6`} />
+                                </div>
+                                <h3 className="dark:text-gnrWhite text-lg font-semibold"> {feature.label} </h3>
+                                <p className="text-gnrGray text-sm"> {feature.description} </p>
+                            </article>
+                        </CardContent>
+                    </Card>
+                </Div>
             ))}
         </>
     );
