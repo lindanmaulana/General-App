@@ -14,7 +14,7 @@ export const CallToAction = () => {
                     <H2 initial="initial" whileInView="animate" variants={variantsFadeUp} viewport={{once: true}} className="dark:text-white text-2xl md:text-3xl font-bold text-center">Siap untuk mengoptimalkan keuangan Anda?</H2>
                     <P initial="initial" whileInView="animate" variants={variantsFadeUp} viewport={{once: true}} className="text-center text-lg text-gnrGray max-w-[80%] md:max-w-[60%]">Permudah pengelolaan keuangan tim Anda. Gunakan CashFlow untuk mengelola semua transaksi dan laporan dengan mudah.</P>
                     <Div initial="initial" whileInView="animate" variants={variantsFadeUp} viewport={{once: true}}>
-                        <Button className="dark:bg-white dark:text-gnrDark !px-12 py-5 text-white text-base font-semibold shadow-xl bg-gnrPrimary hover:bg-gnrPrimary/80 hover:scale-105 cursor-pointer transition-global duration-300" asChild>
+                        <Button className="dark:bg-gnrWhite dark:hover:bg-gnrWhite/80 dark:text-gnrDark !px-12 py-5 text-white text-base font-semibold shadow-xl bg-gnrPrimary hover:bg-gnrPrimary/80 hover:scale-105 cursor-pointer transition-global duration-300" asChild>
                             <Link href={"/dashboard/login"}>Mulai Sekarang <ArrowRight className="mt-1" /></Link>
                         </Button>
                     </Div>

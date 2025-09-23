@@ -7,8 +7,8 @@ export const PageDemo = () => {
     const {id} = useDemoStore()
 
     return (
-        <div className="col-span-4">
+        <section className="col-span-5 md:col-span-4">
             <RenderComponent id={id} />
-        </div>
+        </section>
     )
 }

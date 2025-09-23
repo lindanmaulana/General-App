@@ -2,6 +2,7 @@ import { ArrowLeft } from "lucide-react"
 import Link from "next/link"
 import { SidebarDemo } from "./_components/SidebarDemo"
 import { PageDemo } from "./_components/PageDemo"
+import { InformationTooltip } from "./_components/InformationTooltip"
 
 const DemoPage = () => {
     return (
@@ -11,7 +12,7 @@ const DemoPage = () => {
                     <Link href={"/"} className="dark:text-white flex items-center gap-4 font-medium"><ArrowLeft size={16} className="mt-px" /> Kembali ke Beranda</Link>
 
                     <div className="py-6">
-                        <h2 className="dark:text-white text-3xl md:text-4xl font-bold">Demo CashFlow</h2>
+                        <h2 className="dark:text-white text-3xl md:text-4xl font-bold">Demo CashFlow <InformationTooltip /></h2>
                         <p className="text-lg text-gnrGray">Lihat bagaimana CashFlow bekerja dengan data contoh</p>
                     </div>
 
