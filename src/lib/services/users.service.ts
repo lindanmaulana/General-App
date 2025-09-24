@@ -14,3 +14,15 @@ export const getProfileUser = async (id: string) => {
         throw new Error(errorMessage)
     }
 }
+
+export const getBrandingSystemSetting = async () => {
+    try {
+        const response = await api.get("/settings/system/branding")
+
+        return response.data
+    } catch (err) {
+        const errorMessage = errorHandler(err)
+
+        throw new Error(errorMessage)
+    }
+}
