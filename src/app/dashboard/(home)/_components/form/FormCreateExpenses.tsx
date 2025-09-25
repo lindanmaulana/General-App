@@ -117,7 +117,7 @@ export const FormCreateExpenses = ({setIsOpen}: FormCreateExpensesProps) => {
                             ) : isError ? (
                               <SelectItem value="error">Error</SelectItem>
                             ) : (
-                              allEventOptions && allEventOptions.data.map((event: events) => (
+                              allEventOptions && allEventOptions.map((event: events) => (
                                 <SelectItem key={event.id} value={event.id}>
                                   {event.name}
                                 </SelectItem>
@@ -147,7 +147,7 @@ export const FormCreateExpenses = ({setIsOpen}: FormCreateExpensesProps) => {
                             ) : isError ? (
                               <SelectItem value="error">Error</SelectItem>
                             ) : (
-                              allFundAccountOptions && allFundAccountOptions.data.map((fundAccount: fundAccounts) => (
+                              allFundAccountOptions && allFundAccountOptions.map((fundAccount: fundAccounts) => (
                                 <SelectItem key={fundAccount.id} value={fundAccount.id}>
                                   {fundAccount.name}
                                 </SelectItem>

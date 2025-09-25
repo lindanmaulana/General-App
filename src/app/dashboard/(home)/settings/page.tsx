@@ -1,5 +1,4 @@
 import { getSession } from "@/actions/getSession";
-import { ProfileCard } from "./_components/card/ProfileCard";
 import SettingsTabs from "./_components/tabs";
 
 const PageSettings = async () => {
@@ -14,12 +13,7 @@ const PageSettings = async () => {
                 </div>
             </div>
 
-            <SettingsTabs />
-
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-                <ProfileCard data={session?.user} />
-            </div>
-
+            <SettingsTabs session={session?.user} />
         </div>
     );
 };

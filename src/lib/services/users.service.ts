@@ -26,3 +26,15 @@ export const getBrandingSystemSetting = async () => {
         throw new Error(errorMessage)
     }
 }
+
+export const getAppearanceSystemSetting = async () => {
+    try {
+        const response = await api.get("/settings/system/appearance")
+
+        return response.data
+    } catch (err) {
+        const errorMessage = errorHandler(err)
+
+        throw new Error(errorMessage)
+    }
+}

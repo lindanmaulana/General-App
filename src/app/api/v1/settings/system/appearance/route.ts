@@ -6,13 +6,13 @@ import { NextRequest, NextResponse } from "next/server";
 export const GET = async (req: NextRequest) => {
     return authMiddleware(async () => {
         try {
-            const result = await SystemSettingService.getBranding();
+            const result = await SystemSettingService.getAppearance()
 
-            return NextResponse.json(result);
+            return NextResponse.json(result)
         } catch (err) {
-            const error = customAPIErrorNextResponse(err);
+            const error = customAPIErrorNextResponse(err)
 
-            return NextResponse.json({ error: error.message }, { status: error.statusCode });
+            return NextResponse.json({error: error.message}, {status: error.statusCode})
         }
-    });
-};
+    })
+}

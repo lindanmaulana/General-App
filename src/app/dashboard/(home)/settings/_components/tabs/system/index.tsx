@@ -1,182 +1,29 @@
 "use client"
 
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import {
-    SystemSettingSchema,
-    typeSystemSettingSchema
-} from "@/lib/validations/settings";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Database } from "lucide-react";
-import { useForm } from "react-hook-form";
+import { appearanceSystemSettingOptions } from "@/lib/queries/settings/appearanceSystemSettingOptions";
+import { brandingSystemSettingOptions } from "@/lib/queries/settings/brandingSystemSettingOptions";
+import { useQueries } from "@tanstack/react-query";
+import { Cog, Database } from "lucide-react";
+import { TabsCard } from "../../card/TabsCard";
+import { SystemForm } from "./SystemForm";
+import { TabsSkeleton } from "../../skeleton/TabsSkeleton";
 
 const SystemSettings = () => {
-    const form = useForm<typeSystemSettingSchema>({
-        resolver: zodResolver(SystemSettingSchema),
-        defaultValues: {
-            appName: "",
-            logoUrl: "",
-            organizationAddress: "",
-            tagline: "",
-            welcomeMessageLogin: "",
-            welcomeMessageDashboard: "",
-        },
-    });
-
-    const { handleSubmit } = form;
-
-    const handleForm = handleSubmit((value) => {
-        
-    });
+    const {defaultValues, isLoading, isError} = useQueries({
+        queries: [brandingSystemSettingOptions(), appearanceSystemSettingOptions()],
+        combine: (results) => {
+            return {
+                defaultValues: {...results[0].data, ...results[1].data},
+                isLoading: results.some(result => result.isLoading),
+                isError: results.some(result => result.isError)
+            }
+        }
+    })
 
     return (
-        <Card>
-            <CardHeader>
-                <CardTitle className="flex items-center gap-2 text-2xl">
-                    {" "}
-                    <Database /> Konfigurasi Umum
-                </CardTitle>
-                <CardDescription>Pengaturan dasar untuk sistem manajemen keuangan</CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-8">
-                <Form {...form}>
-                    <form onSubmit={handleForm} className="space-y-8">
-                        <div className="space-y-6">
-                            <h3 className="font-medium">Branding</h3>
-                            <div className="space-y-6">
-                                <div className="grid grid-cols-2 gap-6">
-                                    <FormField
-                                        control={form.control}
-                                        name="appName"
-                                        render={({ field }) => (
-                                            <FormItem>
-                                                <FormLabel>Nama Aplikasi</FormLabel>
-                                                <FormControl>
-                                                    <Input
-                                                        {...field}
-                                                        type="text"
-                                                        placeholder="Masukan nama aplikasi anda..."
-                                                        className="py-5"
-                                                    />
-                                                </FormControl>
-                                                <FormMessage />
-                                            </FormItem>
-                                        )}
-                                    />
-
-                                    <FormField
-                                        control={form.control}
-                                        name="logoUrl"
-                                        render={({ field }) => (
-                                            <FormItem>
-                                                <FormLabel>URL Logo</FormLabel>
-                                                <FormControl>
-                                                    <Input
-                                                        {...field}
-                                                        placeholder="Pilih logo aplikasi anda..."
-                                                        className="py-5"
-                                                    />
-                                                </FormControl>
-                                                <FormMessage />
-                                            </FormItem>
-                                        )}
-                                    />
-                                </div>
-
-                                <FormField
-                                    control={form.control}
-                                    name="organizationAddress"
-                                    render={({ field }) => (
-                                        <FormItem>
-                                            <FormLabel>Alamat Organisasi</FormLabel>
-                                            <FormControl>
-                                                <Input
-                                                    {...field}
-                                                    type="text"
-                                                    placeholder="Masukan alamat organisasi anda..."
-                                                    className="py-5"
-                                                />
-                                            </FormControl>
-                                            <FormMessage />
-                                        </FormItem>
-                                    )}
-                                />
-
-                                <FormField
-                                    control={form.control}
-                                    name="tagline"
-                                    render={({ field }) => (
-                                        <FormItem>
-                                            <FormLabel>Tagline</FormLabel>
-                                            <FormControl>
-                                                <Input
-                                                    {...field}
-                                                    type="text"
-                                                    placeholder="Masukan tagline organisasi anda..."
-                                                    className="py-5"
-                                                />
-                                            </FormControl>
-                                            <FormMessage />
-                                        </FormItem>
-                                    )}
-                                />
-                            </div>
-                        </div>
-
-                        <hr className='bg-gnrGray/10 h-0.5 my-10' />
-
-                        <div className="space-y-6">
-                            <h3 className="font-medium">Appearance</h3>
-
-                            <div className="grid grid-cols-2 gap-6">
-                                <FormField
-                                    control={form.control}
-                                    name="welcomeMessageLogin"
-                                    render={({ field }) => (
-                                        <FormItem>
-                                            <FormLabel>Pesan Selamat Datang Login</FormLabel>
-                                            <FormControl>
-                                                <Input
-                                                    {...field}
-                                                    type="text"
-                                                    placeholder="Wellcome back..."
-                                                    className="py-5"
-                                                />
-                                            </FormControl>
-                                            <FormMessage />
-                                        </FormItem>
-                                    )}
-                                />
-                                <FormField
-                                    control={form.control}
-                                    name="welcomeMessageDashboard"
-                                    render={({ field }) => (
-                                        <FormItem>
-                                            <FormLabel>Pesan Selamat Datang Dashboard</FormLabel>
-                                            <FormControl>
-                                                <Input
-                                                    {...field}
-                                                    type="text"
-                                                    placeholder="Selamat Datang di General CashFlow..."
-                                                    className="py-5"
-                                                />
-                                            </FormControl>
-                                            <FormMessage />
-                                        </FormItem>
-                                    )}
-                                />
-                            </div>
-                        </div>
-
-                        <div className="flex items-center justify-end">
-                            <Button type="submit" className="bg-gnrPrimary hover:bg-gnrPrimary/80 py-5 cursor-pointer">Simpan Pengaturan</Button>
-                        </div>
-                    </form>
-                </Form>
-            </CardContent>
-        </Card>
+        <TabsCard title="Konfigurasi Umum" description="Pengaturan dasar untuk sistem manajemen keuangan" icon={Database}>
+            {isLoading || isError ? <TabsSkeleton icon={Cog} text="Pengaturan Sistem" /> : <SystemForm defaultValues={defaultValues} />}
+        </TabsCard>
     );
 };
 
