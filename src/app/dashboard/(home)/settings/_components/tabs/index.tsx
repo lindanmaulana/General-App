@@ -3,7 +3,6 @@ import { Bell, Cog, FileText, User } from 'lucide-react'
 import { Users } from '../../_types/profile'
 import { ProfileSettings } from './profile'
 import SystemSettings from './system'
-import { TabsSkeleton } from '../skeleton/TabsSkeleton'
 
 interface SettingsTabsProps {
   session?: Users | null

@@ -1,9 +1,12 @@
-import { typeAppearanceSystemSettingSchema, typeBrandSystemSettingSchema, typeProfileSettingSchema } from "@/lib/validations/settings";
-import { userService } from "./users.service";
-import bcrypt from "bcrypt";
-import supabase from "@/lib/supabase";
-import { customAPIError } from "@/lib/helpers/customAPIError";
 import { RESPONSE_MESSAGE } from "@/lib/constants/response-message";
+import { customAPIError } from "@/lib/helpers/customAPIError";
+import supabase from "@/lib/supabase";
+import {
+    typeProfileSettingSchema,
+    typeSystemUpdateSettingSchema
+} from "@/lib/validations/settings";
+import bcrypt from "bcrypt";
+import { userService } from "./users.service";
 
 export class settingService {
     static tableProfile = "users";
@@ -38,62 +41,33 @@ export class settingService {
 }
 
 export class SystemSettingService {
-    // branding
-    static tableBranding = "branding_settings";
+    static tableSystem = "system_settings";
 
-    static async getBranding() {
-        const result = await supabase.from(this.tableBranding).select("*").limit(1);
+    static async get() {
+        const result = await supabase.from(this.tableSystem).select("*").limit(1);
 
-        if (result.error) throw new customAPIError(`${RESPONSE_MESSAGE.error.read} branding setting`, result.status);
+        if (result.error) throw new customAPIError(`${RESPONSE_MESSAGE.error.read} system setting`, result.status);
 
-        return result.data[0]
+        return result.data[0];
     }
 
-    static async updateBranding(req: typeBrandSystemSettingSchema, id: string) {
-        const docBranding = await this.checkBranding(id);
+    static async update(req: typeSystemUpdateSettingSchema, id: string) {
+        const docSystem = await this.checkSystem(id)
 
-        const result = await supabase.from(this.tableBranding).update(req).eq("id", docBranding.id).single();
+        const result = await supabase.from(this.tableSystem).update(req).eq("id", docSystem.id).single()
 
-        if (result.error) throw new customAPIError(`${RESPONSE_MESSAGE.error.update} branding setting`, result.status);
+        console.log({result})
 
-        return result.data;
-    }
-
-    static async checkBranding(id: string) {
-        const result = await supabase.from(this.tableBranding).select("*").eq("id", id).single();
-
-        if (result.error) throw new customAPIError(`${RESPONSE_MESSAGE.error.read} branding settings`, result.status);
-
-        return result.data;
-    }
-
-
-    // appearance
-    static tableAppearance = "appearance_settings"
-
-    static async getAppearance() {
-        const result = await supabase.from(this.tableAppearance).select("*").limit(1)
-
-        if (result.error) throw new customAPIError(`${RESPONSE_MESSAGE.error.read} appearance setting`, result.status);
-
-        return result.data[0]
-    }
-
-    static async updateAppearance(req: typeAppearanceSystemSettingSchema, id: string) {
-        const docAppearance = await this.checkAppearance(id)
-
-        const result = await supabase.from(this.tableAppearance).update(req).eq("id", docAppearance.id).single()
-
-        if (result.error) throw new customAPIError(`${RESPONSE_MESSAGE.error.update} appearance setting`, result.status);
+        if (result.error) throw new customAPIError(`${RESPONSE_MESSAGE.error.update} system setting`, result.status);
 
         return result.data
     }
 
-    static async checkAppearance(id: string) {
-        const result = await supabase.from(this.tableAppearance).select("*").eq("id", id).single()
+    static async checkSystem(id: string) {
+        const result = await supabase.from(this.tableSystem).select("*").eq("id", id).single();
 
-        if (result.error) throw new customAPIError(`${RESPONSE_MESSAGE.error.read} appearance notfound`, result.status);
+        if (result.error) throw new customAPIError(`${RESPONSE_MESSAGE.error.read} system settings`, result.status);
 
-        return result.data
+        return result.data;
     }
 }

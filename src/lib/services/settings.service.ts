@@ -15,21 +15,9 @@ export const getProfileUser = async (id: string) => {
     }
 }
 
-export const getBrandingSystemSetting = async () => {
+export const getSystemSetting = async () => {
     try {
-        const response = await api.get("/settings/system/branding")
-
-        return response.data
-    } catch (err) {
-        const errorMessage = errorHandler(err)
-
-        throw new Error(errorMessage)
-    }
-}
-
-export const getAppearanceSystemSetting = async () => {
-    try {
-        const response = await api.get("/settings/system/appearance")
+        const response = await api.get("/settings/system")
 
         return response.data
     } catch (err) {
