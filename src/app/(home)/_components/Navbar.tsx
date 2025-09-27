@@ -4,8 +4,11 @@ import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import { ThemeToogle } from "./ThemeTooggle";
 import Link from "next/link";
+import { useSystemSettingStore } from "@/hooks/useSystemSettingStore";
 
 export const Navbar = () => {
+    const {app_name, organization_address} = useSystemSettingStore()
+
     return (
         <div className="container max-w-5xl mx-auto px-4 lg:px-0">
             <div className="flex items-center justify-between">
@@ -18,9 +21,9 @@ export const Navbar = () => {
                         className="size-12"
                     />
                     <div>
-                        <h1 className="font-bold text-gnrPrimary">General | Muncangela</h1>
+                        <h1 className="font-bold text-gnrPrimary">{app_name}</h1>
                         <p className="hidden md:block text-sm text-black dark:text-gnrWhite">
-                            Desa Muncangela, Kec. Cipicung, Kab. Kuningan
+                            {organization_address}
                         </p>
                     </div>
                 </Link>

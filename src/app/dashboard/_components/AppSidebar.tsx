@@ -7,6 +7,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { FormLogout } from './FormLogout';
+import { useSystemSettingStore } from '@/hooks/useSystemSettingStore';
 
 interface Item {
   title: string;
@@ -44,6 +45,7 @@ const items: Item[] = [
 
 export const AppSidebar = () => {
   const pathname = usePathname();
+  const {app_name, tagline} = useSystemSettingStore()
 
   const getActiveRoute = (route: string) => {
     const cleanPathname = pathname.split('?')[0];
@@ -63,8 +65,8 @@ export const AppSidebar = () => {
       <SidebarHeader className="bg-white dark:bg-black dark:border-white/20 flex flex-row items-center gap-2 p-4 border-b">
         <Image src={'/images/logo/general.png'} alt="General Muncangela" width={40} height={40} />
         <div>
-          <h2 className="text-gnrDarkBlue dark:text-white font-bold">General CashFlow</h2>
-          <p className="text-sm text-gnrGray">Management</p>
+          <h2 className="text-gnrDarkBlue dark:text-white font-bold">{app_name}</h2>
+          <p className="text-sm text-gnrGray">{tagline}</p>
         </div>
       </SidebarHeader>
       <SidebarContent className="bg-white dark:bg-black py-4 px-2">

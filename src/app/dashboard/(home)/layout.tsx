@@ -1,18 +1,19 @@
+"use client"
+
+import { ThemeToogle } from "@/app/(home)/_components/ThemeTooggle";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
-import { Metadata } from "next";
 import { ReactNode } from "react";
 import { AppSidebar } from "../_components/AppSidebar";
-import { ThemeToogle } from "@/app/(home)/_components/ThemeTooggle";
+import { useSystemSettingStore } from "@/hooks/useSystemSettingStore";
 
-export const metadata: Metadata = {
-    title: "Dashboard",
-};
 
 interface LayoutDashboard {
     children: ReactNode;
 }
 
 const LayoutDashboard = ({ children }: LayoutDashboard) => {
+    const {app_name} = useSystemSettingStore()
+
     return (
         <SidebarProvider>
             <AppSidebar />
@@ -21,7 +22,7 @@ const LayoutDashboard = ({ children }: LayoutDashboard) => {
                     <SidebarTrigger className="mt-px dark:text-gnrWhite" />
                     <div className="flex items-center gap-2">
                         <ThemeToogle style="!text-sm !size-8" />
-                        <h2 className="text-gnrGray text-sm">Selamat Datang di GeneralCashFlow</h2>
+                        <h2 className="text-gnrGray text-sm">Selamat Datang di {app_name}</h2>
                     </div>
                 </div>
                 <section className="p-6">{children}</section>

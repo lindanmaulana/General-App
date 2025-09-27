@@ -82,8 +82,8 @@ export const ExpensesToolbar = () => {
                         ) : isError ? (
                             <SelectItem value="error">Error...</SelectItem>
                         ) : (
-                            allEventOptions.data &&
-                            allEventOptions.data.map((event: events) => (
+                            allEventOptions &&
+                            allEventOptions.map((event: events) => (
                                 <SelectItem key={event.id} value={event.code} className="dark:text-gnrWhite">
                                     {event.name}
                                 </SelectItem>
@@ -107,8 +107,8 @@ export const ExpensesToolbar = () => {
                         ) : isError ? (
                             <SelectItem value="error">Error...</SelectItem>
                         ) : (
-                            allFundAccountOptions.data &&
-                            allFundAccountOptions.data.map((event: events) => (
+                            allFundAccountOptions &&
+                            allFundAccountOptions.map((event: events) => (
                                 <SelectItem key={event.id} value={event.name} className="dark:text-gnrWhite">
                                     {event.name}
                                 </SelectItem>

@@ -56,8 +56,6 @@ export class SystemSettingService {
 
         const result = await supabase.from(this.tableSystem).update(req).eq("id", docSystem.id).single()
 
-        console.log({result})
-
         if (result.error) throw new customAPIError(`${RESPONSE_MESSAGE.error.update} system setting`, result.status);
 
         return result.data

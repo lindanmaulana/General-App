@@ -1,9 +1,10 @@
 "use client"
 
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools"
+import { AnimatePresence } from "motion/react"
 import { ReactNode, useState } from "react"
-import {ReactQueryDevtools} from "@tanstack/react-query-devtools"
-import {AnimatePresence} from "motion/react"
+import { SystemSetting } from "./system-setting"
 
 interface AppProps {
     children: ReactNode
@@ -25,7 +26,9 @@ const App = ({children}: AppProps) => {
                 <ReactQueryDevtools initialIsOpen={false} position="bottom" />
             )}
             <AnimatePresence mode="wait">
-                {children}
+                <SystemSetting>
+                    {children}
+                </SystemSetting>
             </AnimatePresence>
         </QueryClientProvider>
     )

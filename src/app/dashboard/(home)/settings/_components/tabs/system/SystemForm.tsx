@@ -7,17 +7,20 @@ import { Input } from "@/components/ui/input";
 import { errorHandler } from "@/lib/helpers/errorHandler";
 import { SystemUpdateSettingSchema, typeSystemUpdateSettingSchema } from "@/lib/validations/settings";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { system_settings } from "../../../_types/system-setting";
+import { settingsKeys } from "@/lib/queries/settings/queryKeys";
 
 interface SystemFormProps {
     defaultValues?: system_settings
 }
 
 export const SystemForm = ({defaultValues}: SystemFormProps) => {
-    const {mutate, reset, isPending} = useMutation({
+    const queryClient = useQueryClient()
+
+    const {mutate, isPending} = useMutation({
         mutationKey: ['updateBrandingSystemSetting'],
         mutationFn: (data: typeSystemUpdateSettingSchema) => updateSystemSetting(data, defaultValues?.id ?? ""),
     })
@@ -29,8 +32,6 @@ export const SystemForm = ({defaultValues}: SystemFormProps) => {
             logo_url: defaultValues?.logo_url ?? "",
             organization_address: defaultValues?.organization_address ?? "",
             tagline: defaultValues?.tagline ?? "",
-            wellcome_message_login: defaultValues?.wellcome_message_login ?? "",
-            wellcome_message_dashboard: defaultValues?.wellcome_message_dashboard ?? "",
         },
     });
 
@@ -40,6 +41,7 @@ export const SystemForm = ({defaultValues}: SystemFormProps) => {
         mutate(value, {
             onSuccess: () => {
                 toast.success("System Setting updated")
+                queryClient.invalidateQueries({queryKey: settingsKeys.system.lists()})
             },
 
             onError: (err) => {
@@ -126,46 +128,6 @@ export const SystemForm = ({defaultValues}: SystemFormProps) => {
                                             {...field}
                                             type="text"
                                             placeholder="Masukan tagline organisasi anda..."
-                                            className="dark:text-gnrWhite dark:border-white/20 py-5"
-                                        />
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-                    </div>
-                </div>
-
-                <hr className="bg-gnrGray/10 h-0.5 my-10" />
-
-                <div className="space-y-6">
-                    <h3 className="dark:text-gnrWhite font-medium">Appearance</h3>
-
-                    <div className="grid grid-cols-2 gap-6">
-                        <FormField
-                            control={form.control}
-                            name="wellcome_message_login"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel className="dark:text-gnrWhite">Pesan Selamat Datang Login</FormLabel>
-                                    <FormControl>
-                                        <Input {...field} type="text" placeholder="Wellcome back..." className="dark:text-gnrWhite dark:border-white/20 py-5" />
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-                        <FormField
-                            control={form.control}
-                            name="wellcome_message_dashboard"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel className="dark:text-gnrWhite">Pesan Selamat Datang Dashboard</FormLabel>
-                                    <FormControl>
-                                        <Input
-                                            {...field}
-                                            type="text"
-                                            placeholder="Selamat Datang di General CashFlow..."
                                             className="dark:text-gnrWhite dark:border-white/20 py-5"
                                         />
                                     </FormControl>
