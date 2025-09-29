@@ -8,6 +8,8 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { FormLogout } from './FormLogout';
 import { useSystemSettingStore } from '@/hooks/useSystemSettingStore';
+import { getPublicUrlImage } from '@/lib/supabase/getPublicUrl';
+import { BUCKET_APP_IMAGES } from '@/lib/supabase/index';
 
 interface Item {
   title: string;
@@ -45,7 +47,7 @@ const items: Item[] = [
 
 export const AppSidebar = () => {
   const pathname = usePathname();
-  const {app_name, tagline} = useSystemSettingStore()
+  const {app_name, tagline, logo_url} = useSystemSettingStore()
 
   const getActiveRoute = (route: string) => {
     const cleanPathname = pathname.split('?')[0];
@@ -63,7 +65,7 @@ export const AppSidebar = () => {
   return (
     <Sidebar>
       <SidebarHeader className="bg-white dark:bg-black dark:border-white/20 flex flex-row items-center gap-2 p-4 border-b">
-        <Image src={'/images/logo/general.png'} alt="General Muncangela" width={40} height={40} />
+        <Image src={getPublicUrlImage(BUCKET_APP_IMAGES, logo_url)} alt="General Muncangela" width={40} height={40} className='size-12 rounded-full' />
         <div>
           <h2 className="text-gnrDarkBlue dark:text-white font-bold">{app_name}</h2>
           <p className="text-sm text-gnrGray">{tagline}</p>
