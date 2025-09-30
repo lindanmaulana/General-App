@@ -16,7 +16,7 @@ export class ExportDataService {
         let queryExpenses
 
         if(validatedFields.data.category_data.incomes) {
-            const query = supabase.from(incomesService.table).select("*, events!inner(id, code, name), fund_accounts!inner(id, name, type)")
+            const query = supabase.from(incomesService.table).select("*, events!inner(id, code, name), fund_accounts!inner(id, name, type)").order("date", {ascending: true}).order("id", {ascending: false})
 
             if(validatedFields.data.date_file.start_date && validatedFields.data.date_file.end_date) query.gte("date", validatedFields.data.date_file.start_date).lte("date", validatedFields.data.date_file.end_date)
 
@@ -26,7 +26,7 @@ export class ExportDataService {
         }
 
         if(validatedFields.data.category_data.expenses) {
-            const query = supabase.from(expensesService.table).select("*, events!inner(id, code, name), fund_accounts!inner(id, name, type)")
+            const query = supabase.from(expensesService.table).select("*, events!inner(id, code, name), fund_accounts!inner(id, name, type)").order("date", {ascending: true}).order("id", {ascending: false})
 
             if(validatedFields.data.date_file.start_date && validatedFields.data.date_file.end_date) query.gte("date", validatedFields.data.date_file.start_date).lte("date", validatedFields.data.date_file.end_date)
 

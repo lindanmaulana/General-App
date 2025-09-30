@@ -123,10 +123,10 @@ export const SystemForm = ({ defaultValues }: SystemFormProps) => {
                                                         <p>Loading...</p>
                                                     ) : (
                                                         <Select value={field.value} onValueChange={field.onChange}>
-                                                            <SelectTrigger>
+                                                            <SelectTrigger className="w-full">
                                                                 <SelectValue placeholder="Pilih logo" />
                                                             </SelectTrigger>
-                                                            <SelectContent>
+                                                            <SelectContent className="dark:bg-gnrDark dark:border-white/30">
                                                                 <SelectGroup>
                                                                     <SelectLabel>Logo</SelectLabel>
                                                                     {dataLogo
@@ -140,18 +140,19 @@ export const SystemForm = ({ defaultValues }: SystemFormProps) => {
                                                                                 PATH_LOGO,
                                                                                 logo.name
                                                                             );
+
                                                                             return (
                                                                                 <SelectItem
                                                                                     key={logo.id}
                                                                                     value={`public/logo/${logo.name}`}
-                                                                                    className="flex items-center justify-center"
+                                                                                    className=""
                                                                                 >
-                                                                                    <div className="w-full h-10 px-5">
+                                                                                    <div className="w-full size-5 px-5">
                                                                                         <Image
                                                                                             src={imageUrl}
                                                                                             alt={logo.name}
-                                                                                            width={40}
-                                                                                            height={40}
+                                                                                            width={20}
+                                                                                            height={20}
                                                                                             className="h-full object-cover rounded-full"
                                                                                         />
                                                                                     </div>

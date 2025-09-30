@@ -37,5 +37,3 @@ export class StorageService {
         return result.data
     }
 }
-
-// https://ioehpysldibnjemrnfch.supabase.co/storage/v1/object/public/app_images/public/logo/general.png
