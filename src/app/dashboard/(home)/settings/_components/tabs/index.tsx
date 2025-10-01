@@ -1,6 +1,7 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Bell, Cog, FileText, User } from 'lucide-react'
 import { Users } from '../../_types/profile'
+import PdfDocumentSettings from './pdf-document'
 import { ProfileSettings } from './profile'
 import SystemSettings from './system'
 
@@ -28,9 +29,7 @@ const SettingsTabs = ({session}: SettingsTabsProps) => {
         </TabsContent>
 
         <TabsContent value="document">
-          <div>
-            
-          </div>
+          <PdfDocumentSettings />
         </TabsContent>
       </Tabs>
     </div>

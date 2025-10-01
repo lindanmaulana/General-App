@@ -26,3 +26,15 @@ export const getSystemSetting = async () => {
         throw new Error(errorMessage)
     }
 }
+
+export const getPdfDocumentSetting = async () => {
+    try {
+        const response = await api.get("/settings/pdf-document")
+
+        return response.data
+    } catch (err) {
+        const errorMessage = errorHandler(err)
+
+        throw new Error(errorMessage)
+    }
+}

@@ -69,3 +69,16 @@ export class SystemSettingService {
         return result.data;
     }
 }
+
+
+export class PdfDocumentSettingService {
+    static tablePdfDocument = "pdf_document_settings"
+
+    static async get() {
+        const result = await supabase.from(this.tablePdfDocument).select("*").limit(1)
+
+        if (result.error) throw new customAPIError(`${RESPONSE_MESSAGE.error.read} pdf document setting`, result.status);
+
+        return result.data[0]
+    }
+}

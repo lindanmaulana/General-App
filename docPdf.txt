@@ -1,139 +1,11 @@
-"use client"
-
-import { handleParsePrice } from '@/lib/helpers/parsing';
-import { Document, Font, Page, StyleSheet, Text, View } from '@react-pdf/renderer';
-import { formatDataForExport } from '../helpers/formatDataForExport';
-import { initialData } from '../types/initial-data';
-import { useQuery } from '@tanstack/react-query';
-import { pdfDocumentSettingListOptions } from '@/lib/queries/settings/pdfDocumentSettingListOptions';
-
-Font.register({
-  family: 'Times-New-Roman-Regular',
-  src: '/fonts/times-new-roman/Regular.ttf',
-});
-
-Font.register({
-  family: 'Times-New-Roman-Italic',
-  src: '/fonts/times-new-roman/Italic.ttf',
-});
-
-Font.register({
-  family: 'Times-New-Roman-Bold',
-  src: '/fonts/times-new-roman/Bold.ttf',
-});
-
-Font.register({
-  family: 'Times-New-Roman-BoldItalic',
-  src: '/fonts/times-new-roman/BoldItalic.ttf',
-});
-
-const styles = StyleSheet.create({
-  page: {
-    paddingTop: 40,
-    paddingRight: 80,
-    paddingBottom: 30,
-    paddingLeft: 80,
-    fontSize: 10,
-    fontFamily: 'Times-New-Roman-Regular',
-  },
-  header: {
-    textAlign: 'center',
-    marginBottom: 10,
-  },
-  title: {
-    fontFamily: 'Times-New-Roman-Bold',
-    fontSize: 12,
-    fontWeight: 'bold',
-  },
-  subtitle: {
-    fontFamily: 'Times-New-Roman-BoldItalic',
-    fontSize: 10,
-    marginTop: 2,
-  },
-
-  sectionTitle: {
-    fontFamily: 'Times-New-Roman-Bold',
-    fontSize: 10,
-    fontWeight: 'bold',
-    marginTop: 10,
-    marginBottom: 4,
-  },
-
-  line: {
-    width: '100%',
-    height: 2,
-    display: 'flex',
-    backgroundColor: 'black',
-    marginBottom: 16,
-  },
-
-  table: {
-    width: '100%',
-    borderStyle: 'solid',
-    borderWidth: 1,
-    borderRightWidth: 0,
-    borderBottomWidth: 0,
-    marginBottom: 8,
-  },
-
-  tableRow: {
-    flexDirection: 'row',
-    alignItems: 'stretch',
-  },
-
-  tableCol: {
-    textAlign: 'left',
-    borderStyle: 'solid',
-    borderWidth: 1,
-    borderLeftWidth: 0,
-    borderTopWidth: 0,
-    padding: 3,
-  },
-
-  tableColHeader: {
-    textAlign: 'center',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-
-  bold: {
-    fontFamily: 'Times-New-Roman-Bold',
-  },
-
-  number: {
-    textAlign: "center"
-  }
-});
-
-export const FinancialReportPdf = ({ incomes, expenses, totalBalance }: initialData) => {
-
-  const {data: dataPdfDocumentSetting, isLoading, isError} = useQuery(pdfDocumentSettingListOptions())
-
-  const data = formatDataForExport({ incomes, expenses });
-
-  const totalBalanceNumber: number = totalBalance ?? 0
-  const totalIncomesNumber: number = incomes.length > 0 ? incomes.reduce((acc, call) => acc += call.amount, 0) : 0
-  const totalExpensesNumber: number = expenses.length > 0 ? expenses.reduce((acc, call) => acc += call.amount, 0) : 0
-  const totalBeginningBalanceNumber = totalBalanceNumber + totalExpensesNumber - totalIncomesNumber
-
-  const totalRupiahBalance: string = handleParsePrice(totalBalanceNumber)
-  const totalRupiahBeginningBalance: string = handleParsePrice(totalBeginningBalanceNumber)
-  const totalRupiahIncomes: string = handleParsePrice(totalIncomesNumber)
-  const totalRupiahExpenses: string = handleParsePrice(totalExpensesNumber)
-
-  if(isLoading) return <p>loading...</p>
-
-  if(isError) return <p>Error</p>
-
-  return (
     <Document>
       <Page size="A4" style={styles.page}>
         <View style={styles.header}>
-          <Text style={styles.title}>{dataPdfDocumentSetting.organization_type}</Text>
+          <Text style={styles.title}>DEWAN KEMAKMURAN MASJID (DKM)</Text>
           <Text style={styles.title}>
-            {dataPdfDocumentSetting.organization_name}
+            MUSHOLA {'"'}AL HIDAYAH{'"'}
           </Text>
-          <Text style={styles.subtitle}>{dataPdfDocumentSetting.organization_address}</Text>
+          <Text style={styles.subtitle}>lingkungan Al hidayah RT 006/RW 003 Desa Muncangela Kecamatan Cipicung Kabupaten Kuningan Jawa Barat 45592</Text>
         </View>
 
         <View style={styles.line}></View>
@@ -272,5 +144,3 @@ export const FinancialReportPdf = ({ incomes, expenses, totalBalance }: initialD
         </View>
       </Page>
     </Document>
-  );
-};
