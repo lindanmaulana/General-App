@@ -2,11 +2,13 @@
 
 import { errorHandler } from "@/lib/helpers/errorHandler";
 import { fundAccountTotalBalanceOptions } from "@/lib/queries/fund-accounts/fundAccountTotalBalanceOptions";
+import { pdfDocumentSettingListOptions } from "@/lib/queries/settings/pdfDocumentSettingListOptions";
 import { PostExportDataCustom } from "@/lib/services/export-data.service";
 import { typeExportDataCustomSchema } from "@/lib/validations/export-data";
 import { useExportData } from "@/lib/zustand/useExportData";
-import { useMutation, useQuery } from "@tanstack/react-query";
-import { useCallback } from "react";
+import { usePdfDocumentSetting } from "@/lib/zustand/usePdfDocumentSetting";
+import { useMutation, useQueries } from "@tanstack/react-query";
+import { useCallback, useEffect } from "react";
 import { toast } from "sonner";
 
 
@@ -20,7 +22,19 @@ export const useCustomExportData = ({isOpen}: useCustomExportDataProps) => {
     const categoryDataFile = useExportData((state) => state.category_data);
     const eventsFile = useExportData((state) => state.events);
 
-    const queryTotalBalance = useQuery(fundAccountTotalBalanceOptions({enabled: isOpen}))
+    const setStatePdfDocumentSetting = usePdfDocumentSetting((state) => state.setState)
+
+    const {dataTotalBalance, dataPdfDocumentSetting, isLoading, isError} = useQueries({
+        queries: [fundAccountTotalBalanceOptions({enabled: isOpen}), pdfDocumentSettingListOptions({enabled: formatFile.toLowerCase() === "pdf"})],
+        combine: (results) => {
+            return {
+                dataTotalBalance: results[0].data,
+                dataPdfDocumentSetting: results[1].data,
+                isLoading: results.some(result => result.isLoading),
+                isError: results.some(result => result.isError)
+            }
+        }
+    })
 
     const mutationFn = useMutation({
         mutationKey: ['exportDataCustom'],
@@ -43,5 +57,10 @@ export const useCustomExportData = ({isOpen}: useCustomExportDataProps) => {
             
     }, [formatFile, dateFile, categoryDataFile, eventsFile, mutationFn])
 
-    return {formatFile, queryTotalBalance, mutationFn, fetchData}
+    // setter gloabl state
+    useEffect(() => {
+        if (dataPdfDocumentSetting) setStatePdfDocumentSetting(dataPdfDocumentSetting)
+    }, [dataPdfDocumentSetting, setStatePdfDocumentSetting])
+
+    return {formatFile, dataTotalBalance, dataPdfDocumentSetting, isLoading, isError, mutationFn, fetchData}
 }

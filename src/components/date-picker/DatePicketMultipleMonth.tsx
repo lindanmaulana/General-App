@@ -20,13 +20,13 @@ export const DatePickerMultipleMonth = ({ title, date, onDateChange }: DatePicke
   return (
     <Popover>
       <PopoverTrigger className="dark:border-white/20 w-full" asChild>
-        <Button variant={'outline'} className={cn('dark:text-gnrWhite min-w-[140px] justify-start text-left font-normal', !date && 'text-muted-foreground')}>
+        <Button variant={'outline'} className={cn('dark:text-gnrWhite min-w-[140px] justify-start text-left font-normal cursor-pointer', !date && 'text-muted-foreground')}>
           <ChevronDownIcon className="w-4 h-4" />
           {date ? `${startDate} - ${endDate}` : <span>{title}</span>}
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-full dark:bg-black dark:border-white/20">
-        <Calendar mode="range" selected={date} numberOfMonths={2} onSelect={onDateChange} className="dark:text-gnrWhite w-full" />
+        <Calendar mode="range" selected={date} numberOfMonths={2} onSelect={onDateChange} className="dark:text-gnrWhite w-full cursor-pointer" />
       </PopoverContent>
     </Popover>
   );

@@ -17,8 +17,6 @@ export const useFormattedReportData = () => {
 
     const queryTotalBalance = useQuery(fundAccountTotalBalanceOptions({enabled: mutationFn.isSuccess}))
 
-    console.log({startDate, endDate})
-
     const fetchData = useCallback(() => {
         mutationFn.mutate({category_data: {incomes: true, expenses: true}, date_file: {start_date: startDate, end_date: endDate}, events: []})
 

@@ -23,7 +23,7 @@ export const CustomExportToolbar = () => {
   const [fileName, setFileName] = useState<string | null>(null);
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
-  const {formatFile, queryTotalBalance, mutationFn, fetchData} = useCustomExportData({isOpen})
+  const {formatFile, dataTotalBalance, isLoading, isError, mutationFn, fetchData} = useCustomExportData({isOpen})
 
   const handleResetDialog = useCallback(() => {
     setIsOpen(false)
@@ -82,7 +82,7 @@ export const CustomExportToolbar = () => {
         <DialogTitle className='dark:text-gnrWhite'>Export data custom</DialogTitle>
         <DialogDescription></DialogDescription>
 
-        {(mutationFn.isPending || queryTotalBalance.isLoading || queryTotalBalance.isError) && (
+        {(mutationFn.isPending || isLoading || isError) && (
           <div className="flex items-center justify-center py-4">
             <RotateCw className="animate-spin" />
           </div>
@@ -107,7 +107,7 @@ export const CustomExportToolbar = () => {
               />
 
               <div className='flex items-center gap-2 flex-row-reverse'>
-                {fileName && formatFile === "pdf" && <PdfExportToolbar handleResetDialog={handleResetDialog} totalBalance={queryTotalBalance.data ?? 0} fileName={fileName} incomes={mutationFn.data.incomes} expenses={mutationFn.data.expenses} />}
+                {fileName && formatFile === "pdf" && <PdfExportToolbar handleResetDialog={handleResetDialog} totalBalance={dataTotalBalance ?? 0} fileName={fileName} incomes={mutationFn.data.incomes} expenses={mutationFn.data.expenses} />}
 
                 {fileName && formatFile !== "pdf" ? (
                   <Button type="button" onClick={handleDownloadFile}>

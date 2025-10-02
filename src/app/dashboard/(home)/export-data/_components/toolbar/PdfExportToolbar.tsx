@@ -17,7 +17,9 @@ interface PdfExportToolbarProps {
     handleResetDialog: () => void
 }
 export const PdfExportToolbar = ({incomes, expenses, fileName, totalBalance, handleResetDialog}: PdfExportToolbarProps) => {
+
     const hanldeResetConfig = useExportData((state) => state.resetConfig)
+
     const [instance] = usePDF({document: <FinancialReportPdf totalBalance={totalBalance} incomes={incomes} expenses={expenses} />})
 
 

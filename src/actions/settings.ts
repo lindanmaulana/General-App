@@ -1,8 +1,8 @@
 "use server"
 
-import { settingService, SystemSettingService } from "@/app/api/_lib/services/settings.service";
+import { PdfDocumentSettingService, settingService, SystemSettingService } from "@/app/api/_lib/services/settings.service";
 import { errorHandler } from "@/lib/helpers/errorHandler";
-import { profileSettingSchema, typeSystemUpdateSettingSchema, type typeProfileSettingSchema } from "@/lib/validations/settings";
+import { profileSettingSchema, typePdfDocumentUpdateSettingSchema, typeSystemUpdateSettingSchema, type typeProfileSettingSchema } from "@/lib/validations/settings";
 
 export const profileSetting = async (req: typeProfileSettingSchema, id: string) => {
     const validatedFields = profileSettingSchema.safeParse(req)
@@ -31,3 +31,15 @@ export const updateSystemSetting = async (req: typeSystemUpdateSettingSchema, id
         throw new Error(errorMessage)
     }
 }
+
+export const updatePdfDocumentSetting = async (req: typePdfDocumentUpdateSettingSchema, id: string) => {
+    try {
+        const result = await PdfDocumentSettingService.update(req, id)
+
+        return result
+    } catch (err) {
+        const errorMessage = errorHandler(err)
+
+        throw new Error(errorMessage)
+    }
+} 

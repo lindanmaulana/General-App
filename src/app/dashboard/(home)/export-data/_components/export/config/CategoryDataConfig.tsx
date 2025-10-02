@@ -15,7 +15,7 @@ export const CategoryDataConfig = () => {
             <div className='grid grid-cols-1 lg:grid-cols-2 g gap-4'>
                 <BaseCard>
                     <BaseCardContent style='flex gap-3'>
-                        <Checkbox onCheckedChange={(checked: boolean) => handleSetConfig({category_data: {...isDataInclude, incomes: checked}})} className='size-5 active:bg-gnrPrimary/20' checked={isDataInclude.incomes} />
+                        <Checkbox onCheckedChange={(checked: boolean) => handleSetConfig({category_data: {...isDataInclude, incomes: checked}})} className='size-5 active:bg-gnrPrimary/20 cursor-pointer' checked={isDataInclude.incomes} />
                         <div>
                             <h5 className='dark:text-gnrWhite text-base font-medium'>Data Pemasukan</h5>
                             <p className='text-sm text-gnrGray'>Transaksi pemasukan</p>
@@ -24,7 +24,7 @@ export const CategoryDataConfig = () => {
                 </BaseCard>
                 <BaseCard>
                     <BaseCardContent style='flex gap-3'>
-                        <Checkbox onCheckedChange={(checked: boolean) => handleSetConfig({category_data: {...isDataInclude, expenses: checked}})}  className='size-5 active:bg-gnrPrimary/20' checked={isDataInclude.expenses} />
+                        <Checkbox onCheckedChange={(checked: boolean) => handleSetConfig({category_data: {...isDataInclude, expenses: checked}})}  className='size-5 active:bg-gnrPrimary/20 cursor-pointer' checked={isDataInclude.expenses} />
                         <div>
                             <h5 className='dark:text-gnrWhite text-base font-medium'>Data Pengeluaran</h5>
                             <p className='text-sm text-gnrGray'>Transaksi pengeluaran</p>
