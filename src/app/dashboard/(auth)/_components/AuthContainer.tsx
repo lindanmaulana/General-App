@@ -14,13 +14,12 @@ interface AuthContainerProps {
     type: "LOGIN" | "REGISTER"
 }
 
-export const AuthContainer = ({children, title, description, type}: AuthContainerProps) => {
+export const AuthContainer = ({children, title, description}: AuthContainerProps) => {
     const {app_name, logo_url} = useSystemSettingStore()
-    const isAuth = type === "LOGIN" ? "Tidak punya akun ?" : "Sudah punya akun ?"
 
     return (
         <div className="dark:border-white/30 w-full px-6 py-8 rounded-md border shadow-md hover:shadow-xl transition-global duration-200">
-            <Link href={"/"} className="dark:text-white text-gnrDarkBlue font-bold text-lg text-left flex items-center gap-2"><Image src={getPublicUrlImage(BUCKET_APP_IMAGES, logo_url)} alt={app_name} width={40} height={40}className="size-12 rounded-full" />{app_name}</Link>
+            <Link href={"/"} className="dark:text-white text-gnrDarkBlue font-bold text-lg text-left flex items-center gap-2"><Image src={logo_url ? getPublicUrlImage(BUCKET_APP_IMAGES, logo_url) : logo_url} alt={app_name} width={40} height={40}className="size-12 rounded-full" />{app_name}</Link>
             <div className="w-full mt-8 space-y-6">
                 <div>
                     <h3 className="dark:text-white text-3xl font-semibold text-gnrDarkBlue">{title}</h3>
@@ -28,8 +27,7 @@ export const AuthContainer = ({children, title, description, type}: AuthContaine
                 </div>
                 {children}
                 <div className="flex items-center justify-center">
-                    <p className="text-gnrWhiteGray text-sm">{isAuth}</p>
-                    <Link href={type === "LOGIN" ? "/" : "/dashboard/login"} className="relative dark:text-gnrWhite text-sm font-medium text-gnrDarkBlue">{type === "LOGIN" ? "Daftar disini" : "Masuk"}<Image src={'/images/auth/auth-vector.svg'} alt="general-vector-auth" width={100} height={100} className="absolute top-6" /></Link>
+                    <p className="text-gnrWhiteGray text-sm">{app_name}</p>
                 </div>
             </div>
         </div>

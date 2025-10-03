@@ -5,12 +5,13 @@ import { handleParsePrice } from "@/lib/helpers/parsing"
 import { financialSummaryMonthlyOptions } from "@/lib/queries/financial-summary/financialSummaryMonthlyOptions"
 import { useQuery } from "@tanstack/react-query"
 import { CartesianGrid, Line, LineChart, ResponsiveContainer, XAxis, YAxis } from "recharts"
+import { SkeletonChart } from "../skeleton/SkeletonChart"
 
 
 export const FinancialSummaryChart = () => {
     const {data, isLoading, isError} = useQuery(financialSummaryMonthlyOptions())
 
-    if(isLoading) return <p>Loading...</p>
+    if(isLoading) return <SkeletonChart />
     if(isError) return <p>Error...</p>
 
     const chartConfig = {

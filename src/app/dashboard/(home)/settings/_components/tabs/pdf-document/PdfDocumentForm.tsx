@@ -14,6 +14,9 @@ import { errorHandler } from "@/lib/helpers/errorHandler";
 import { settingsKeys } from "@/lib/queries/settings/queryKeys";
 import { Badge } from "@/components/ui/badge";
 import { CustomTooltip } from "@/components/CustomTooltip";
+import { Switch } from "@/components/ui/switch";
+
+import { ExampleReportPdfToolbar } from "./ExampleReportPdfToolbar";
 
 interface PdfDocumentFormProps {
     defaulValues?: pdf_document_settings;
@@ -21,9 +24,11 @@ interface PdfDocumentFormProps {
 
 export const PdfDocumentForm = ({ defaulValues }: PdfDocumentFormProps) => {
     const queryClient = useQueryClient();
+
     const { mutate, isPending } = useMutation({
         mutationKey: ["updatePdfDocumentSetting"],
-        mutationFn: (data: typePdfDocumentUpdateSettingSchema) => updatePdfDocumentSetting(data, defaulValues?.id ?? ""),
+        mutationFn: (data: typePdfDocumentUpdateSettingSchema) =>
+            updatePdfDocumentSetting(data, defaulValues?.id ?? ""),
     });
 
     const form = useForm<typePdfDocumentUpdateSettingSchema>({
@@ -39,7 +44,7 @@ export const PdfDocumentForm = ({ defaulValues }: PdfDocumentFormProps) => {
     });
 
     const handleForm = form.handleSubmit((value) => {
-        console.log({value})
+        console.log({ value });
         mutate(value, {
             onSuccess: () => {
                 toast.success("Pdf Document Setting updated");
@@ -51,6 +56,8 @@ export const PdfDocumentForm = ({ defaulValues }: PdfDocumentFormProps) => {
             },
         });
     });
+
+
 
     return (
         <Form {...form}>
@@ -144,7 +151,12 @@ export const PdfDocumentForm = ({ defaulValues }: PdfDocumentFormProps) => {
                 <hr />
 
                 <div className="space-y-6">
-                    <h3 className="dark:text-gnrWhite font-medium">Footer Dokumen <CustomTooltip textTooltip="Footer dan Watermark segera..."><Badge className="bg-gnrPrimary text-xs">Beta</Badge></CustomTooltip> </h3>
+                    <h3 className="dark:text-gnrWhite font-medium space-x-2">
+                        <span>Footer Dokumen</span>
+                        <CustomTooltip textTooltip="Footer dan Watermark segera...">
+                            <Badge className="bg-gnrPrimary text-xs">Beta</Badge>
+                        </CustomTooltip>{" "}
+                    </h3>
                     <div className="space-y-6">
                         <FormField
                             control={form.control}
@@ -174,7 +186,7 @@ export const PdfDocumentForm = ({ defaulValues }: PdfDocumentFormProps) => {
                                         <Input
                                             {...field}
                                             type="text"
-                                            placeholder='Watermark file...'
+                                            placeholder="Watermark file..."
                                             className="dark:text-gnrWhite dark:border-white/20 py-5"
                                         />
                                     </FormControl>
@@ -183,15 +195,60 @@ export const PdfDocumentForm = ({ defaulValues }: PdfDocumentFormProps) => {
                             )}
                         />
                     </div>
-                    <div className="flex items-center justify-end">
-                        <ButtonSubmit
-                            type="submit"
-                            isLoading={isPending}
-                            loading="Loading..."
-                            title="Simpan Pengaturan"
-                            style="bg-gnrPrimary hover:bg-gnrPrimary/80 py-5 cursor-pointer"
-                        ></ButtonSubmit>
+                </div>
+
+                <div className="space-y-6">
+                    <h3 className="dark:text-gnrWhite font-medium space-x-2">
+                        <span>Opsi Export</span>
+                        <CustomTooltip textTooltip="Opsi export segera...">
+                            <Badge className="bg-gnrPrimary text-xs">Beta</Badge>
+                        </CustomTooltip>{" "}
+                    </h3>
+                    <div className="space-y-6">
+                        <FormField
+                            // control={form.control}
+                            name=""
+                            render={() => (
+                                <FormItem className="flex items-center justify-between">
+                                    <div>
+                                        <FormLabel className="dark:text-gnrWhite">Watermark</FormLabel>
+                                        <FormDescription>Tambahkan watermark pada dokumen</FormDescription>
+                                    </div>
+                                    <FormControl>
+                                        <Switch />
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+                        <FormField
+                            // control={form.control}
+                            name=""
+                            render={() => (
+                                <FormItem className="flex items-center justify-between">
+                                    <div>
+                                        <FormLabel className="dark:text-gnrWhite">Text Footer</FormLabel>
+                                        <FormDescription>Tambahkan footer pada dokumen</FormDescription>
+                                    </div>
+                                    <FormControl>
+                                        <Switch />
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
                     </div>
+                </div>
+
+                <div className="flex items-center justify-end gap-4">
+                    <ExampleReportPdfToolbar />
+                    <ButtonSubmit
+                        type="submit"
+                        isLoading={isPending}
+                        loading="Loading..."
+                        title="Simpan Pengaturan"
+                        style="bg-gnrPrimary hover:bg-gnrPrimary/80 py-5 cursor-pointer"
+                    ></ButtonSubmit>
                 </div>
             </form>
         </Form>

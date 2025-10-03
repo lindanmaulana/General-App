@@ -16,7 +16,7 @@ export const ActionHeroBanner = () => {
             <Div variants={variantsChildrenFadeUp} transition={{duration: 0.8, delay: 0.8}}>
                 <Button
                     variant={"outline"}
-                    className="dark:bg-transparent dark:hover:bg-transparent dark:text-white dark:border-white/10 !p-6 md:!px-8 md:py-6 font-semibold shadow-xl hover:text-gnrWhite hover:scale-110 hover:rotate-6 transition-global duration-300 bg-transparent text-lg cursor-pointer"
+                    className="dark:bg-transparent dark:hover:bg-transparent dark:text-white dark:border-white/10 !p-6 md:!px-8 md:py-6 font-semibold shadow-xl hover:text-gnrDark/80 hover:scale-110 hover:rotate-6 transition-global duration-300 bg-transparent text-lg cursor-pointer"
                     asChild
                 >
                     <Link href={"/demo"}>Lihat Demo</Link>
