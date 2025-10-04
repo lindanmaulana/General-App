@@ -240,14 +240,14 @@ export const PdfDocumentForm = ({ defaulValues }: PdfDocumentFormProps) => {
                     </div>
                 </div>
 
-                <div className="flex items-center justify-end gap-4">
+                <div className="flex flex-col md:flex-row items-center justify-end gap-4">
                     <ExampleReportPdfToolbar />
                     <ButtonSubmit
                         type="submit"
                         isLoading={isPending}
                         loading="Loading..."
                         title="Simpan Pengaturan"
-                        style="bg-gnrPrimary hover:bg-gnrPrimary/80 py-5 cursor-pointer"
+                        style="w-full md:w-fit bg-gnrPrimary hover:bg-gnrPrimary/80 py-5 cursor-pointer"
                     ></ButtonSubmit>
                 </div>
             </form>

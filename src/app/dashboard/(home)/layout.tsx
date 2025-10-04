@@ -18,7 +18,7 @@ const LayoutDashboard = ({ children }: LayoutDashboard) => {
         <SidebarProvider>
             <AppSidebar />
             <main className="bg-white dark:bg-black w-full">
-                <div className="w-full p-3 flex items-center justify-between border-b">
+                <div className="dark:border-white/20 w-full p-3 flex items-center justify-between border-b">
                     <SidebarTrigger className="mt-px dark:text-gnrWhite" />
                     <div className="flex items-center gap-2">
                         <ThemeToogle style="!text-sm !size-8" />

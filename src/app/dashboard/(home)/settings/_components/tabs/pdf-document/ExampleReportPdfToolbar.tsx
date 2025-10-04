@@ -26,7 +26,7 @@ export const ExampleReportPdfToolbar = () => {
             variant={"outline"}
             onClick={handleDownloadSample}
             disabled={instance.loading}
-            className="dark:bg-transparent dark:text-gnrWhite dark:border-white/20 dark:hover:bg-gnrDark dark:hover:text-gnrWhite/70 cursor-pointer"
+            className="dark:bg-transparent dark:text-gnrWhite dark:border-white/20 dark:hover:bg-gnrDark dark:hover:text-gnrWhite/70 w-full md:w-fit cursor-pointer"
         >
             <Download />
             {!instance.url ? (

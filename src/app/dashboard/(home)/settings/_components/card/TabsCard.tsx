@@ -15,7 +15,7 @@ export const TabsCard = (props: TabsCardProps) => {
     return (
         <Card className="dark:bg-gnrDark dark:border-white/20">
             <CardHeader>
-                <CardTitle className="dark:text-gnrWhite flex items-center gap-2 text-2xl">
+                <CardTitle className="dark:text-gnrWhite flex items-center gap-2 text-xl md:text-2xl">
                     {" "}
                     <props.icon /> {title}
                 </CardTitle>

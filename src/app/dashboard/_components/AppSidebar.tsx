@@ -64,14 +64,14 @@ export const AppSidebar = () => {
 
   return (
     <Sidebar>
-      <SidebarHeader className="bg-white dark:bg-black dark:border-white/20 flex flex-row items-center gap-2 p-4 border-b">
+      <SidebarHeader className="dark:bg-black bg-white  dark:border-white/20 flex flex-row items-center gap-2 p-4 border-b">
         <Image src={getPublicUrlImage(BUCKET_APP_IMAGES, logo_url)} alt="General Muncangela" width={40} height={40} className='size-12 rounded-full' />
         <div>
           <h2 className="text-gnrDarkBlue dark:text-white font-bold">{app_name}</h2>
           <p className="text-sm text-gnrGray">{tagline}</p>
         </div>
       </SidebarHeader>
-      <SidebarContent className="bg-white dark:bg-black py-4 px-2">
+      <SidebarContent className="dark:bg-black bg-white  py-4 px-2">
         <SidebarGroup>
           <SidebarGroupLabel className='dark:text-white'>Menu Utama</SidebarGroupLabel>
           <SidebarGroupContent>
@@ -79,7 +79,7 @@ export const AppSidebar = () => {
               {items?.map((item) => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton className={`${getActiveRoute(item.url)} hover:bg-gnrPrimary/40`} asChild>
-                    <Link href={item.url} className="dark:text-white font-medium flex items-center gap-3 py-5">
+                    <Link href={item.url} className="dark:text-white dark:hover:text-white/80 font-medium flex items-center gap-3 py-5 group">
                       <item.icon />
                       <h3>{item.title}</h3>
                     </Link>
@@ -94,7 +94,7 @@ export const AppSidebar = () => {
             <SidebarMenu>
               <SidebarMenuItem>
                 <SidebarMenuButton className={`${getActiveRoute('/dashboard/settings')} hover:bg-gnrPrimary/40`} asChild>
-                  <Link href={"/dashboard/settings"} className='dark:text-white font-medium flex items-center gap-3 py-5'>
+                  <Link href={"/dashboard/settings"} className='dark:text-white dark:hover:text-white/80 font-medium flex items-center gap-3 py-5 group'>
                     <Settings />
                     <h3>Pengaturan</h3>
                   </Link>
@@ -102,7 +102,7 @@ export const AppSidebar = () => {
               </SidebarMenuItem>
               <SidebarMenuItem>
                 <SidebarMenuButton className={`${getActiveRoute('/dashboard/export-data')} hover:bg-gnrPrimary/40`} asChild>
-                  <Link href={"/dashboard/export-data"} className='dark:text-white font-medium flex items-center gap-3 py-5'>
+                  <Link href={"/dashboard/export-data"} className='dark:text-white dark:hover:text-white/80 font-medium flex items-center gap-3 py-5 group'>
                     <Download />
                     <h3>Export Data</h3>
                   </Link>
