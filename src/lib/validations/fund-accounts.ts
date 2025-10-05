@@ -19,4 +19,5 @@ export const fundAccountsUpdateSchema = z.object({
     is_active: z.string().max(1),
     holder_name: z.string().min(1, "Nama pemilik tidak boleh kosong!"),
 })
+
 export type TypeFundAccountsUpdateSchema = z.infer<typeof fundAccountsUpdateSchema>

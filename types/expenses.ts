@@ -1,5 +1,4 @@
-export interface Incomes {
-    id: string
+export interface Expenses {
     event_id: string
     fund_account_id: string
     date?: string
