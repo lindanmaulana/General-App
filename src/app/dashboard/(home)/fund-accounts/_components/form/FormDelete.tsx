@@ -60,7 +60,7 @@ export const FormDelete = ({ data }: FormDeleteProps) => {
             <DialogClose asChild>
               <Button variant={'ghost'} className='dark:text-gnrWhite dark:hover:text-gnrWhite/80 dark:border-white/20'>Batal</Button>
             </DialogClose>
-            <ButtonFormSubmit type="submit" variant="destructive" style="!max-w-1/2" title="Hapus" />
+            <ButtonFormSubmit type="submit" variant="destructive" style="!md:max-w-1/2" title="Hapus" />
           </DialogFooter>
         </form>
       </DialogContent>

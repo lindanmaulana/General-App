@@ -22,7 +22,7 @@ const App = ({children}: AppProps) => {
     return (
         <QueryClientProvider client={client}>
 
-            {process.env.NODE_ENV === "development" && (
+            {process.env.NODE_ENV === "production" && (
                 <ReactQueryDevtools initialIsOpen={false} position="bottom" />
             )}
             <AnimatePresence mode="wait">
