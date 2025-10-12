@@ -16,7 +16,7 @@ Dibangun dengan **Next.js, Supabase, Auth.js, Zustand, Tailwind, dan Shadcn**.
 - 📊 Dashboard: ringkasan cash in, cash out, saldo akhir
 - 💸 CRUD transaksi (tambah, edit, hapus)
 - 🗂 Laporan bulanan dengan filter
-- 📤 Export laporan ke CSV
+- 📤 Export laporan ke PDF, CSV, EXCEL
 - 🌙 Dark mode support
 
 ## 📸 Screenshots
@@ -33,14 +33,17 @@ Dibangun dengan **Next.js, Supabase, Auth.js, Zustand, Tailwind, dan Shadcn**.
 
 ![Dashboard Events Screenshot](./public/screenshots/dashboard-events.png)
 
-### Laporan
-![Reports Incomes Screenshot](./public/screenshots/report-incomes-pdf.png)
+#### Dashboard Setting
+![Setting System](./public/screenshots/setting-system.png)
+![Setting Profile](./public/screenshots/setting-profile.png)
+![Setting Document](./public/screenshots/setting-document.png)
 
-![Reports Expenses Screenshot](./public/screenshots/report-expenses-pdf.png)
+### Laporan
+![Reports Screenshot](./public/screenshots/example-report.png)
 
 ## ⚡️ Setup & Installation
 ```bash
 git clone https://github.com/lindanmaulana/General-App
-cd general-cash-flow
+cd General-App
 npm install
 npm run dev

@@ -42,3 +42,6 @@ next-env.d.ts
 
 supabase/
 .temp/
+
+/schema.sql
+/test.txt
