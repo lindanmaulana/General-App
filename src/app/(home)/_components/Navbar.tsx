@@ -5,9 +5,15 @@ import { useSystemSettingStore } from "@/hooks/useSystemSettingStore";
 import Image from "next/image";
 import Link from "next/link";
 import { ThemeToogle } from "./ThemeTooggle";
+import { BUCKET_APP_IMAGES } from "@/lib/supabase/index";
+import { getPublicUrlImage } from "@/lib/supabase/getPublicUrl";
 
 export const Navbar = () => {
     const {app_name, organization_address, logo_url} = useSystemSettingStore()
+
+    const urlImage = getPublicUrlImage(BUCKET_APP_IMAGES, logo_url)
+
+    console.log({urlImage})
 
     return (
         <div className="container max-w-5xl mx-auto px-4 lg:px-0">
