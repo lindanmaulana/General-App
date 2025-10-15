@@ -1,8 +1,6 @@
 "use client"
 
 import { useSystemSettingStore } from "@/hooks/useSystemSettingStore"
-import { getPublicUrlImage } from "@/lib/supabase/getPublicUrl"
-import { BUCKET_APP_IMAGES } from "@/lib/supabase/index"
 import Image from "next/image"
 import Link from "next/link"
 import { ReactNode } from "react"
@@ -15,11 +13,12 @@ interface AuthContainerProps {
 }
 
 export const AuthContainer = ({children, title, description}: AuthContainerProps) => {
-    const {app_name, logo_url} = useSystemSettingStore()
+    const {app_name} = useSystemSettingStore()
 
     return (
         <div className="dark:border-white/30 w-full px-6 py-8 rounded-md border shadow-md hover:shadow-xl transition-global duration-200">
-            <Link href={"/"} className="dark:text-white text-gnrDarkBlue font-bold text-lg text-left flex items-center gap-2"><Image src={logo_url ? getPublicUrlImage(BUCKET_APP_IMAGES, logo_url) : logo_url} alt={app_name} width={40} height={40}className="size-12 rounded-full" />{app_name}</Link>
+            {/* <Link href={"/"} className="dark:text-white text-gnrDarkBlue font-bold text-lg text-left flex items-center gap-2"><Image src={logo_url ? getPublicUrlImage(BUCKET_APP_IMAGES, logo_url) : logo_url} alt={app_name} width={40} height={40}className="size-12 rounded-full" />{app_name}</Link> */}
+            <Link href={"/"} className="dark:text-white text-gnrDarkBlue font-bold text-lg text-left flex items-center gap-2"><Image src={"/images/logo/general.png"} alt={app_name} width={40} height={40}className="size-12 rounded-full" />{app_name}</Link>
             <div className="w-full mt-8 space-y-6">
                 <div>
                     <h3 className="dark:text-white text-3xl font-semibold text-gnrDarkBlue">{title}</h3>
