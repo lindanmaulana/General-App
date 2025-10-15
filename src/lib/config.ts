@@ -5,6 +5,8 @@ const SUPABASEKEY = process.env.NEXT_PUBLIC_SUPABASE_KEY ?? ""
 const AUTHSECRET = process.env.AUTH_SECRET ?? ""
 const APIURL = process.env.NEXT_PUBLIC_API_URL ?? ""
 
+console.log({SUPABASEURL})
+
 const AUTH_GOOGLE_ID = process.env.AUTH_GOOGLE_ID
 const AUTH_GOOGLE_SECRET = process.env.AUTH_GOOGLE_SECRET
 
